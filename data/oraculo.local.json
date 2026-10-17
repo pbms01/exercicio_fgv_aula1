@@ -1,0 +1,302 @@
+{
+  "_schema": "Base canônica local do oráculo jurídico. Cada nó tem uma lista de regimes temporais ordenados; o adaptador escolhe o regime cujo intervalo [de, ate] contém data_fato (datas ISO 8601; null = aberto). Campos com conferir:true dependem de verificação do autor no DOU.",
+  "_datas_marco": {
+    "lei_12737_2012_vigencia": "2013-04-02",
+    "lei_12737_2012_nota": "Lei 12.737/2012 (Carolina Dieckmann), publicada em 03/12/2012, vacatio de 120 dias; vigência em 02/04/2013.",
+    "lei_13964_2019_art171_5_vigencia": "2020-01-23",
+    "lei_14155_2021_vigencia": "2021-05-28",
+    "lei_14155_2021_nota": "Lei datada de 27/05/2021, publicada no DOU de 28/05/2021, vigência na publicação. Usamos 28/05/2021 como marco; a diferença de um dia não altera o exercício.",
+    "lei_15397_2026_vigencia": "2026-05-04",
+    "lei_15397_2026_nota": "conferir: fontes divergem entre edição extra do DOU de 30/04/2026 e DOU de 04/05/2026. A data de publicação é o marco de irretroatividade (art. 5º, XL, CF). Usamos 04/05/2026 provisoriamente.",
+    "conferir": true
+  },
+  "ato1_reconhecimento": {
+    "no": "ato1_reconhecimento",
+    "ato": 1,
+    "rubrica_no": "Reconhecimento por fonte pública",
+    "intuicao_desfeita": "\"Mexer já é crime.\"",
+    "fontes": [
+      { "rotulo": "Art. 14, II, e 154-A, §1º, CP", "url": "" }
+    ],
+    "regimes": [
+      {
+        "de": null,
+        "ate": null,
+        "enquadramento": {
+          "status": "atipico",
+          "tipo_penal": null,
+          "rubrica": "Fato atípico",
+          "pena": null,
+          "fundamento": "art. 14, II, CP (a contrario sensu): atos preparatórios são, em regra, impuníveis"
+        },
+        "competencia": null,
+        "acao_penal": null,
+        "resumo": "Consultar fontes públicas e observar o alvo não toca dispositivo alheio. Nenhum tipo penal alcança essa fase.",
+        "explicacao_leigo": "Olhar o que está aberto a todos (o site, o registro público do domínio, o que aparece na vitrine) não é crime. Ninguém entrou em nada que não fosse seu. A lei penal só começa a mirar quando há um ato de execução contra um bem protegido; antes disso, há mera preparação, que em regra não se pune.",
+        "explicacao_tecnica": "Reconhecimento por fontes abertas é ato preparatório. A punibilidade excepcional dos atos preparatórios depende de tipificação autônoma. É o caso do art. 154-A, §1º, CP, que pune produzir, oferecer, distribuir, vender ou difundir dispositivo ou programa com o fim de permitir a invasão. Fora dessa hipótese, a preparação é impune (art. 14, II, CP, a contrario).",
+        "nota_destaque": "Exceção importante: o art. 154-A, §1º, CP tipifica de forma autônoma a produção ou difusão de programa destinado a permitir a invasão. Então nem tudo que antecede o acesso é indiferente ao direito penal."
+      }
+    ]
+  },
+  "ato2_com_cadeado": {
+    "no": "ato2_com_cadeado",
+    "ato": 2,
+    "rubrica_no": "Acesso com mecanismo de segurança violado",
+    "intuicao_desfeita": "\"Invadir depende de haver cadeado, e o critério é fixo no tempo.\"",
+    "fontes": [
+      { "rotulo": "Art. 154-A, CP (red. Lei 12.737/2012 e Lei 14.155/2021)", "url": "" },
+      { "rotulo": "MPBA: crimes eletrônicos e a Lei 14.155/2021", "url": "https://mpba.mp.br/sites/default/files/biblioteca/criminal/artigos/codigo_penal_-_parte_especial/crimes_eletronicos_e_lei_14.155-2021.pdf" }
+    ],
+    "regimes": [
+      {
+        "de": null,
+        "ate": "2013-04-01",
+        "enquadramento": {
+          "status": "atipico",
+          "tipo_penal": null,
+          "rubrica": "Fato atípico (antes do tipo)",
+          "pena": null,
+          "fundamento": "ausência de tipo penal específico antes da vigência da Lei 12.737/2012"
+        },
+        "competencia": null,
+        "acao_penal": null,
+        "resumo": "Antes de 02/04/2013 não havia tipo penal de invasão de dispositivo informático.",
+        "explicacao_leigo": "Até 2013, acessar um dispositivo alheio sem autorização não tinha um crime próprio no Código Penal. A conduta só poderia, eventualmente, tocar outros crimes conforme o que se fizesse depois.",
+        "explicacao_tecnica": "A invasão de dispositivo informático foi tipificada apenas pela Lei 12.737/2012, em vigor desde 02/04/2013. Antes disso, o mero acesso não autorizado era, quanto a este recorte, atípico."
+      },
+      {
+        "de": "2013-04-02",
+        "ate": "2021-05-27",
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 154-A, caput, CP (redação originária)",
+          "rubrica": "Invasão de dispositivo informático",
+          "pena": "detenção, de 3 meses a 1 ano, e multa",
+          "fundamento": "art. 154-A, CP, red. Lei 12.737/2012: exigia violação indevida de mecanismo de segurança"
+        },
+        "competencia": null,
+        "acao_penal": "pública condicionada à representação (art. 154-B, CP)",
+        "resumo": "De 2013 a 2021: típico, porque havia tranca e ela foi violada, exatamente o que a redação originária exigia.",
+        "explicacao_leigo": "Entre 2013 e 2021, invadir só era crime se houvesse uma tranca e ela fosse arrombada. Aqui havia tranca e ela foi superada, então a conduta era típica. A pena, porém, era baixa: detenção de três meses a um ano.",
+        "explicacao_tecnica": "A redação originária do art. 154-A exigia a 'violação indevida de mecanismo de segurança'. Com a barreira presente e superada, o tipo se completava. A pena do caput era de detenção, de 3 meses a 1 ano, e multa, e a ação penal era pública condicionada à representação (art. 154-B)."
+      },
+      {
+        "de": "2021-05-28",
+        "ate": null,
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 154-A, caput, CP",
+          "rubrica": "Invasão de dispositivo informático",
+          "pena": "reclusão, de 1 a 4 anos, e multa",
+          "fundamento": "art. 154-A, CP, red. Lei 14.155/2021"
+        },
+        "competencia": null,
+        "acao_penal": "pública condicionada à representação (art. 154-B, CP)",
+        "resumo": "De 2021 em diante: continua típico, mas a pena subiu para reclusão de 1 a 4 anos.",
+        "explicacao_leigo": "A partir de 2021, a mesma conduta (tranca arrombada) segue sendo crime, mas a pena ficou bem mais pesada: reclusão de um a quatro anos. Para a porta com cadeado, o que mudou foi a dose, não o enquadramento.",
+        "explicacao_tecnica": "A Lei 14.155/2021 elevou a pena do caput para reclusão, de 1 a 4 anos, e multa. Como a barreira existia e foi violada, a tipicidade já estava presente sob a redação anterior; a reforma apenas agravou a resposta penal. A irretroatividade da lex gravior (art. 5º, XL, CF) impede aplicar a pena nova a fatos anteriores a 28/05/2021."
+      }
+    ]
+  },
+  "ato2_sem_cadeado": {
+    "no": "ato2_sem_cadeado",
+    "ato": 2,
+    "rubrica_no": "Acesso a serviço exposto, sem mecanismo de segurança",
+    "intuicao_desfeita": "\"Sem cadeado para arrombar, não há invasão.\"",
+    "fontes": [
+      { "rotulo": "Art. 154-A, CP (red. Lei 14.155/2021)", "url": "" },
+      { "rotulo": "Guilherme Nucci: violação de dispositivo informático", "url": "https://guilhermenucci.com.br/violacao-de-dispositivo-informatico/" },
+      { "rotulo": "Empório do Direito: a Lei 14.155/21 e a invasão de dispositivo", "url": "https://emporiododireito.com.br/leitura/a-nova-lei-14-155-21-e-o-crime-de-invasao-de-dispositivo-informatico" }
+    ],
+    "regimes": [
+      {
+        "de": null,
+        "ate": "2021-05-27",
+        "enquadramento": {
+          "status": "atipico",
+          "tipo_penal": null,
+          "rubrica": "Fato atípico",
+          "pena": null,
+          "fundamento": "art. 154-A, CP, red. originária: exigia violação de mecanismo de segurança, ausente aqui"
+        },
+        "competencia": null,
+        "acao_penal": null,
+        "resumo": "Até 26/05/2021: atípico, porque não havia tranca a violar e a redação originária exigia essa violação.",
+        "explicacao_leigo": "Até 2021, se não havia tranca, não havia o que arrombar, e sem arrombamento o antigo crime não se configurava. Entrar por uma porta que já estava aberta era, para o Código Penal de então, indiferente.",
+        "explicacao_tecnica": "A redação originária do art. 154-A condicionava o tipo à 'violação indevida de mecanismo de segurança'. Serviço exposto, sem mecanismo algum, não oferecia o objeto dessa violação: a conduta era atípica, ainda que moralmente reprovável."
+      },
+      {
+        "de": "2021-05-28",
+        "ate": null,
+        "enquadramento": {
+          "status": "fronteira",
+          "tipo_penal": "art. 154-A, caput, CP",
+          "rubrica": "Invasão de dispositivo informático",
+          "pena": "reclusão, de 1 a 4 anos, e multa",
+          "fundamento": "art. 154-A, CP, red. Lei 14.155/2021: suprimida a exigência de violação de mecanismo de segurança"
+        },
+        "divergencia": {
+          "majoritaria": {
+            "conclusao": "típico",
+            "razao": "A Lei 14.155/2021 suprimiu do caput a expressão 'mediante violação indevida de mecanismo de segurança'. O critério deixou de ser a existência de barreira e passou a ser o acesso 'sem autorização expressa ou tácita do usuário', com o fim especial de obter, adulterar ou destruir dados. Havendo acesso sem autorização, o tipo se completa ainda que não houvesse tranca."
+          },
+          "contraria": {
+            "conclusao": "atípico",
+            "razao": "Um serviço deliberadamente exposto, que responde a qualquer requisição na rede pública, poderia traduzir autorização tácita de acesso; faltaria então o elemento negativo 'sem autorização expressa ou tácita'. O debate honesto hoje não é mais sobre barreira, e sim sobre o alcance da autorização tácita e do fim especial de agir."
+          }
+        },
+        "competencia": null,
+        "acao_penal": "pública condicionada à representação (art. 154-B, CP)",
+        "resumo": "De 2021 em diante: fronteira. A barreira deixou de ser exigida; a disputa migrou para a existência de autorização tácita.",
+        "explicacao_leigo": "Depois de 2021, a lei parou de perguntar 'havia tranca?' e passou a perguntar 'havia autorização?'. Pela leitura majoritária, entrar sem permissão num serviço alheio é crime mesmo sem tranca. A leitura contrária observa que um serviço deixado aberto a todos pode significar permissão tácita. O artefato mostra as duas teses; não crava gabarito.",
+        "explicacao_tecnica": "A supressão da cláusula de mecanismo de segurança converteu o tipo: de proteção de uma barreira para proteção da autodeterminação sobre o dispositivo. A tipicidade passa a depender da ausência de autorização expressa ou tácita e do dolo específico das finalidades do caput. A tese contrária não ressuscita a antiga exigência de barreira, que a doutrina posterior à reforma (Nucci; Empório do Direito; MPBA) tem por suprimida. Ela opera no elemento normativo do próprio tipo: se o serviço exposto ao público traduz autorização tácita de acesso, falta o 'sem autorização' e o fato é atípico.",
+        "linha_do_tempo": [
+          { "de": null, "ate": "2021-05-27", "status": "atipico", "resumo": "Atípico: faltava a violação de mecanismo de segurança exigida pela redação originária." },
+          { "de": "2021-05-28", "ate": null, "status": "fronteira", "resumo": "Fronteira: critério passou de barreira para ausência de autorização; disputa atual sobre autorização tácita." }
+        ]
+      }
+    ]
+  },
+  "corredor_phishing": {
+    "no": "corredor_phishing",
+    "ato": 2,
+    "rubrica_no": "Acesso por credencial capturada (phishing)",
+    "intuicao_desfeita": "\"Se usei a senha de verdade, não invadi nada.\"",
+    "fontes": [
+      { "rotulo": "Art. 154-A, CP; princípio da consunção", "url": "" }
+    ],
+    "regimes": [
+      {
+        "de": "2021-05-28",
+        "ate": null,
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 154-A, caput, CP (crime-meio, absorvido)",
+          "rubrica": "Invasão de dispositivo informático, como crime-meio",
+          "pena": "em regra absorvida pela pena do crime-fim (furto ou estelionato)",
+          "fundamento": "art. 154-A, CP; princípio da consunção"
+        },
+        "competencia": null,
+        "acao_penal": "segue a do crime-fim",
+        "resumo": "Acessar a conta com a credencial capturada é, em tese, invasão (art. 154-A). Como etapa necessária do crime patrimonial seguinte, é absorvida por ele.",
+        "explicacao_leigo": "Usar a chave verdadeira obtida por engano para entrar na conta é, sim, acesso sem autorização do titular, que nunca permitiu esse uso. Mas esse acesso é só o meio para o que vem depois: o desvio do dinheiro. A regra é que o crime-meio seja absorvido pelo crime-fim, para não punir duas vezes o mesmo caminho. O aluno não deve sair daqui achando que há dois crimes somados.",
+        "explicacao_tecnica": "A captura de credencial por engano e o uso para acessar a conta configuram, em tese, o art. 154-A (acesso sem autorização do titular, ainda que com a senha correta). Sendo etapa necessária e anterior ao furto mediante fraude eletrônica ou ao estelionato, incide a consunção: o crime-meio é absorvido pelo crime-fim, afastando-se o concurso. Não se localizou precedente específico do STJ sobre este par; trata-se de aplicação corrente do princípio."
+      }
+    ]
+  },
+  "ato3_maquina": {
+    "no": "ato3_maquina",
+    "ato": 3,
+    "rubrica_no": "A máquina é enganada: furto mediante fraude eletrônica",
+    "intuicao_desfeita": "\"Tirar dinheiro de conta alheia é estelionato.\"",
+    "objecao": {
+      "pergunta": "Mas a vítima entregou a senha numa página falsa. O art. 171, §2º-A fala justamente em fraude com \"informações fornecidas pela vítima\" por \"correio eletrônico fraudulento\". Não seria estelionato?",
+      "resposta": "Não, pelo critério do STJ (CC 67.343/GO; CC 181.538/SP): o que decide é quem faz o dinheiro sair e com que vontade. A vítima entregou a chave, não o dinheiro. Com a chave, o agente burlou a vigilância do sistema e subtraiu os valores sem consentimento: é furto mediante fraude eletrônica. O §2º-A pressupõe que a fraude leve a vítima, ou um terceiro enganado, a entregar a vantagem."
+    },
+    "fontes": [
+      { "rotulo": "Art. 155, §4º-B, CP (Lei 14.155/2021; Lei 15.397/2026)", "url": "" },
+      { "rotulo": "STJ, CC 145.576/MA, 3ª Seção (2016): foro no local da agência da conta", "url": "" },
+      { "rotulo": "STJ, CC 181.538/SP (2021): distinção furto/estelionato e local das contas beneficiárias", "url": "" },
+      { "rotulo": "STJ, CC 67.343/GO: fraude que burla a vigilância é furto", "url": "" }
+    ],
+    "conferir": true,
+    "regimes": [
+      {
+        "de": null,
+        "ate": "2021-05-27",
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 155, §4º, II, CP",
+          "rubrica": "Furto qualificado mediante fraude",
+          "pena": "reclusão, de 2 a 8 anos, e multa",
+          "fundamento": "art. 155, §4º, II, CP (antes do §4º-B)"
+        },
+        "competencia": "local da consumação (art. 70, caput, CPP)",
+        "acao_penal": "pública incondicionada",
+        "resumo": "Antes de 2021, a subtração por fraude eletrônica se enquadrava no furto qualificado mediante fraude do §4º, II.",
+        "explicacao_leigo": "Antes de 2021 já era furto, não estelionato, quando o dinheiro saía sem a vontade da vítima. A lei só não tinha ainda um parágrafo específico para o meio eletrônico.",
+        "explicacao_tecnica": "Antes do §4º-B, a jurisprudência enquadrava a subtração por burla de sistemas no furto qualificado mediante fraude (art. 155, §4º, II), com competência pelo local da consumação (art. 70, caput, CPP)."
+      },
+      {
+        "de": "2021-05-28",
+        "ate": "2026-05-03",
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 155, §4º-B, CP",
+          "rubrica": "Furto qualificado mediante fraude eletrônica",
+          "pena": "reclusão, de 4 a 8 anos, e multa",
+          "fundamento": "art. 155, §4º-B, CP, incluído pela Lei 14.155/2021"
+        },
+        "competencia": "local da consumação (art. 70, caput, CPP): STJ fixa no juízo da agência em que a vítima mantém a conta (CC 145.576/MA). Para o §4º-B há decisões pelo local das contas beneficiárias (CC 181.538/SP); a matéria não é uniforme.",
+        "acao_penal": "pública incondicionada",
+        "resumo": "De 2021 a 2026: furto mediante fraude eletrônica, pena de 4 a 8 anos.",
+        "explicacao_leigo": "Com a credencial da vítima, o criminoso engana o sistema do banco e tira o dinheiro sem que ela queira. Isso é furto, não estelionato: a vítima não entregou nada, foi a máquina que foi burlada. O juiz competente é, em regra, o do lugar da agência onde fica a conta.",
+        "explicacao_tecnica": "O §4º-B pune o furto mediante fraude cometido por dispositivo eletrônico ou informático, com ou sem violação de mecanismo de segurança. Distinção do STJ (CC 67.343/GO): no furto, a fraude serve para burlar a vigilância e subtrair; no estelionato, para obter a entrega consentida. A competência segue o art. 70, caput, CPP; o §4º do art. 70, próprio do estelionato, não se aplica ao furto."
+      },
+      {
+        "de": "2026-05-04",
+        "ate": null,
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 155, §4º-B, CP",
+          "rubrica": "Furto qualificado mediante fraude eletrônica",
+          "pena": "reclusão, de 4 a 10 anos, e multa",
+          "fundamento": "art. 155, §4º-B, CP, red. Lei 15.397/2026 (conferir no DOU)"
+        },
+        "competencia": "local da consumação (art. 70, caput, CPP): STJ fixa no juízo da agência em que a vítima mantém a conta (CC 145.576/MA). Para o §4º-B há decisões pelo local das contas beneficiárias (CC 181.538/SP); a matéria não é uniforme.",
+        "acao_penal": "pública incondicionada",
+        "resumo": "Furto mediante fraude eletrônica: a vítima não entregou nada; o sistema foi burlado. Desde a Lei 15.397/2026, pena de 4 a 10 anos.",
+        "explicacao_leigo": "Com a senha capturada, o criminoso engana o sistema do banco e tira o dinheiro sem que a vítima queira. Isso é furto, não estelionato: a vítima não entregou nada, foi a máquina que foi burlada. O juiz competente é, em regra, o do lugar da agência onde fica a conta. Em 2026 a pena máxima desse furto subiu de oito para dez anos.",
+        "explicacao_tecnica": "O §4º-B pune o furto mediante fraude cometido por dispositivo eletrônico ou informático, com ou sem violação de mecanismo de segurança. Distinção do STJ (CC 67.343/GO): no furto, a fraude serve para burlar a vigilância e subtrair; no estelionato, para obter a entrega consentida. A competência segue o art. 70, caput, CPP; o §4º do art. 70, próprio do estelionato, não se aplica ao furto. A Lei 15.397/2026 elevou a pena para reclusão de 4 a 10 anos, com marco de irretroatividade (art. 5º, XL, CF) na data de publicação (conferir no DOU: 30/04 ou 04/05/2026)."
+      }
+    ]
+  },
+  "ato3_vitima": {
+    "no": "ato3_vitima",
+    "ato": 3,
+    "rubrica_no": "A vítima transfere: estelionato por fraude eletrônica",
+    "intuicao_desfeita": "\"Furto e estelionato dão no mesmo, muda só o nome.\"",
+    "fontes": [
+      { "rotulo": "Art. 171, §2º-A, CP (Lei 14.155/2021; Lei 15.397/2026)", "url": "" },
+      { "rotulo": "Art. 70, §4º, CPP (incluído pela Lei 14.155/2021)", "url": "" },
+      { "rotulo": "STJ, CC 185.983/DF, Inf. 736: §4º só nas hipóteses que enumera", "url": "" },
+      { "rotulo": "STJ, Inf. 775: domicílio da vítima restrito ao art. 70, §4º", "url": "" },
+      { "rotulo": "STJ, CC 67.343/GO: entrega com consentimento viciado é estelionato", "url": "" }
+    ],
+    "conferir": true,
+    "regimes": [
+      {
+        "de": "2021-05-28",
+        "ate": "2026-05-03",
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 171, §2º-A, CP",
+          "rubrica": "Estelionato por fraude eletrônica",
+          "pena": "reclusão, de 4 a 8 anos, e multa",
+          "fundamento": "art. 171, §2º-A, CP, incluído pela Lei 14.155/2021"
+        },
+        "competencia": "domicílio da vítima (art. 70, §4º, CPP, incluído pela Lei 14.155/2021)",
+        "acao_penal": "pública condicionada à representação (art. 171, §5º, CP, incluído pela Lei 13.964/2019)",
+        "resumo": "De 2021 a 2026: estelionato eletrônico, 4 a 8 anos; foro no domicílio da vítima; ação condicionada à representação.",
+        "explicacao_leigo": "Aqui a vítima foi enganada e ela mesma fez a transferência, achando que devia. Como houve entrega consentida, ainda que viciada, o crime é estelionato, não furto. Neste período, o processo só começava se a vítima representasse, e o juiz competente era o do domicílio dela.",
+        "explicacao_tecnica": "O §2º-A pune a fraude cometida com informações fornecidas pela vítima ou por terceiro induzido a erro, inclusive por correio eletrônico fraudulento. Houve entrega com consentimento viciado (distinção do CC 67.343/GO). A competência segue o art. 70, §4º, CPP, restrito às hipóteses de estelionato que enumera (CC 185.983/DF, Inf. 736; Inf. 775). A ação era pública condicionada à representação (art. 171, §5º, Lei 13.964/2019)."
+      },
+      {
+        "de": "2026-05-04",
+        "ate": null,
+        "enquadramento": {
+          "status": "tipico",
+          "tipo_penal": "art. 171, §2º-A, CP",
+          "rubrica": "Estelionato por fraude eletrônica",
+          "pena": "reclusão, de 4 a 8 anos, e multa",
+          "fundamento": "art. 171, §2º-A, CP, red. Lei 15.397/2026 (meios ampliados; conferir no DOU)"
+        },
+        "competencia": "domicílio da vítima (art. 70, §4º, CPP)",
+        "acao_penal": "pública incondicionada (§5º do art. 171 revogado pela Lei 15.397/2026)",
+        "resumo": "Estelionato por fraude eletrônica: a própria vítima, enganada, fez a transferência. Pena de 4 a 8 anos; desde 2026, ação penal pública incondicionada.",
+        "explicacao_leigo": "Aqui a vítima foi enganada e ela mesma fez a transferência, achando que devia. Como houve entrega consentida, ainda que viciada pelo engano, o crime é estelionato, não furto. O juiz competente é o do domicílio da vítima. Desde 2026, o Ministério Público pode processar sem depender de a vítima pedir (representação), e a lei passou a citar expressamente golpes com duplicação de aplicativo. A pena continuou em quatro a oito anos.",
+        "explicacao_tecnica": "O §2º-A pune a fraude cometida com informações fornecidas pela vítima ou por terceiro induzido a erro. Houve entrega com consentimento viciado (distinção do CC 67.343/GO). A competência segue o art. 70, §4º, CPP, restrito às hipóteses de estelionato que enumera (CC 185.983/DF, Inf. 736; Inf. 775). A Lei 15.397/2026 ampliou os meios do §2º-A (duplicação de dispositivo eletrônico ou aplicação de internet) e revogou o §5º do art. 171: o estelionato volta à ação penal pública incondicionada como regra. A aplicação dessa mudança a fatos anteriores exige atenção ao direito intertemporal (natureza processual ou mista da norma; ponto em aberto na doutrina)."
+      }
+    ]
+  }
+}

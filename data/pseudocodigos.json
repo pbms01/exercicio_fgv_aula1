@@ -1,0 +1,62 @@
+{
+  "_aviso": "Roteiros de teatro determinístico. Cada 'linha' é uma legenda narrativa exibida em sequência sobre o cenário fictício. Não há execução real, varredura, nem técnica operacional: é a representação estilizada de uma fase, em português, para público leigo.",
+  "ato1_reconhecimento": {
+    "titulo": "Ato 1: o momento",
+    "subtitulo": "Aproximação por fonte pública",
+    "linhas": [
+      { "texto": "abrir o site público da Loja do Zé", "efeito": "nenhuma porta tocada" },
+      { "texto": "anotar o nome do banco que aparece no rodapé", "efeito": "informação já pública" },
+      { "texto": "consultar registro público do domínio lojadoze.exemplo.invalido", "efeito": "dado aberto a qualquer pessoa" },
+      { "texto": "montar um mapa do alvo apenas com o que é público", "efeito": "nenhum dispositivo alheio acessado" },
+      { "texto": "aproximar-se da porta do serviço do banco", "efeito": "parar diante da porta, sem entrar", "transicao": "ato2" }
+    ]
+  },
+  "ato2_com_cadeado": {
+    "titulo": "Ato 2: o acesso",
+    "subtitulo": "Porta com mecanismo de segurança",
+    "linhas": [
+      { "texto": "chegar à porta trancada do serviço", "efeito": "há senha e proteção configuradas" },
+      { "texto": "constatar que existe uma tranca", "efeito": "mecanismo de segurança presente" },
+      { "texto": "[cena] a tranca é superada", "efeito": "a barreira foi violada", "nota": "Rótulo de cena. O artefato não executa nem ensina a superação." },
+      { "texto": "atravessar a porta e alcançar os dados", "efeito": "acesso sem autorização, após violar a barreira" }
+    ]
+  },
+  "ato2_sem_cadeado": {
+    "titulo": "Ato 2: o acesso",
+    "subtitulo": "Porta sem mecanismo de segurança",
+    "linhas": [
+      { "texto": "chegar à porta encostada do serviço exposto", "efeito": "o serviço responde na rede pública" },
+      { "texto": "constatar que não há tranca", "efeito": "nenhum mecanismo de segurança a violar" },
+      { "texto": "empurrar a porta que já estava aberta", "efeito": "nada foi quebrado" },
+      { "texto": "alcançar os dados sem pedir senha", "efeito": "acesso sem autorização expressa; há autorização tácita?" }
+    ]
+  },
+  "corredor_phishing": {
+    "titulo": "Corredor: o phishing",
+    "subtitulo": "A chave verdadeira, obtida por engano",
+    "linhas": [
+      { "texto": "preparar uma página que imita a do banco", "efeito": "a isca é montada", "nota": "Cena. Nenhuma página real é criada." },
+      { "texto": "a vítima digita a senha real na página falsa", "efeito": "a credencial legítima é capturada" },
+      { "texto": "usar a credencial da vítima para abrir a conta", "efeito": "acesso com a chave verdadeira do titular" },
+      { "texto": "estar dentro da conta, pronto para o próximo passo", "efeito": "o acesso foi meio; o fim vem no Ato 3", "transicao": "ato3" }
+    ]
+  },
+  "ato3_maquina": {
+    "titulo": "Ato 3: o modo",
+    "subtitulo": "A máquina é enganada",
+    "linhas": [
+      { "texto": "dentro da conta, iniciar a transferência", "efeito": "a vítima não sabe, não consente" },
+      { "texto": "o sistema do banco é levado a tratar a ordem como legítima", "efeito": "a vigilância automática é burlada" },
+      { "texto": "os valores saem da conta da vítima sem a vontade dela", "efeito": "subtração, não entrega" }
+    ]
+  },
+  "ato3_vitima": {
+    "titulo": "Ato 3: o modo",
+    "subtitulo": "A vítima é induzida a transferir",
+    "linhas": [
+      { "texto": "convencer a vítima de que a transferência é necessária", "efeito": "a vítima é mantida em erro" },
+      { "texto": "a própria vítima autoriza e executa a transferência", "efeito": "entrega com consentimento viciado" },
+      { "texto": "os valores saem porque a vítima os enviou", "efeito": "entrega, não subtração" }
+    ]
+  }
+}

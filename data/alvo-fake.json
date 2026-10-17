@@ -1,0 +1,54 @@
+{
+  "_aviso": "Cenário 100% fictício, usado apenas como palco para o teatro do pseudocódigo. Nenhum dado, pessoa, empresa ou sistema é real. CPF, contas e endereços são obviamente fabricados.",
+  "comerciante": {
+    "nome_fantasia": "Loja do Zé",
+    "titular": "José da Silva Fictício",
+    "cpf": "000.000.000-00",
+    "ramo": "papelaria de bairro",
+    "site_publico": "lojadoze.exemplo.invalido"
+  },
+  "banco": {
+    "nome": "Banco Fictício S.A.",
+    "natureza": "instituição financeira privada",
+    "_nota_juridica": "Banco privado de propósito: evita deslocar a competência para a Justiça Federal (art. 109, IV, CF), que incidiria se a vítima fosse, p. ex., a Caixa Econômica Federal."
+  },
+  "vitima": {
+    "nome": "Joana Pereira Fictícia",
+    "cpf": "111.111.111-11",
+    "domicilio": {
+      "cidade": "Pindorama do Sul",
+      "uf": "ZZ",
+      "_nota_juridica": "Domicílio da vítima: foro do estelionato eletrônico (art. 70, §4º, CPP)."
+    },
+    "conta_alvo": {
+      "agencia": "4242",
+      "numero": "12345-6",
+      "saldo_ficticio": "R$ 7.430,00",
+      "cidade_da_agencia": "Vila Quixote",
+      "uf_da_agencia": "ZZ",
+      "_nota_juridica": "Agência em cidade diferente do domicílio: foro do furto mediante fraude eletrônica (art. 70, caput, CPP, local da consumação). O contraste entre Pindorama do Sul e Vila Quixote é o que torna visível a mudança de juiz no Ato 3."
+    }
+  },
+  "clientes_ficticios": [
+    { "nome": "Maria Exemplo", "conta": "00001-0" },
+    { "nome": "João Modelo", "conta": "00002-9" },
+    { "nome": "Ana Protótipo", "conta": "00003-7" }
+  ],
+  "portas": {
+    "com_cadeado": {
+      "rotulo": "Serviço com mecanismo de segurança",
+      "descricao_leiga": "Uma porta trancada: há senha e proteção configuradas. Para passar, foi preciso quebrar a tranca.",
+      "_representacao": "No teatro, a 'tranca quebrada' é apenas um rótulo na animação. O artefato não executa nem descreve qualquer técnica de quebra."
+    },
+    "sem_cadeado": {
+      "rotulo": "Serviço exposto, sem mecanismo de segurança",
+      "descricao_leiga": "Uma porta encostada: o serviço responde a qualquer pedido na rede pública, sem pedir senha. Ninguém quebrou tranca alguma, porque não havia tranca.",
+      "_representacao": "Rótulo de cena. Nenhuma varredura ou acesso real ocorre."
+    }
+  },
+  "credencial_phishing": {
+    "rotulo": "Credencial verdadeira, capturada por engano da vítima",
+    "descricao_leiga": "A vítima digitou a senha real numa página falsa. A chave que abre a conta é a chave legítima dela, obtida por engano.",
+    "_nota_juridica": "O acesso à conta com essa credencial configura, em tese, invasão de dispositivo informático (art. 154-A, CP), mas como crime-meio é absorvido pelo crime-fim patrimonial (consunção)."
+  }
+}
