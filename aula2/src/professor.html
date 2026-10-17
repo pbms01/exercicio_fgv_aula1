@@ -1,0 +1,762 @@
+<title>Painel da Aula II</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+/*__BASE_CSS__*/
+
+/* Painel de projeção: um bloco por vez, tipografia grande, navegação por
+   teclado (PageDown/PageUp do passador, setas e números 1 a 7). */
+:root { --qr-bg: #ffffff; --qr-ink: #000000; }
+
+html { font-size: clamp(16px, 0.7vw + 10px, 24px); }
+body {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 2rem;
+  font-size: 1rem;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--surface);
+}
+
+.barra {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding: 0.5rem max(16px, env(safe-area-inset-right, 0px)) 0.5rem max(16px, env(safe-area-inset-left, 0px));
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.barra-marca { font-weight: 800; font-stretch: 80%; font-size: 1.05rem; }
+.abas { display: flex; flex-wrap: wrap; gap: 0.3rem; flex: 1 1 auto; }
+.aba {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+  min-height: 36px;
+  padding: 0 0.7rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.aba[aria-current="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.aba .num { font-family: var(--font-mono); margin-right: 0.3rem; }
+.mini-relogio { font-family: var(--font-mono); font-weight: 600; font-size: 0.95rem; color: var(--ink-2); white-space: nowrap; }
+/* No celular a barra ocuparia três linhas; as abas viram uma faixa rolável. */
+@media (max-width: 700px) {
+  .barra-marca { flex: 1 1 auto; }
+  .abas { order: 3; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .aba { flex: 0 0 auto; white-space: nowrap; }
+}
+
+main { max-width: 1280px; margin: 1.2rem auto 0; }
+.bloco { display: flex; flex-direction: column; gap: 1.1rem; }
+.bloco-titulo { font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 800; font-stretch: 78%; outline: none; }
+.lead { font-size: 1.1rem; color: var(--ink-2); max-width: 70ch; }
+.nota { font-size: 0.85rem; color: var(--muted); }
+.ficha { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.dupla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; align-items: start; }
+@media (min-width: 900px) { .dupla { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+/* 1 · QR */
+.qr-area { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.4rem; align-items: center; }
+@media (min-width: 900px) { .qr-area { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); } }
+.qr-placa { background: var(--qr-bg); border-radius: 14px; padding: 18px; width: 100%; max-width: 420px; aspect-ratio: 1; display: grid; place-items: center; }
+.qr-placa svg { width: 100%; height: auto; display: block; }
+.qr-placa .sem-qr { color: var(--qr-ink); font-family: var(--font-mono); font-size: 0.85rem; text-align: center; padding: 1rem; }
+.link-grande { font-family: var(--font-mono); font-size: clamp(0.95rem, 1.6vw, 1.35rem); font-weight: 600; overflow-wrap: anywhere; user-select: all; }
+.passos-sala { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 1.1rem; }
+
+/* 2 · Cronômetro */
+.relogio { font-family: var(--font-mono); font-weight: 600; font-size: clamp(4rem, 14vw, 10rem); line-height: 1; letter-spacing: -0.02em; }
+.relogio-sub { font-size: 1.2rem; color: var(--ink-2); }
+.fases { position: relative; display: grid; gap: 4px; }
+.fase { border-radius: 8px; padding: 0.6rem 0.75rem; background: var(--surface-2); border: 1.5px solid var(--line); min-width: 0; }
+.fase.atual { background: var(--accent-soft); border-color: var(--accent); }
+.fase.feita { opacity: 0.6; }
+.fase strong { display: block; font-size: 0.95rem; }
+.fase span { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+.trilho-tempo { position: relative; height: 10px; border-radius: 5px; background: var(--accent-track); overflow: hidden; }
+.trilho-tempo div { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.botoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+/* 3 · Gabarito */
+.gab-caixa { overflow-x: auto; }
+.gab { width: 100%; border-collapse: separate; border-spacing: 6px; min-width: 760px; }
+.gab th { text-align: left; font-size: 0.85rem; color: var(--ink-2); vertical-align: bottom; padding: 0.25rem 0.4rem; }
+.gab th small { display: block; font-family: var(--font-mono); font-weight: 500; color: var(--muted); font-size: 0.7rem; }
+.gab tbody th { color: var(--ink); font-size: 0.95rem; vertical-align: top; }
+.gab td { vertical-align: top; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0.55rem 0.65rem; min-width: 0; }
+.gab td.aberta { border-color: var(--ok); background: var(--ok-soft); }
+.revelar { font: inherit; font-size: 0.85rem; font-weight: 650; min-height: 40px; width: 100%; border: 1.5px dashed var(--line-strong); background: var(--surface-2); color: var(--ink-2); border-radius: 6px; cursor: pointer; }
+.gab-curto { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; color: var(--ok); }
+.gab-texto { font-size: 0.88rem; margin-top: 0.25rem; }
+.gab-parcial { font-size: 0.78rem; color: var(--partial); margin-top: 0.3rem; font-weight: 650; }
+
+/* 4 · Simulador */
+.controle { display: flex; flex-direction: column; gap: 0.25rem; }
+.controle-topo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.1rem 0.7rem; align-items: baseline; }
+.controle label { font-weight: 700; }
+.controle output { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 32px; }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { font-weight: 700; margin-bottom: 0.35rem; padding: 0; }
+.segmento { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.segmento label { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 40px; padding: 0 0.8rem; border: 1.5px solid var(--line); border-radius: 999px; cursor: pointer; background: var(--surface); }
+.segmento label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.segmento input { accent-color: var(--accent); }
+.leituras { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 0.8rem; }
+.leitura { border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem 0.8rem; background: var(--surface-2); }
+.leitura span { display: block; font-size: 0.8rem; color: var(--ink-2); font-weight: 650; }
+.leitura strong { font-size: 1.9rem; font-weight: 800; font-stretch: 85%; }
+.leitura.alerta strong { color: var(--bad); }
+.leitura.ok strong { color: var(--ok); }
+.grafico-caixa { position: relative; }
+.grafico { width: 100%; height: auto; display: block; overflow: visible; }
+.grafico .grade-linha { stroke: var(--line); stroke-width: 1; }
+.grafico .eixo { stroke: var(--line-strong); stroke-width: 1; }
+.grafico .tick { fill: var(--muted); font-family: var(--font-mono); font-size: 0.7rem; }
+.grafico .curva { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.grafico .curva.destaque { stroke: var(--accent); stroke-width: 3; }
+.grafico .rotulo-curva { font-size: 0.8rem; font-weight: 650; fill: var(--ink-2); }
+.grafico .rotulo-curva.destaque { fill: var(--ink); }
+.grafico .marca-r { stroke: var(--ink); stroke-width: 1.5; }
+.grafico .ponto { fill: var(--line-strong); stroke: var(--surface); stroke-width: 2; }
+.grafico .ponto.destaque { fill: var(--accent); }
+.grafico .mira { stroke: var(--ink-2); stroke-width: 1; }
+.dica {
+  position: absolute;
+  pointer-events: none;
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.8rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+  max-width: min(24rem, calc(100vw - 32px));
+  transform: translate(-50%, calc(-100% - 10px));
+}
+.dica[hidden] { display: none; }
+.tabela-p { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.tabela-p th, .tabela-p td { padding: 0.35rem 0.4rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tabela-p th:first-child, .tabela-p td:first-child { text-align: left; }
+
+/* 5 · Placar */
+.blocos-voto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 0.8rem; }
+.voto { border: 1.5px solid var(--line); border-radius: 8px; padding: 0.7rem 0.85rem; background: var(--surface); display: flex; flex-direction: column; gap: 0.35rem; }
+.voto h3 { font-size: 1rem; }
+.voto .contagem { font-size: 2.2rem; font-weight: 800; font-stretch: 85%; line-height: 1; }
+.voto ul { margin: 0; padding-left: 1.1rem; font-size: 0.92rem; color: var(--ink-2); }
+.situacao { border-left: 4px solid var(--accent); padding-left: 0.7rem; font-weight: 650; }
+.pendencias { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.88rem; color: var(--ink-2); }
+details > summary { cursor: pointer; font-weight: 700; color: var(--accent); min-height: 36px; display: flex; align-items: center; }
+
+/* 6 · Mãos */
+.contagens { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+@media (min-width: 900px) { .contagens { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.contador { display: grid; grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) auto; gap: 0.5rem 0.75rem; align-items: center; }
+.contador-rotulo { font-weight: 650; }
+.barra-mao { height: 22px; border-radius: 0 4px 4px 0; background: var(--accent); min-width: 2px; transition: width 160ms ease; }
+.barra-trilho { background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.contador-ctrl { display: flex; align-items: center; gap: 0.35rem; }
+.contador-ctrl output { font-family: var(--font-mono); font-weight: 700; font-size: 1.3rem; min-width: 2.2ch; text-align: right; }
+.mini { font: inherit; font-weight: 800; width: 40px; height: 40px; border-radius: 8px; border: 1.5px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+@media (max-width: 520px) { .contador { grid-template-columns: minmax(0, 1fr) auto; } .barra-trilho { grid-column: 1 / -1; grid-row: 2; } }
+
+/* 7 · Variante */
+.pergunta-variante { font-size: clamp(1.3rem, 2.4vw, 2rem); font-weight: 750; font-stretch: 85%; border-left: 4px solid var(--accent); padding-left: 0.8rem; }
+.analise { margin: 0; padding-left: 1.3rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 1.05rem; }
+
+.rodape { max-width: 1280px; margin: 2rem auto 0; padding-top: 0.8rem; border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--muted); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+kbd { font-family: var(--font-mono); font-size: 0.72rem; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 4px; padding: 0 0.3rem; background: var(--surface-2); color: var(--ink); }
+</style>
+
+<header class="barra">
+  <span class="barra-marca">Aula II · Painel</span>
+  <nav class="abas" id="abas" aria-label="Blocos do painel"></nav>
+  <span class="mini-relogio" id="mini-relogio" aria-hidden="true">00:00</span>
+</header>
+
+<main id="painel"></main>
+
+<footer class="rodape">
+  <span id="versao"></span>
+  <span>Passador ou teclado: <kbd>PageDown</kbd> <kbd>→</kbd> avançam · <kbd>PageUp</kbd> <kbd>←</kbd> voltam · <kbd>1</kbd> a <kbd>7</kbd> vão direto ao bloco</span>
+</footer>
+
+<script type="application/json" id="conteudo">__CONTEUDO_JSON__</script>
+<script>
+/*__LOGICA__*/
+</script>
+<script>
+(function () {
+  "use strict";
+  var C = JSON.parse(document.getElementById("conteudo").textContent);
+  var L = window.Aula2Logica;
+  var CHAVE = "aula2.painel.v1";
+
+  function h(tag, props, filhos) {
+    var n = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (k) {
+        var v = props[k];
+        if (v === null || v === undefined || v === false) return;
+        if (k === "class") n.className = v;
+        else if (k === "text") n.textContent = v;
+        else if (k.indexOf("on") === 0) n.addEventListener(k.slice(2), v);
+        else n.setAttribute(k, v === true ? "" : String(v));
+      });
+    }
+    (filhos || []).forEach(function (f) {
+      if (f === null || f === undefined || f === false) return;
+      n.append(f.nodeType ? f : document.createTextNode(String(f)));
+    });
+    return n;
+  }
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function s(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, String(attrs[k])); });
+    return n;
+  }
+
+  // --- Estado do painel (conveniência do professor, neste navegador) -------
+  function carregar() {
+    var base = {
+      bloco: 0,
+      revelados: {},
+      maos: { cerca: { defiro: 0, restricoes: 0, indefiro: 0 }, palavra: { defiro: 0, restricoes: 0, indefiro: 0 } },
+      maosVariante: { cerca: { defiro: 0, restricoes: 0, indefiro: 0 }, palavra: { defiro: 0, restricoes: 0, indefiro: 0 } },
+      varianteAberta: false,
+      sim: { fonte: "mista", raio: 50, janela: 20, desvio: 0 }
+    };
+    try {
+      var e = JSON.parse(localStorage.getItem(CHAVE) || "null");
+      if (e && typeof e === "object") {
+        base.revelados = e.revelados || {};
+        if (e.maos) base.maos = e.maos;
+        if (e.maosVariante) base.maosVariante = e.maosVariante;
+        if (e.sim) base.sim = Object.assign(base.sim, e.sim);
+      }
+    } catch (_) { /* sem armazenamento: segue em memória */ }
+    return base;
+  }
+  var est = carregar();
+  function salvar() {
+    try {
+      localStorage.setItem(CHAVE, JSON.stringify({ revelados: est.revelados, maos: est.maos, maosVariante: est.maosVariante, sim: est.sim }));
+    } catch (_) { /* segue em memória */ }
+  }
+
+  var BLOCOS = [
+    { id: "acesso", rotulo: "Acesso" },
+    { id: "cronometro", rotulo: "Cronômetro" },
+    { id: "gabarito", rotulo: "Gabarito" },
+    { id: "simulador", rotulo: "Cerca geográfica" },
+    { id: "placar", rotulo: "Placar" },
+    { id: "maos", rotulo: "Mãos" },
+    { id: "variante", rotulo: "Variante" }
+  ];
+  var painel = document.getElementById("painel");
+
+  // --- 1 · Acesso -----------------------------------------------------------
+  function blocoAcesso() {
+    var link = C.link_aluno;
+    var placa = h("div", { class: "qr-placa", role: "img", "aria-label": "QR code do exercício" });
+    if (link && typeof window.qrcode === "function") {
+      var qr = window.qrcode(0, "M");
+      qr.addData(link);
+      qr.make();
+      // A biblioteca devolve um <svg> pronto, gerado localmente a partir do link.
+      placa.innerHTML = qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
+    } else {
+      placa.append(h("p", { class: "sem-qr", text: link ? "O QR code não carregou. Use o link ao lado." : "Link do exercício ainda não definido." }));
+    }
+    var aviso = h("span", { class: "nota", id: "copia-aviso", "aria-live": "polite" });
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Abra o exercício no celular" }),
+      h("div", { class: "qr-area" }, [
+        placa,
+        h("div", { class: "ficha" }, [
+          h("ol", { class: "passos-sala" }, [
+            h("li", { text: "Aponte a câmera do celular para o código." }),
+            h("li", { text: "Toque no link que aparecer." }),
+            h("li", { text: "Comece pelo Elo 1. São cerca de 13 minutos." })
+          ]),
+          h("p", { class: "link-grande", id: "link-aluno", text: link || "(sem link)" }),
+          h("div", { class: "botoes" }, [
+            h("button", { type: "button", class: "btn btn-sec", onclick: function () {
+              var alvo = document.getElementById("link-aluno");
+              var ok = function () { aviso.textContent = "Link copiado."; };
+              var falha = function () {
+                var r = document.createRange();
+                r.selectNodeContents(alvo);
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(r);
+                aviso.textContent = "Link selecionado. Copie com Ctrl+C.";
+              };
+              try { navigator.clipboard.writeText(link).then(ok, falha); } catch (_) { falha(); }
+            } }, ["Copiar link"]),
+            aviso
+          ]),
+          h("p", { class: "nota", text: "Quem não conseguir abrir acompanha pela projeção e decide por mãos." })
+        ])
+      ])
+    ];
+  }
+
+  // --- 2 · Cronômetro ---------------------------------------------------------
+  var relogio = { inicio: null, acumulado: 0, timer: null, wake: null };
+  function decorrido() {
+    return relogio.acumulado + (relogio.inicio ? (Date.now() - relogio.inicio) / 1000 : 0);
+  }
+  function mmss(seg) {
+    seg = Math.max(0, Math.floor(seg));
+    var m = Math.floor(seg / 60), s2 = seg % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (s2 < 10 ? "0" : "") + s2;
+  }
+  function faseAtual(seg) {
+    var fases = C.cronometro.fases;
+    for (var i = 0; i < fases.length; i++) if (seg < fases[i].fim_s) return i;
+    return fases.length;
+  }
+  function atualizarRelogio() {
+    var seg = decorrido();
+    var total = C.cronometro.total_s;
+    document.getElementById("mini-relogio").textContent = mmss(seg);
+    var grande = document.getElementById("relogio");
+    if (!grande) return;
+    grande.textContent = mmss(seg);
+    var f = faseAtual(seg);
+    document.getElementById("relogio-sub").textContent = seg >= total
+      ? "Tempo esgotado: " + mmss(seg - total) + " além dos 18 minutos."
+      : "Faltam " + mmss(total - seg) + " · " + C.cronometro.fases[f].rotulo;
+    document.getElementById("progresso-tempo").style.width = Math.min(100, (seg / total) * 100) + "%";
+    document.querySelectorAll(".fase").forEach(function (el, i) {
+      el.classList.toggle("atual", i === f);
+      el.classList.toggle("feita", i < f);
+    });
+    var bt = document.getElementById("btn-relogio");
+    if (bt) bt.textContent = relogio.inicio ? "Pausar" : (seg > 0 ? "Continuar" : "Iniciar");
+  }
+  function alternarRelogio() {
+    if (relogio.inicio) {
+      relogio.acumulado = decorrido();
+      relogio.inicio = null;
+      clearInterval(relogio.timer);
+      if (relogio.wake) { relogio.wake.release().catch(function () {}); relogio.wake = null; }
+    } else {
+      relogio.inicio = Date.now();
+      relogio.timer = setInterval(atualizarRelogio, 250);
+      // Mantém a tela acesa durante a contagem; recusa não atrapalha.
+      try {
+        if (navigator.wakeLock) navigator.wakeLock.request("screen").then(function (w) { relogio.wake = w; }, function () {});
+      } catch (_) { /* opcional */ }
+    }
+    atualizarRelogio();
+  }
+  function zerarRelogio() {
+    if (relogio.inicio) alternarRelogio();
+    relogio.acumulado = 0;
+    atualizarRelogio();
+  }
+  function blocoCronometro() {
+    var fases = C.cronometro.fases;
+    var ini = 0;
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Cronômetro do exercício" }),
+      h("div", { class: "ficha" }, [
+        h("p", { class: "relogio", id: "relogio", role: "timer", "aria-live": "off", text: "00:00" }),
+        h("p", { class: "relogio-sub", id: "relogio-sub", "aria-live": "polite" }),
+        h("div", { class: "trilho-tempo", "aria-hidden": "true" }, [h("div", { id: "progresso-tempo" })]),
+        h("div", { class: "fases", style: "grid-template-columns:" + fases.map(function (f, i) {
+          var dur = f.fim_s - (i ? fases[i - 1].fim_s : 0);
+          return "minmax(0," + dur + "fr)";
+        }).join(" ") }, fases.map(function (f) {
+          var el = h("div", { class: "fase" }, [h("strong", { text: f.rotulo }), h("span", { text: mmss(ini) + " a " + mmss(f.fim_s) })]);
+          ini = f.fim_s;
+          return el;
+        })),
+        h("div", { class: "botoes" }, [
+          h("button", { type: "button", class: "btn", id: "btn-relogio", onclick: alternarRelogio }, ["Iniciar"]),
+          h("button", { type: "button", class: "btn btn-sec", onclick: zerarRelogio }, ["Zerar"])
+        ])
+      ])
+    ];
+  }
+
+  // --- 3 · Gabarito -----------------------------------------------------------
+  function blocoGabarito() {
+    var tabela = h("table", { class: "gab" }, [
+      h("thead", null, [h("tr", null, [h("th", { scope: "col", text: "Elo" })].concat(C.colunas.map(function (col) {
+        return h("th", { scope: "col" }, [col.rotulo, h("small", { text: col.leitura })]);
+      })))]),
+      h("tbody", null, C.elos.map(function (elo, i) {
+        var compacto = C.gabarito_compacto[i];
+        return h("tr", null, [h("th", { scope: "row", text: elo.titulo })].concat(C.colunas.map(function (col) {
+          var chave = elo.id + "." + col.id;
+          var aberto = Boolean(est.revelados[chave]);
+          var td = h("td", { class: aberto ? "aberta" : "", "data-celula": chave });
+          if (!aberto) {
+            td.append(h("button", { type: "button", class: "revelar", onclick: function () { est.revelados[chave] = true; salvar(); render(false); } }, ["Revelar"]));
+          } else {
+            var correta = elo.celulas[col.id].cartoes.find(function (c) { return c.tipo === "correta"; });
+            var parcial = elo.celulas[col.id].cartoes.find(function (c) { return c.tipo === "parcial"; });
+            td.append(h("p", { class: "gab-curto", text: compacto[col.id] }));
+            td.append(h("p", { class: "gab-texto", text: correta.sintese }));
+            if (parcial) td.append(h("p", { class: "gab-parcial", text: "◐ Em parte: " + parcial.texto.replace(/\.$/, "") + ". " + parcial.sintese.replace(/^Em parte\.\s*/, "") }));
+          }
+          return td;
+        })));
+      }))
+    ]);
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Gabarito da esteira" }),
+      h("div", { class: "botoes" }, [
+        h("button", { type: "button", class: "btn", onclick: function () {
+          C.elos.forEach(function (e) { C.colunas.forEach(function (c) { est.revelados[e.id + "." + c.id] = true; }); });
+          salvar(); render(false);
+        } }, ["Revelar tudo"]),
+        h("button", { type: "button", class: "btn btn-sec", onclick: function () { est.revelados = {}; salvar(); render(false); } }, ["Ocultar tudo"])
+      ]),
+      h("div", { class: "gab-caixa" }, [tabela])
+    ];
+  }
+
+  // --- 4 · Simulador da cerca -----------------------------------------------------
+  // Dimensões recalculadas a cada desenho a partir da largura real da caixa:
+  // o viewBox coincide com os pixels, então os textos ficam no tamanho do CSS
+  // tanto no celular quanto no projetor, em vez de encolher junto com o SVG.
+  var GR = { w: 720, h: 340, ml: 48, mr: 64, mt: 16, mb: 40, rMax: 600 };
+  function xDe(r) { return GR.ml + (r / GR.rMax) * (GR.w - GR.ml - GR.mr); }
+  function yDe(p) { return GR.mt + (1 - p) * (GR.h - GR.mt - GR.mb); }
+
+  function desenharGrafico(svg) {
+    svg.innerHTML = "";
+    var fontes = C.simulador.fontes;
+    var rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    GR.w = Math.max(280, Math.round(svg.parentNode.clientWidth));
+    GR.h = Math.round(Math.min(Math.max(GR.w * 0.5, 240), 400));
+    GR.ml = Math.round(rem * 2.6);
+    GR.mr = Math.round(rem * 3.6);
+    GR.mt = Math.round(rem);
+    GR.mb = Math.round(rem * 2);
+    svg.setAttribute("viewBox", "0 0 " + GR.w + " " + GR.h);
+    svg.setAttribute("width", GR.w);
+    svg.setAttribute("height", GR.h);
+    [0, 0.25, 0.5, 0.75, 1].forEach(function (p) {
+      svg.append(s("line", { class: "grade-linha", x1: GR.ml, x2: GR.w - GR.mr, y1: yDe(p), y2: yDe(p) }));
+      var t = s("text", { class: "tick", x: GR.ml - 8, y: yDe(p) + 4, "text-anchor": "end" });
+      t.textContent = Math.round(p * 100) + "%";
+      svg.append(t);
+    });
+    // Passo dos rótulos do eixo conforme o espaço: cada rótulo precisa de ~3,5rem.
+    var largura = GR.w - GR.ml - GR.mr;
+    var passo = [100, 200, 300].find(function (p) { return largura / (GR.rMax / p) >= rem * 3.5; }) || 600;
+    for (var r = 0; r <= GR.rMax; r += passo) {
+      var tx = s("text", { class: "tick", x: xDe(r), y: GR.h - GR.mb + rem * 1.2, "text-anchor": "middle" });
+      tx.textContent = r + " m";
+      svg.append(tx);
+    }
+    svg.append(s("line", { class: "eixo", x1: GR.ml, x2: GR.w - GR.mr, y1: yDe(0), y2: yDe(0) }));
+    // Curvas: a fonte escolhida em destaque; as outras ficam de contexto.
+    var ordem = fontes.slice().sort(function (a, b) { return (a.id === est.sim.fonte) - (b.id === est.sim.fonte); });
+    ordem.forEach(function (f) {
+      var pts = [];
+      for (var rr = 0; rr <= GR.rMax; rr += 5) pts.push(xDe(rr).toFixed(1) + "," + yDe(L.captura(rr, f.sigma)).toFixed(1));
+      var dest = f.id === est.sim.fonte;
+      svg.append(s("polyline", { class: "curva" + (dest ? " destaque" : ""), points: pts.join(" ") }));
+      var pFim = L.captura(GR.rMax, f.sigma);
+      var rot = s("text", { class: "rotulo-curva" + (dest ? " destaque" : ""), x: GR.w - GR.mr + 8, y: yDe(pFim) + 4 });
+      rot.textContent = f.curto;
+      svg.append(rot);
+    });
+    // Rótulos que colidem no topo (curvas que já chegaram a 100%) descem em fila.
+    var rots = Array.prototype.slice.call(svg.querySelectorAll(".rotulo-curva")).sort(function (a, b) {
+      // Empate no topo: o rótulo da curva em destaque fica por cima.
+      return (Number(a.getAttribute("y")) - Number(b.getAttribute("y"))) || (b.classList.contains("destaque") - a.classList.contains("destaque"));
+    });
+    for (var i = 1; i < rots.length; i++) {
+      var yAnt = Number(rots[i - 1].getAttribute("y")), y = Number(rots[i].getAttribute("y"));
+      if (y - yAnt < rem * 1.05) rots[i].setAttribute("y", yAnt + rem * 1.05);
+    }
+    // Marca do raio escolhido e pontos nas curvas.
+    var rx = xDe(est.sim.raio);
+    svg.append(s("line", { class: "marca-r", x1: rx, x2: rx, y1: GR.mt, y2: yDe(0) }));
+    fontes.forEach(function (f) {
+      svg.append(s("circle", { class: "ponto" + (f.id === est.sim.fonte ? " destaque" : ""), cx: rx, cy: yDe(L.captura(est.sim.raio, f.sigma)), r: 5 }));
+    });
+    var mira = s("line", { class: "mira", x1: 0, x2: 0, y1: GR.mt, y2: yDe(0), visibility: "hidden" });
+    svg.append(mira);
+    var area = s("rect", { x: GR.ml, y: GR.mt, width: GR.w - GR.ml - GR.mr, height: GR.h - GR.mt - GR.mb, fill: "transparent" });
+    svg.append(area);
+    var dica = document.getElementById("dica");
+    area.addEventListener("pointermove", function (ev) {
+      var caixa = svg.getBoundingClientRect();
+      var escala = GR.w / caixa.width;
+      var x = (ev.clientX - caixa.left) * escala;
+      var r = Math.max(0, Math.min(GR.rMax, Math.round(((x - GR.ml) / (GR.w - GR.ml - GR.mr)) * GR.rMax / 5) * 5));
+      mira.setAttribute("x1", xDe(r));
+      mira.setAttribute("x2", xDe(r));
+      mira.setAttribute("visibility", "visible");
+      dica.hidden = false;
+      dica.textContent = r + " m · " + fontes.map(function (f) { return f.curto + " " + L.formatarPct(L.captura(r, f.sigma)); }).join(" · ");
+      // A dica acompanha a mira, mas fica presa dentro da caixa do gráfico
+      // para não abrir rolagem lateral no celular.
+      var meia = dica.offsetWidth / 2;
+      dica.style.left = Math.max(meia, Math.min(caixa.width - meia, xDe(r) / escala)) + "px";
+      dica.style.top = (GR.mt / escala) + "px";
+    });
+    area.addEventListener("pointerleave", function () { mira.setAttribute("visibility", "hidden"); dica.hidden = true; });
+  }
+
+  function atualizarSimulador() {
+    var fonte = C.simulador.fontes.find(function (f) { return f.id === est.sim.fonte; });
+    var p = L.captura(est.sim.raio, fonte.sigma);
+    var n = L.terceiros(est.sim.raio, est.sim.janela, C.modelo);
+    var cobre = est.sim.desvio <= est.sim.janela / 2;
+    var pEf = cobre ? p : 0;
+    var j = L.janelaHorario(C.modelo.centro, est.sim.janela);
+    var q = function (id) { return document.getElementById(id); };
+    q("out-sraio").textContent = est.sim.raio + " m";
+    q("out-sjanela").textContent = est.sim.janela + " min · " + j.inicio + " às " + j.fim;
+    q("out-sdesvio").textContent = est.sim.desvio ? est.sim.desvio + " min" : "relógios alinhados";
+    q("l-captura").textContent = L.formatarPct(p);
+    q("l-terceiros").textContent = L.formatarTerceiros(n);
+    q("c-terceiros").className = "leitura " + (n > C.modelo.limite_terceiros ? "alerta" : "ok");
+    q("l-cobre").textContent = cobre ? "Sim" : "Não";
+    q("c-cobre").className = "leitura " + (cobre ? "ok" : "alerta");
+    q("l-efetiva").textContent = L.formatarPct(pEf);
+    q("c-efetiva").className = "leitura " + (pEf < C.modelo.limite_captura ? "alerta" : "ok");
+    desenharGrafico(q("grafico"));
+  }
+
+  function controleSim(id, rotulo, min, max, passo, chave) {
+    return h("div", { class: "controle" }, [
+      h("div", { class: "controle-topo" }, [h("label", { for: id, text: rotulo }), h("output", { id: "out-" + id, for: id })]),
+      h("input", { type: "range", id: id, min: min, max: max, step: passo, value: est.sim[chave],
+        oninput: function (ev) { est.sim[chave] = Number(ev.target.value); salvar(); atualizarSimulador(); } })
+    ]);
+  }
+
+  function blocoSimulador() {
+    var fontes = C.simulador.fontes;
+    var tabela = h("table", { class: "tabela-p" }, [
+      h("caption", { class: "nota", style: "text-align:left;padding-bottom:0.3rem", text: "Chance de o aparelho cair dentro do raio (σ em metros; ERB é estação rádio base)" }),
+      h("thead", null, [h("tr", null, [h("th", { scope: "col", text: "Fonte" })].concat([25, 50, 100, 300].map(function (r) { return h("th", { scope: "col", text: r + " m" }); })))]),
+      h("tbody", null, fontes.map(function (f) {
+        return h("tr", null, [h("th", { scope: "row", title: f.rotulo, text: f.curto + " · σ " + f.sigma })].concat([25, 50, 100, 300].map(function (r) {
+          return h("td", { text: L.formatarPct(L.captura(r, f.sigma)) });
+        })));
+      }))
+    ]);
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Cerca geográfica: o erro é radial" }),
+      h("p", { class: "lead", text: C.simulador.explicacao }),
+      h("div", { class: "dupla" }, [
+        h("div", { class: "ficha" }, [
+          h("fieldset", null, [
+            h("legend", { text: "Fonte de localização" }),
+            h("div", { class: "segmento" }, fontes.map(function (f) {
+              return h("label", null, [
+                h("input", { type: "radio", name: "fonte", id: "fonte-" + f.id, value: f.id, checked: est.sim.fonte === f.id,
+                  onchange: function () { est.sim.fonte = f.id; salvar(); atualizarSimulador(); } }),
+                f.rotulo + " · σ " + f.sigma + " m"
+              ]);
+            }))
+          ]),
+          controleSim("sraio", "Raio", 5, 600, 5, "raio"),
+          controleSim("sjanela", "Janela", 10, 120, 10, "janela"),
+          controleSim("sdesvio", "Relógio do provedor desalinhado em", 0, 30, 1, "desvio"),
+          h("div", { class: "leituras" }, [
+            h("div", { class: "leitura", id: "c-captura" }, [h("span", { text: "Chance de captura no raio" }), h("strong", { id: "l-captura" })]),
+            h("div", { class: "leitura", id: "c-terceiros" }, [h("span", { text: "Terceiros alcançados" }), h("strong", { id: "l-terceiros" })]),
+            h("div", { class: "leitura", id: "c-cobre" }, [h("span", { text: "A janela cobre o instante real?" }), h("strong", { id: "l-cobre" })]),
+            h("div", { class: "leitura", id: "c-efetiva" }, [h("span", { text: "Chance efetiva" }), h("strong", { id: "l-efetiva" })])
+          ]),
+          h("p", { class: "nota", text: C.simulador.ressalva + " " + C.modelo.ressalva + " Com relógio desalinhado além da metade da janela, a janela centrada no registro do banco perde o instante real do saque." })
+        ]),
+        h("div", { class: "ficha" }, [
+          h("div", { class: "grafico-caixa" }, [
+            h("div", { class: "dica", id: "dica", hidden: true }),
+            (function () {
+              var svg = s("svg", { id: "grafico", class: "grafico", viewBox: "0 0 " + GR.w + " " + GR.h, role: "img", "aria-label": "Curvas de Rayleigh: chance de captura em função do raio para GNSS, fonte mista e estação rádio base" });
+              return svg;
+            })()
+          ]),
+          tabela
+        ])
+      ])
+    ];
+  }
+
+  // --- 5 · Placar -------------------------------------------------------------
+  function blocoPlacar() {
+    var p = C.placar_1148;
+    var favor = p.blocos.filter(function (b) { return b.id !== "vedacao"; }).reduce(function (n, b) { return n + b.votos.length; }, 0);
+    var contra = p.blocos.filter(function (b) { return b.id === "vedacao"; }).reduce(function (n, b) { return n + b.votos.length; }, 0);
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Tema 1148 e Chatrie" }),
+      h("p", { class: "lead", text: p.processo }),
+      h("p", { class: "situacao", text: p.situacao + " Parcial: " + favor + " pela admissão, " + contra + " pela vedação." }),
+      h("div", { class: "blocos-voto" }, p.blocos.map(function (b) {
+        return h("section", { class: "voto", "aria-label": b.rotulo }, [
+          h("h3", { text: b.rotulo }),
+          h("span", { class: "contagem", text: String(b.votos.length) }),
+          h("ul", null, b.votos.map(function (v) { return h("li", { text: v }); }))
+        ]);
+      })),
+      h("p", { class: "nota", text: p.pendente + " " + p.nota + " Conferido em " + C.conferido_em + "." }),
+      h("section", { class: "ficha", "aria-label": C.chatrie.titulo }, [
+        h("h2", { style: "font-size:1.2rem", text: C.chatrie.titulo }),
+        h("ul", { class: "analise" }, C.chatrie.linhas.map(function (l) { return h("li", { text: l }); })),
+        h("p", { class: "nota", text: C.chatrie.nota })
+      ]),
+      h("details", { class: "ficha" }, [
+        h("summary", { text: "Conferir antes da aula (" + C.pendencias.length + " itens)" }),
+        h("ol", { class: "pendencias" }, C.pendencias.map(function (x) { return h("li", { text: x }); }))
+      ])
+    ];
+  }
+
+  // --- 6 · Mãos ------------------------------------------------------------------
+  var OPC = [["defiro", "Defiro"], ["restricoes", "Defiro com restrições"], ["indefiro", "Indefiro"]];
+  function contadores(alvo, perna, rotulo) {
+    var dados = est[alvo][perna];
+    var total = OPC.reduce(function (n, o) { return n + dados[o[0]]; }, 0);
+    var max = Math.max(1, OPC.reduce(function (m, o) { return Math.max(m, dados[o[0]]); }, 0));
+    return h("section", { class: "ficha", "aria-label": rotulo }, [
+      h("h2", { style: "font-size:1.15rem", text: rotulo + " · " + total + (total === 1 ? " mão" : " mãos") })
+    ].concat(OPC.map(function (o) {
+      var v = dados[o[0]];
+      var id = alvo + "-" + perna + "-" + o[0];
+      return h("div", { class: "contador" }, [
+        h("span", { class: "contador-rotulo", id: "r-" + id, text: o[1] }),
+        h("div", { class: "barra-trilho", "aria-hidden": "true" }, [h("div", { class: "barra-mao", style: "width:" + (v / max) * 100 + "%" })]),
+        h("div", { class: "contador-ctrl" }, [
+          h("button", { type: "button", class: "mini", "aria-label": "Menos uma mão: " + o[1], onclick: function () { dados[o[0]] = Math.max(0, v - 1); salvar(); render(false); } }, ["−"]),
+          h("output", { id: "o-" + id, "aria-labelledby": "r-" + id, text: String(v) }),
+          h("button", { type: "button", class: "mini", "aria-label": "Mais uma mão: " + o[1], onclick: function () { dados[o[0]] = v + 1; salvar(); render(false, "o-" + id); } }, ["+"])
+        ])
+      ]);
+    })));
+  }
+  function zerar(alvo) {
+    ["cerca", "palavra"].forEach(function (p) { OPC.forEach(function (o) { est[alvo][p][o[0]] = 0; }); });
+    salvar();
+    render(false);
+  }
+  function blocoMaos() {
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: "Contagem de mãos" }),
+      h("p", { class: "lead", text: "Leia em voz alta cada opção e conte as mãos erguidas com o cartão de decisão." }),
+      h("div", { class: "contagens" }, [contadores("maos", "cerca", "Cerca geográfica"), contadores("maos", "palavra", "Palavras-chave")]),
+      h("div", { class: "botoes" }, [h("button", { type: "button", class: "btn btn-sec", onclick: function () { zerar("maos"); } }, ["Zerar contagem"])])
+    ];
+  }
+
+  // --- 7 · Variante ----------------------------------------------------------------
+  function blocoVariante() {
+    var v = C.variante;
+    return [
+      h("h1", { class: "bloco-titulo", tabindex: "-1", text: v.titulo }),
+      h("p", { class: "pergunta-variante", text: v.pergunta }),
+      est.varianteAberta
+        ? h("section", { class: "ficha", "aria-label": "Análise" }, [
+            h("ol", { class: "analise" }, v.analise.map(function (a) { return h("li", { text: a }); })),
+            h("p", { class: "situacao", text: v.consequencia })
+          ])
+        : h("div", { class: "botoes" }, [h("button", { type: "button", class: "btn", onclick: function () { est.varianteAberta = true; render(false); } }, ["Revelar a análise"])]),
+      h("div", { class: "contagens" }, [contadores("maosVariante", "cerca", "Cerca, na variante"), contadores("maosVariante", "palavra", "Palavras-chave, na variante")]),
+      h("div", { class: "botoes" }, [h("button", { type: "button", class: "btn btn-sec", onclick: function () { zerar("maosVariante"); } }, ["Zerar contagem da variante"])])
+    ];
+  }
+
+  // --- Navegação ------------------------------------------------------------------
+  var RENDER = { acesso: blocoAcesso, cronometro: blocoCronometro, gabarito: blocoGabarito, simulador: blocoSimulador, placar: blocoPlacar, maos: blocoMaos, variante: blocoVariante };
+
+  function desenharAbas() {
+    var abas = document.getElementById("abas");
+    abas.innerHTML = "";
+    BLOCOS.forEach(function (b, i) {
+      abas.append(h("button", { type: "button", class: "aba", "aria-current": i === est.bloco ? "true" : null,
+        onclick: function () { irPara(i); } }, [h("span", { class: "num", text: String(i + 1) }), b.rotulo]));
+    });
+    // No celular as abas rolam na horizontal; centraliza a atual sem mexer na página.
+    var ativa = abas.querySelector('[aria-current="true"]');
+    if (ativa && abas.scrollWidth > abas.clientWidth) {
+      var ra = ativa.getBoundingClientRect(), rn = abas.getBoundingClientRect();
+      abas.scrollLeft += (ra.left + ra.width / 2) - (rn.left + rn.width / 2);
+    }
+  }
+
+  function render(novoBloco, focoId) {
+    var b = BLOCOS[est.bloco];
+    var rolagem = window.scrollY;
+    painel.innerHTML = "";
+    var sec = h("section", { class: "bloco", "aria-label": b.rotulo, "data-bloco": b.id });
+    RENDER[b.id]().forEach(function (n) { if (n) sec.append(n); });
+    painel.append(sec);
+    desenharAbas();
+    if (b.id === "cronometro") atualizarRelogio();
+    if (b.id === "simulador") atualizarSimulador();
+    if (novoBloco) {
+      window.scrollTo(0, 0);
+      var t = painel.querySelector(".bloco-titulo");
+      if (t) t.focus({ preventScroll: true });
+    } else {
+      window.scrollTo(0, rolagem);
+      if (focoId) { var alvo = document.getElementById(focoId); if (alvo) alvo.focus({ preventScroll: true }); }
+    }
+  }
+
+  function irPara(i) {
+    est.bloco = (i + BLOCOS.length) % BLOCOS.length;
+    render(true);
+  }
+
+  // Passador: PageDown/PageUp sempre navegam; setas e números só fora de campos,
+  // para não brigar com os controles deslizantes.
+  document.addEventListener("keydown", function (ev) {
+    if (ev.altKey || ev.ctrlKey || ev.metaKey) return;
+    var t = ev.target;
+    var emCampo = t instanceof HTMLElement && t.matches("input, select, textarea");
+    if (ev.key === "PageDown" || (!emCampo && ev.key === "ArrowRight")) { ev.preventDefault(); irPara(est.bloco + 1); }
+    else if (ev.key === "PageUp" || (!emCampo && ev.key === "ArrowLeft")) { ev.preventDefault(); irPara(est.bloco - 1); }
+    else if (!emCampo && /^[1-7]$/.test(ev.key)) { ev.preventDefault(); irPara(Number(ev.key) - 1); }
+  });
+
+  var larguraAnterior = window.innerWidth;
+  window.addEventListener("resize", function () {
+    if (window.innerWidth === larguraAnterior) return;
+    larguraAnterior = window.innerWidth;
+    var g = document.getElementById("grafico");
+    if (g) requestAnimationFrame(function () { desenharGrafico(g); });
+  });
+
+  document.getElementById("versao").textContent = "Versão " + C.versao + " · conteúdo conferido em " + C.conferido_em;
+  render(false);
+  atualizarRelogio();
+
+  window.Aula2Painel = {
+    irPara: irPara,
+    estado: function () { return JSON.parse(JSON.stringify(est)); },
+    decorrido: decorrido
+  };
+})();
+</script>

@@ -1,0 +1,915 @@
+{
+  "versao": "1.0.0",
+  "conferido_em": "17/10/2026",
+  "link_aluno": "https://claude.ai/artifact/RPeXoRC9RSNtCFsaHewRc2",
+  "caso": {
+    "titulo": "O golpe da falsa central",
+    "linhas": [
+      "Lúcia Andrade Fictícia, 74 anos, recebeu mensagens e uma ligação de uma falsa central do Banco Fictício. A voz do atendente era sintetizada, e o chip da linha dela foi trocado.",
+      "Convencida de que protegia a própria conta, ela mesma fez um Pix de R$ 18.400 para a conta de um terceiro.",
+      "A conta tinha sido cedida pelo titular. O dinheiro foi sacado em espécie num terminal da agência Centro, em Vila Quixote, às 13h47.",
+      "Enquadramento fixado na Aula I: estelionato eletrônico contra idosa (CP, art. 171, §2º-A, com o aumento do §4º) e cessão de conta (art. 171, §2º, VII)."
+    ],
+    "pergunta": "Como o Estado chega ao rastro e prova que ele não mudou?",
+    "instrucao": "Em cada elo, escolha três coisas: o requisito processual, a salvaguarda da Convenção de Budapeste e o passo técnico. Toque num cartão para ver o fundamento.",
+    "aviso": "Caso fictício. Nenhuma pessoa, banco ou processo real."
+  },
+  "colunas": [
+    {
+      "id": "requisito",
+      "rotulo": "Requisito processual",
+      "leitura": "regime"
+    },
+    {
+      "id": "budapeste",
+      "rotulo": "Salvaguarda de Budapeste",
+      "leitura": "Budapeste adjetiva"
+    },
+    {
+      "id": "tecnico",
+      "rotulo": "Passo técnico",
+      "leitura": "norma técnica"
+    }
+  ],
+  "elos": [
+    {
+      "id": "e1",
+      "titulo": "Registros do aplicativo da falsa central",
+      "contexto": "A falsa central falou com a vítima por um aplicativo de mensagens. O provedor do aplicativo guarda os registros de acesso: IP, data e hora.",
+      "celulas": {
+        "requisito": {
+          "pergunta": "O que a polícia precisa para obter esses registros?",
+          "cartoes": [
+            {
+              "id": "b",
+              "texto": "Requisição direta do delegado ao provedor, sem ordem judicial.",
+              "tipo": "distrator",
+              "sintese": "Não. Requisição direta só alcança dados cadastrais.",
+              "detalhe": "Autoridades administrativas com competência legal podem requisitar dados cadastrais: qualificação pessoal, filiação e endereço. Registro de acesso a aplicação exige ordem judicial.",
+              "fundamentos": [
+                "MCI, art. 10, §3º",
+                "Decreto 8.771/2016, art. 11",
+                "MCI, art. 10, §1º"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Pedido cautelar de guarda ao provedor e ordem judicial de fornecimento, com fundados indícios, justificativa e período definido.",
+              "tipo": "correta",
+              "sintese": "Correto. A guarda pode ser pedida pela polícia ou pelo MP; o fornecimento exige ordem judicial.",
+              "detalhe": "A autoridade policial ou o MP podem requerer cautelarmente a guarda dos registros. O fornecimento depende de ordem judicial com fundados indícios do ilícito, justificativa motivada da utilidade e período. A guarda obrigatória é de 6 meses para registros de aplicação e de 1 ano para registros de conexão. Sem pedido cautelar a tempo, o registro some, e a ausência de log não prova que o fato não ocorreu.",
+              "fundamentos": [
+                "MCI, art. 15, §2º, c/c art. 13, §§3º e 4º",
+                "MCI, art. 22, parágrafo único, I a III",
+                "MCI, art. 10, §1º"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Autorização de interceptação telemática pela Lei 9.296/1996.",
+              "tipo": "distrator",
+              "sintese": "Não. A Lei 9.296 rege o fluxo em curso; registro armazenado é dado estático.",
+              "detalhe": "Interceptação capta a comunicação enquanto ela acontece. Registros já guardados pelo provedor são dados estáticos, e o acesso a eles segue o Marco Civil da Internet.",
+              "fundamentos": [
+                "Lei 9.296/1996, art. 1º",
+                "MCI, arts. 10 e 22"
+              ]
+            }
+          ]
+        },
+        "budapeste": {
+          "pergunta": "Qual poder da Convenção cobre a medida?",
+          "cartoes": [
+            {
+              "id": "c",
+              "texto": "Busca e apreensão de dados armazenados (art. 19).",
+              "tipo": "distrator",
+              "sintese": "Não. O Estado não entra no sistema do provedor; ordena que ele produza o dado.",
+              "detalhe": "O art. 19 serve para quando o próprio Estado busca e apreende dados num sistema. Aqui o dado está com o provedor, e o caminho é a injunção de produção do art. 18.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 18 e 19"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "Interceptação de dados de conteúdo (art. 21).",
+              "tipo": "distrator",
+              "sintese": "Não. O art. 21 trata de conteúdo em tempo real; aqui se quer registro armazenado.",
+              "detalhe": "O art. 21 cobre a captação do conteúdo das comunicações enquanto elas ocorrem. Registros de acesso já guardados são outro objeto.",
+              "fundamentos": [
+                "Convenção de Budapeste, art. 21"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Preservação expedita (arts. 16 e 17) e injunção de produção (art. 18), sob as salvaguardas do art. 15.",
+              "tipo": "correta",
+              "sintese": "Correto. Preserva-se primeiro, e depois se ordena a entrega.",
+              "detalhe": "O art. 16 congela o dado armazenado. O art. 17 acrescenta a revelação parcial dos dados de tráfego, suficiente para identificar o caminho da comunicação e o próximo provedor. O art. 18 ordena ao provedor que entregue o dado. Tudo sob as condições e salvaguardas do art. 15.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 15 a 18",
+                "Decreto 11.491/2023"
+              ]
+            }
+          ]
+        },
+        "tecnico": {
+          "pergunta": "Qual passo técnico garante que o registro sirva como prova?",
+          "cartoes": [
+            {
+              "id": "a",
+              "texto": "Exigir IP com data, hora, fuso e porta lógica de origem; levar o conjunto ao provedor de conexão; calcular o hash do arquivo no recebimento.",
+              "tipo": "correta",
+              "sintese": "Correto. Sem porta lógica e instante exato, o IP aponta um grupo, não uma pessoa.",
+              "detalhe": "Com IPv4 compartilhado (CGNAT), o mesmo IP atende muitos assinantes ao mesmo tempo; só a porta lógica e o instante exato, com fuso, individualizam o acesso. O STJ reconheceu o dever de fornecer a porta lógica, e o regulamento do Marco Civil passou a prevê-lo. O hash calculado no recebimento fixa o estado do arquivo.",
+              "fundamentos": [
+                "STJ, REsp 1.784.156/SP",
+                "Decreto 8.771/2016, art. 15-A (Decreto 12.975/2026)",
+                "ISO/IEC 27037"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "O IP basta para individualizar o usuário.",
+              "tipo": "distrator",
+              "sintese": "Não. IP dinâmico e compartilhado aponta um grupo, não uma pessoa.",
+              "detalhe": "Com CGNAT, milhares de assinantes podem sair pelo mesmo IP no mesmo minuto. Sem porta lógica e instante, a identificação recai sobre um grupo.",
+              "fundamentos": [
+                "STJ, REsp 1.784.156/SP"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Anexar ao inquérito um print da tela do sistema do provedor.",
+              "tipo": "distrator",
+              "sintese": "Não. Print não tem integridade verificável.",
+              "detalhe": "A falta de procedimentos que garantam a integridade dos dados leva à inadmissibilidade da prova digital, e é ônus do Estado demonstrar a integridade da fonte.",
+              "fundamentos": [
+                "STJ, AgRg no HC 828.054/RN (5ª Turma, 2024)"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e2",
+      "titulo": "Localização da linha do titular da conta cedida",
+      "contexto": "A conta que recebeu o Pix pertence a Rafael Teste Fictício. Onde estava o celular dele às 13h47, hora do saque?",
+      "celulas": {
+        "requisito": {
+          "pergunta": "O que a polícia precisa para obter a localização pretérita da linha?",
+          "cartoes": [
+            {
+              "id": "b",
+              "texto": "Requisição direta à operadora pelo art. 13-B do CPP.",
+              "tipo": "distrator",
+              "sintese": "Não. O art. 13-B vale para crimes relacionados ao tráfico de pessoas, com delito em curso.",
+              "detalhe": "O dispositivo depende de autorização judicial e só admite requisição direta se o juiz não se manifestar em 12 horas. Não serve para dados pretéritos num estelionato.",
+              "fundamentos": [
+                "CPP, art. 13-B, caput e §4º"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Localização é dado não sensível e dispensa ordem judicial.",
+              "tipo": "distrator",
+              "sintese": "Não. Localização revela rotina e vida privada.",
+              "detalhe": "Histórico de localização expõe onde a pessoa mora, trabalha, reza e se trata. É o que está em jogo no Tema 1148 do STF, ainda sem tese, e o que a Suprema Corte dos EUA reconheceu em Chatrie v. United States (2026): obter histórico de localização é busca.",
+              "fundamentos": [
+                "CF, art. 5º, X",
+                "STF, Tema 1148 (em julgamento)"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Ordem judicial fundamentada para os dados de localização daquela linha, com pessoa determinada e período delimitado.",
+              "tipo": "correta",
+              "sintese": "Correto. Não é interceptação, porque não há fluxo em curso, mas a localização revela vida privada.",
+              "detalhe": "Dados de localização pretéritos expõem rotina e intimidade. A via segura é a ordem judicial que individualiza a linha e delimita o período. Há quem sustente a requisição direta de dados pretéritos de estação rádio base; a questão não está pacificada, e a ordem judicial afasta o risco de nulidade.",
+              "fundamentos": [
+                "CF, art. 5º, X e XII",
+                "MCI, art. 22, parágrafo único"
+              ]
+            }
+          ]
+        },
+        "budapeste": {
+          "pergunta": "Qual poder da Convenção cobre a medida?",
+          "cartoes": [
+            {
+              "id": "a",
+              "texto": "Injunção de produção dos dados já armazenados (art. 18), com preservação prévia (art. 17). Se a medida fosse prospectiva, coleta em tempo real de dados de tráfego (art. 20).",
+              "tipo": "correta",
+              "sintese": "Correto. Para o passado, preservar e ordenar a entrega; para o futuro, o poder é outro.",
+              "detalhe": "Dados de localização da operadora são dados de tráfego. Para o horário do saque, já passado, preserva-se e ordena-se a entrega. Acompanhar a linha dali em diante seria coleta em tempo real, regida pelo art. 20.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 17, 18 e 20"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "Apenas preservação expedita (art. 16).",
+              "tipo": "distrator",
+              "sintese": "Não. Preservar não é acessar.",
+              "detalhe": "A preservação congela o dado em poder da operadora. A entrega à autoridade exige a injunção de produção do art. 18.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 16 e 18"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Interceptação de conteúdo (art. 21).",
+              "tipo": "distrator",
+              "sintese": "Não. O pedido é de localização, não de conteúdo.",
+              "detalhe": "O art. 21 trata do conteúdo das comunicações em tempo real. Onde a linha estava é dado de tráfego.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 1º, d, e 21"
+              ]
+            }
+          ]
+        },
+        "tecnico": {
+          "pergunta": "Como ler o dado que a operadora entregar?",
+          "cartoes": [
+            {
+              "id": "c",
+              "texto": "Converter a planilha da operadora para PDF e assinar.",
+              "tipo": "distrator",
+              "sintese": "Não. A conversão altera o objeto.",
+              "detalhe": "Preserva-se o arquivo original entregue pela operadora, com o hash calculado no recebimento. O PDF é outro objeto.",
+              "fundamentos": [
+                "ISO/IEC 27037",
+                "CPP, art. 158-A"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Tratar a estação rádio base como área: registrar setor, azimute, alcance da célula e margem de incerteza; calcular o hash do arquivo entregue.",
+              "tipo": "correta",
+              "sintese": "Correto. A antena diz onde o aparelho podia estar, não onde estava.",
+              "detalhe": "Uma estação rádio base atende uma área; o aparelho pode estar em qualquer ponto do setor. O laudo registra a área e a margem, e não um ponto.",
+              "fundamentos": [
+                "ISO/IEC 27037",
+                "CPP, art. 158-A"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "A coordenada da antena é a posição do aparelho.",
+              "tipo": "distrator",
+              "sintese": "Não. A antena atende uma área inteira.",
+              "detalhe": "Tomar a coordenada da antena como posição do aparelho transforma uma área de centenas de metros num ponto falso.",
+              "fundamentos": [
+                "ISO/IEC 27037"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e3",
+      "titulo": "Extração do celular do titular",
+      "contexto": "Com mandado de busca domiciliar, a polícia apreendeu o celular de Rafael em casa. O conteúdo pode explicar o saque.",
+      "celulas": {
+        "requisito": {
+          "pergunta": "O que autoriza acessar o conteúdo do aparelho?",
+          "cartoes": [
+            {
+              "id": "a",
+              "texto": "A apreensão não depende de ordem específica; o acesso ao conteúdo exige consentimento expresso do titular ou decisão judicial prévia; os dados podem ser preservados antes, com justificativa posterior.",
+              "tipo": "correta",
+              "sintese": "Correto. Apreender não é acessar.",
+              "detalhe": "No Tema 977, o STF separou a apreensão do aparelho, que não está sujeita à reserva de jurisdição, do acesso aos dados. Fora do encontro fortuito, o acesso depende de consentimento expresso ou decisão judicial. A autoridade pode adotar medidas para preservar os dados antes da autorização.",
+              "fundamentos": [
+                "STF, Tema 977 (ARE 1.042.075, julgado em 25/06/2025)"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Como o celular apareceu na busca, vale a regra do encontro fortuito, e a extração completa está liberada.",
+              "tipo": "distrator",
+              "sintese": "Não. O encontro fortuito tem alcance estreito, e aqui houve apreensão formal.",
+              "detalhe": "No encontro fortuito, o acesso sem ordem só serve para esclarecer a autoria ou identificar o proprietário, com justificativa posterior. Não autoriza extração completa.",
+              "fundamentos": [
+                "STF, Tema 977"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "A apreensão lícita autoriza abrir e examinar o aparelho.",
+              "tipo": "distrator",
+              "sintese": "Não. Apreender não é acessar.",
+              "detalhe": "A apreensão física do aparelho e o acesso aos dados são atos distintos, com requisitos distintos.",
+              "fundamentos": [
+                "STF, Tema 977"
+              ]
+            }
+          ]
+        },
+        "budapeste": {
+          "pergunta": "Qual poder da Convenção cobre a medida?",
+          "cartoes": [
+            {
+              "id": "b",
+              "texto": "Injunção de produção (art. 18).",
+              "tipo": "distrator",
+              "sintese": "Não. A injunção serve para quem detém o dado entregá-lo.",
+              "detalhe": "Aqui o Estado já tem o aparelho em mãos. O poder pertinente é a busca e apreensão de dados armazenados.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 18 e 19"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Busca e apreensão de dados armazenados (art. 19), inclusive o dever de manter a integridade dos dados (art. 19.3.c), sob o art. 15.",
+              "tipo": "correta",
+              "sintese": "Correto. O Estado apreende e copia, e passa a responder pela integridade do dado.",
+              "detalhe": "O art. 19 cobre a busca e a apreensão de dados armazenados num sistema ou suporte. O art. 19.3.c impõe manter a integridade dos dados apreendidos. As salvaguardas do art. 15 valem para tudo.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 15 e 19"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Preservação expedita (art. 16).",
+              "tipo": "distrator",
+              "sintese": "Não. Preservação congela o dado em poder de terceiro.",
+              "detalhe": "A medida aqui é apreensão e cópia pelo próprio Estado, não pedido de congelamento a um custodiante.",
+              "fundamentos": [
+                "Convenção de Budapeste, arts. 16 e 19"
+              ]
+            }
+          ]
+        },
+        "tecnico": {
+          "pergunta": "Como extrair sem comprometer a prova?",
+          "cartoes": [
+            {
+              "id": "b",
+              "texto": "O policial navega no aparelho e fotografa as telas relevantes.",
+              "tipo": "distrator",
+              "sintese": "Não. Altera o estado do aparelho e não gera cópia verificável.",
+              "detalhe": "Foi o quadro do AgRg no HC 828.054/RN: telas fotografadas de aparelho desbloqueado, sem extração, hash ou laudo. A prova foi declarada inadmissível. Além disso, esbarra no Tema 977.",
+              "fundamentos": [
+                "STJ, AgRg no HC 828.054/RN",
+                "STF, Tema 977"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Calcular o MD5 da imagem extraída.",
+              "tipo": "distrator",
+              "sintese": "Não. MD5 não serve onde se exige resistência a colisão.",
+              "detalhe": "O MD5 tem colisões conhecidas e não é aceitável onde a resistência a colisão importa. Use SHA-256 ou superior.",
+              "fundamentos": [
+                "RFC 6151"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Isolar o aparelho da rede (modo avião ou bolsa de Faraday), extrair com ferramenta forense validada, calcular o SHA-256 da imagem no ato, lacrar e registrar.",
+              "tipo": "correta",
+              "sintese": "Correto. Isolamento, ferramenta validada, hash e lacre.",
+              "detalhe": "O isolamento impede alteração ou apagamento remoto. O hash calculado no ato fixa a imagem. O lacre e o registro seguem as etapas de coleta e acondicionamento do CPP.",
+              "fundamentos": [
+                "CPP, art. 158-B, IV e V",
+                "CPP, art. 158-D",
+                "ISO/IEC 27037"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e4",
+      "titulo": "Laudo",
+      "contexto": "A imagem do celular chega à perícia. O laudo vai dizer o que há nela e como se chegou a isso.",
+      "celulas": {
+        "requisito": {
+          "pergunta": "Quais regras processuais regem o laudo?",
+          "cartoes": [
+            {
+              "id": "c",
+              "texto": "Qualquer lacuna documental na cadeia de custódia anula a prova.",
+              "tipo": "distrator",
+              "sintese": "Não. O STJ exige demonstração de quebra efetiva, não de falha formal.",
+              "detalhe": "Irregularidade na cadeia de custódia não gera nulidade automática; afeta o valor da prova e se examina no caso concreto. O ônus de demonstrar a integridade da fonte continua com o Estado.",
+              "fundamentos": [
+                "STJ, Corte Especial, Inq 1.658/DF (2025)",
+                "STJ, AgRg no HC 828.054/RN"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "Perícia por perito oficial sobre o vestígio recebido e guardado na central de custódia, com registro de cada movimentação.",
+              "tipo": "correta",
+              "sintese": "Correto. Perito oficial e rastro documentado de cada movimentação.",
+              "detalhe": "O exame cabe ao perito oficial. O vestígio é recebido, processado e armazenado na central de custódia, e cada movimentação fica registrada até o retorno do material.",
+              "fundamentos": [
+                "CPP, art. 159",
+                "CPP, art. 158-B, VII a IX",
+                "CPP, arts. 158-E e 158-F"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "O laudo é dispensável se o investigado confessar.",
+              "tipo": "distrator",
+              "sintese": "Não. A confissão não supre o exame.",
+              "detalhe": "Nas infrações que deixam vestígios, o exame de corpo de delito é indispensável e a confissão do acusado não o supre.",
+              "fundamentos": [
+                "CPP, art. 158"
+              ]
+            }
+          ]
+        },
+        "budapeste": {
+          "pergunta": "O que a Convenção diz sobre o laudo?",
+          "cartoes": [
+            {
+              "id": "b",
+              "texto": "O dever de integridade do art. 19.3.c.",
+              "tipo": "parcial",
+              "sintese": "Em parte. O dever de integridade acompanha o vestígio, mas não disciplina o exame.",
+              "detalhe": "O dever de manter a integridade nasce na apreensão e segue com o vestígio até a perícia. Ele não regula como o exame é feito.",
+              "fundamentos": [
+                "Convenção de Budapeste, art. 19.3.c"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Interceptação (art. 21).",
+              "tipo": "distrator",
+              "sintese": "Não. Sem relação com o laudo.",
+              "detalhe": "O art. 21 trata de captação de conteúdo em tempo real.",
+              "fundamentos": [
+                "Convenção de Budapeste, art. 21"
+              ]
+            },
+            {
+              "id": "a",
+              "texto": "As salvaguardas gerais do art. 15: proporcionalidade, supervisão e fundamentação.",
+              "tipo": "correta",
+              "sintese": "Correto. A Convenção não tem regra própria sobre laudo; valem as salvaguardas gerais.",
+              "detalhe": "Os arts. 16 a 21 regulam poderes de obtenção de dados, não a perícia. O que alcança o exame são as condições e salvaguardas do art. 15.",
+              "fundamentos": [
+                "Convenção de Budapeste, art. 15"
+              ]
+            }
+          ]
+        },
+        "tecnico": {
+          "pergunta": "Qual passo técnico sustenta o laudo?",
+          "cartoes": [
+            {
+              "id": "a",
+              "texto": "Recalcular o hash antes do exame e conferir com o da coleta; examinar uma cópia de trabalho; documentar ferramentas, versões e passos de modo reprodutível.",
+              "tipo": "correta",
+              "sintese": "Correto. Conferência do hash, cópia de trabalho e método reprodutível.",
+              "detalhe": "O hash recalculado prova que a imagem é a mesma da coleta. A cópia de trabalho protege o original. A documentação permite que outro perito refaça o caminho.",
+              "fundamentos": [
+                "ISO/IEC 27041",
+                "ISO/IEC 27042"
+              ]
+            },
+            {
+              "id": "c",
+              "texto": "Examinar o original para ganhar tempo.",
+              "tipo": "distrator",
+              "sintese": "Não. Risco de alteração irreversível.",
+              "detalhe": "A regra é examinar uma cópia de trabalho e manter o original intacto e lacrado.",
+              "fundamentos": [
+                "ISO/IEC 27037",
+                "ISO/IEC 27042"
+              ]
+            },
+            {
+              "id": "b",
+              "texto": "Hash conferido, logo o conteúdo é verdadeiro.",
+              "tipo": "distrator",
+              "sintese": "Não. Integridade não é autenticidade.",
+              "detalhe": "O hash prova que a cópia não mudou, não que o conteúdo é verdadeiro. O áudio da falsa central achado na extração tem hash perfeito e continua sendo voz sintetizada. Esta é a ponte para a Aula III.",
+              "fundamentos": [
+                "ISO/IEC 27042"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "impasse": {
+    "titulo": "O impasse",
+    "linhas": [
+      "A localização mostra Rafael a cerca de 30 km do terminal às 13h47.",
+      "A extração revela que ele vendeu o acesso à conta.",
+      "Quem sacou continua desconhecido, e as imagens do terminal são de baixa resolução."
+    ],
+    "botao": "Ver o pedido do delegado"
+  },
+  "pedido": {
+    "titulo": "O pedido do delegado",
+    "abertura": "Representação fictícia. O delegado pede que a Justiça determine aos provedores:",
+    "pernas": [
+      {
+        "id": "cerca",
+        "rotulo": "Cerca geográfica",
+        "texto": "Identificação de todos os dispositivos num raio de 300 m do terminal, das 13h às 15h do dia do saque. O registro do banco marca o saque às 13h47.",
+        "precedente": "A cerca geográfica foi admitida pelo STJ no caso Marielle (RMS 60.698/RJ, 2020)."
+      },
+      {
+        "id": "palavra",
+        "rotulo": "Palavras-chave",
+        "texto": "Identificação de todos os usuários que pesquisaram o nome da vítima ou \"central de atendimento\" com o nome do Banco Fictício, nos 30 dias anteriores ao saque.",
+        "precedente": "A busca por palavras-chave está no STF (Tema 1148, RE 1.301.250), sem tese fixada."
+      }
+    ],
+    "requisitos": [
+      {
+        "id": "indicios",
+        "rotulo": "Fundados indícios da ocorrência do ilícito",
+        "onde": "O Pix, o saque registrado e a extração do celular do titular."
+      },
+      {
+        "id": "justificativa",
+        "rotulo": "Justificativa motivada da utilidade dos registros",
+        "onde": "Identificar quem sacou o dinheiro."
+      },
+      {
+        "id": "periodo",
+        "rotulo": "Período ao qual se referem os registros",
+        "onde": "Das 13h às 15h do dia do saque; 30 dias anteriores."
+      }
+    ],
+    "fundamento_requisitos": "MCI, art. 22, parágrafo único, I a III",
+    "conclusao": "Os três requisitos estão presentes. O pedido é formalmente admissível, e a questão passa ao mérito. Forma completa não decide proporcionalidade."
+  },
+  "modelo": {
+    "rho": 0.03,
+    "tau": 15,
+    "sigma": 25,
+    "centro": "13:47",
+    "raio": {
+      "min": 25,
+      "max": 500,
+      "passo": 25,
+      "pedido": 300
+    },
+    "janela": {
+      "min": 10,
+      "max": 120,
+      "passo": 10,
+      "pedido": 120
+    },
+    "limite_terceiros": 1000,
+    "limite_captura": 0.5,
+    "ressalva": "Estimativa ilustrativa: números fictícios para mostrar a forma da troca, não a grandeza real.",
+    "ressalva_captura": "Supondo que o sacador portava aparelho com localização ativa.",
+    "explicacao": "Terceiros alcançados crescem com a área do círculo e com a janela. A chance de alcançar o sacador depende só do raio, porque o erro de localização é radial; a janela fica centrada no horário do registro do banco."
+  },
+  "palavras": {
+    "termos": [
+      {
+        "id": "pedido",
+        "rotulo": "Os dois termos, como pedido",
+        "generico": true
+      },
+      {
+        "id": "central",
+        "rotulo": "Só \"central de atendimento\" com o nome do banco",
+        "generico": true
+      },
+      {
+        "id": "nome",
+        "rotulo": "Só o nome completo da vítima",
+        "generico": false
+      }
+    ],
+    "periodos": [
+      {
+        "dias": 30,
+        "rotulo": "30 dias"
+      },
+      {
+        "dias": 7,
+        "rotulo": "7 dias"
+      }
+    ],
+    "grandeza": {
+      "pedido": {
+        "30": "dezenas de milhares",
+        "7": "milhares"
+      },
+      "central": {
+        "30": "dezenas de milhares",
+        "7": "milhares"
+      },
+      "nome": {
+        "30": "dezenas",
+        "7": "unidades a dezenas"
+      }
+    },
+    "explicacao": "Não há modelo numérico defensável para palavras-chave. A ordem de grandeza depende da especificidade do termo: \"central de atendimento\" com o nome do banco alcança clientes legítimos às dezenas de milhares; o nome completo da vítima, às dezenas."
+  },
+  "necessidade": {
+    "titulo": "Necessidade",
+    "pergunta": "Há meio menos invasivo igualmente idôneo para identificar quem sacou?",
+    "meios": [
+      {
+        "rotulo": "Imagens do terminal e da agência",
+        "estado": "Já obtidas. Baixa resolução; não identificam o rosto."
+      },
+      {
+        "rotulo": "Dados do cartão usado no saque",
+        "estado": "Apontam a conta cedida, não a pessoa que sacou."
+      },
+      {
+        "rotulo": "Oitiva de testemunhas da agência",
+        "estado": "Ainda não realizada."
+      },
+      {
+        "rotulo": "Localização direcionada da linha do titular",
+        "estado": "Já feita no Elo 2: ele estava a 30 km."
+      }
+    ],
+    "opcoes": [
+      {
+        "id": "sim",
+        "rotulo": "Satisfeita: não há meio menos invasivo igualmente idôneo"
+      },
+      {
+        "id": "nao",
+        "rotulo": "Não satisfeita: ainda há meio menos invasivo a tentar"
+      }
+    ],
+    "feedback": "Aqui não há gabarito. A subsidiariedade aparece entre as condicionantes propostas nos votos que admitem a busca reversa no Tema 1148. Repare que a oitiva das testemunhas ainda não foi tentada."
+  },
+  "estrita": {
+    "titulo": "Proporcionalidade estrita",
+    "gravidade": {
+      "pergunta": "O crime do caso é hediondo ou equiparado?",
+      "opcoes": [
+        {
+          "id": "sim",
+          "rotulo": "Sim"
+        },
+        {
+          "id": "nao",
+          "rotulo": "Não"
+        }
+      ],
+      "resposta": "nao",
+      "feedback_certo": "Correto: não é. Estelionato eletrônico e cessão de conta não constam da Lei 8.072/1990.",
+      "feedback_errado": "Não é. Estelionato eletrônico e cessão de conta não constam da Lei 8.072/1990.",
+      "criterio": "Adoto como critério restringir a busca reversa a crimes hediondos e equiparados.",
+      "fonte": "Restrição proposta em votos do Tema 1148, como os de Nunes Marques e Gilmar Mendes."
+    },
+    "delimitacao": {
+      "rotulo": "Delimitação temporal e temática",
+      "fonte": "Lida dos parâmetros que você escolheu nas telas anteriores."
+    },
+    "etapas": {
+      "rotulo": "Exigir procedimento em etapas para descartar os inocentes",
+      "passos": [
+        "Lista anonimizada dos dispositivos.",
+        "Estreitamento pela autoridade, ainda sem identificação.",
+        "Identificação só dos remanescentes, por nova decisão judicial."
+      ],
+      "fonte": "É o procedimento de três etapas do Google examinado em Chatrie v. United States (Suprema Corte dos EUA, 29/06/2026). A Corte decidiu que obter o histórico de localização é busca e devolveu o caso ao tribunal de origem para examinar se o mandado autorizou uma busca razoável."
+    },
+    "placar": "Tema 1148: julgamento suspenso por pedido de vista, sem tese fixada. Placar parcial: 5 votos pela admissão com restrições e 2 pela vedação."
+  },
+  "decisao": {
+    "titulo": "Decisão",
+    "opcoes": [
+      {
+        "id": "defiro",
+        "rotulo": "Defiro"
+      },
+      {
+        "id": "restricoes",
+        "rotulo": "Defiro com restrições"
+      },
+      {
+        "id": "indefiro",
+        "rotulo": "Indefiro"
+      }
+    ],
+    "fundamentos_indeferimento": {
+      "cerca": [
+        {
+          "id": "inadequacao",
+          "rotulo": "Inadequação: baixa chance de alcançar o sacador",
+          "texto": "inadequação, dada a baixa chance de alcançar o sacador"
+        },
+        {
+          "id": "desnecessidade",
+          "rotulo": "Desnecessidade: há meio menos invasivo a tentar",
+          "texto": "desnecessidade, pois há meio menos invasivo ainda não tentado"
+        },
+        {
+          "id": "desproporcao",
+          "rotulo": "Desproporcionalidade: terceiros demais para o ganho esperado",
+          "texto": "desproporcionalidade em sentido estrito, pelo número de terceiros alcançados"
+        },
+        {
+          "id": "generico",
+          "rotulo": "A medida é invasiva à privacidade",
+          "texto": "ser a medida invasiva à privacidade"
+        }
+      ],
+      "palavra": [
+        {
+          "id": "gravidade",
+          "rotulo": "Desproporcionalidade: o crime não é hediondo",
+          "texto": "desproporcionalidade, pois o crime não é hediondo nem equiparado"
+        },
+        {
+          "id": "tematica",
+          "rotulo": "Desproporcionalidade: o termo alcança milhares de inocentes",
+          "texto": "desproporcionalidade, pois o termo alcança milhares de usuários inocentes"
+        },
+        {
+          "id": "desnecessidade",
+          "rotulo": "Desnecessidade: há meio menos invasivo a tentar",
+          "texto": "desnecessidade, pois há meio menos invasivo ainda não tentado"
+        },
+        {
+          "id": "generico",
+          "rotulo": "A medida é invasiva à privacidade",
+          "texto": "ser a medida invasiva à privacidade"
+        }
+      ]
+    },
+    "sinais": [
+      {
+        "id": "necessidade",
+        "texto": "Você negou a necessidade e deferiu uma medida."
+      },
+      {
+        "id": "hediondos",
+        "texto": "Você adotou a restrição a crimes hediondos e deferiu a palavra-chave num crime que não é hediondo."
+      },
+      {
+        "id": "adequacao",
+        "texto": "A cerca deferida tem chance de captura abaixo de 50%: a adequação é fraca."
+      },
+      {
+        "id": "estrita",
+        "texto": "A cerca deferida alcança mais de 1.000 terceiros sem procedimento em etapas."
+      },
+      {
+        "id": "tematica",
+        "texto": "Você deferiu um termo genérico: falta delimitação temática."
+      },
+      {
+        "id": "motivacao",
+        "texto": "Um indeferimento invoca motivo que serviria a qualquer decisão, sem examinar adequação, necessidade ou proporcionalidade."
+      }
+    ],
+    "fundamento_coerencia": "Checagem inspirada no CPP, art. 315, §2º. Não há nota: o Tema 1148 não tem tese fixada.",
+    "sem_sinais": "Nenhum sinal de incoerência entre seus fundamentos e sua decisão."
+  },
+  "fecho": {
+    "frases": [
+      "O lacre garante a identidade da cópia, não a verdade do conteúdo.",
+      "Quando a máquina conclui, o que isso vale como prova é a pergunta da Aula III."
+    ],
+    "questao": {
+      "titulo": "Questão-modelo da prova",
+      "enunciado": "A vítima de um golpe entrega ao delegado o print de uma conversa de aplicativo. Não houve extração, cálculo de hash nem laudo. Esse print é admissível como prova? Responda com base nos arts. 158-A a 158-F do CPP e na linha do STJ sobre prova digital."
+    }
+  },
+  "gabarito_compacto": [
+    {
+      "elo": "Registros do aplicativo",
+      "requisito": "MCI, arts. 13, §§3º e 4º, 15, §2º, e 22",
+      "budapeste": "arts. 16, 17 e 18",
+      "tecnico": "IP, instante, fuso e porta lógica; hash no recebimento (27037)"
+    },
+    {
+      "elo": "Localização da linha",
+      "requisito": "ordem judicial, pessoa e período determinados",
+      "budapeste": "art. 18 (art. 20 se prospectiva)",
+      "tecnico": "ERB é área; registrar margem; hash"
+    },
+    {
+      "elo": "Extração do celular",
+      "requisito": "Tema 977",
+      "budapeste": "art. 19, inclusive 19.3.c",
+      "tecnico": "isolamento, ferramenta validada, SHA-256, lacre (158-D)"
+    },
+    {
+      "elo": "Laudo",
+      "requisito": "CPP, arts. 159, 158-B, VII a IX, 158-E e 158-F",
+      "budapeste": "art. 15",
+      "tecnico": "rehash, cópia de trabalho, reprodutibilidade (27041, 27042)"
+    }
+  ],
+  "placar_1148": {
+    "processo": "STF, Tema 1148, RE 1.301.250 (Google contra ordem do caso Marielle)",
+    "situacao": "Julgamento suspenso por pedido de vista do min. Dias Toffoli. Sem tese fixada.",
+    "blocos": [
+      {
+        "id": "vedacao",
+        "rotulo": "Vedação",
+        "votos": [
+          "Rosa Weber (relatora, aposentada; voto de 2023)",
+          "André Mendonça"
+        ]
+      },
+      {
+        "id": "criterios",
+        "rotulo": "Admissão com critérios",
+        "votos": [
+          "Alexandre de Moraes (divergência)",
+          "Cristiano Zanin"
+        ]
+      },
+      {
+        "id": "excepcional",
+        "rotulo": "Admissão excepcional: só hediondos e equiparados",
+        "votos": [
+          "Gilmar Mendes",
+          "Nunes Marques",
+          "Edson Fachin (conferir enquadramento)"
+        ]
+      }
+    ],
+    "pendente": "Aguardam: voto-vista do min. Dias Toffoli e os demais votos.",
+    "nota": "Placar parcial de 5 a 2 pela admissão. A Agência Brasil noticiou 4 a 2 em 24/09/2025; a CNN registrou o voto de Fachin com a divergência antes do pedido de vista de Toffoli. Confirmar composição e blocos na véspera."
+  },
+  "chatrie": {
+    "titulo": "Chatrie v. United States",
+    "linhas": [
+      "Suprema Corte dos EUA, 29/06/2026, por 6 a 3.",
+      "Obter histórico de localização por mandado de cerca geográfica é busca para a Quarta Emenda, mesmo com os dados em poder do Google.",
+      "A Corte não baniu a técnica nem decidiu se aquele mandado tinha causa provável e particularidade suficientes; devolveu o caso ao Quarto Circuito para examinar se o mandado autorizou uma busca razoável.",
+      "O mandado seguia o procedimento de três etapas do Google: lista anonimizada, estreitamento e identificação dos remanescentes."
+    ],
+    "nota": "Voto condutor atribuído à Justice Kagan em parte das fontes; conferir no texto da decisão (n. 25-112)."
+  },
+  "variante": {
+    "titulo": "Variante: a morte no saque",
+    "pergunta": "E se o sacador, contido por um vigilante no terminal, o matasse para fugir com o dinheiro?",
+    "analise": [
+      "Não é latrocínio. A Aula I fixou estelionato eletrônico: a vítima entregou o dinheiro, não houve subtração. O roubo impróprio (CP, art. 157, §1º) pressupõe coisa subtraída, e o latrocínio pressupõe roubo.",
+      "É homicídio qualificado pela conexão: matar para assegurar a vantagem de outro crime (CP, art. 121, §2º, V).",
+      "É crime hediondo (Lei 8.072/1990, art. 1º, I, na redação da Lei 15.159/2025, que passou a abranger todo o homicídio qualificado do art. 121, §2º)."
+    ],
+    "consequencia": "Pedido, parâmetros, terceiros e chance de captura ficam iguais. Só a condicionante de gravidade vira. A turma decide de novo."
+  },
+  "simulador": {
+    "fontes": [
+      {
+        "id": "gnss",
+        "rotulo": "GNSS",
+        "curto": "GNSS",
+        "sigma": 5
+      },
+      {
+        "id": "mista",
+        "rotulo": "Fonte mista",
+        "curto": "Mista",
+        "sigma": 25
+      },
+      {
+        "id": "erb",
+        "rotulo": "Estação rádio base",
+        "curto": "ERB",
+        "sigma": 250
+      }
+    ],
+    "explicacao": "O erro de localização é radial: a probabilidade de o aparelho cair dentro do raio r é 1 − exp(−r²/2σ²), a distribuição de Rayleigh. Não é a simetria de 50% em torno da média de uma curva gaussiana.",
+    "ressalva": "Valores de σ ilustrativos."
+  },
+  "cronometro": {
+    "total_s": 1080,
+    "fases": [
+      {
+        "rotulo": "Tarefa 1: a esteira",
+        "fim_s": 450
+      },
+      {
+        "rotulo": "Tarefa 2: o juiz de plantão",
+        "fim_s": 780
+      },
+      {
+        "rotulo": "Debriefing",
+        "fim_s": 1080
+      }
+    ]
+  },
+  "pendencias": [
+    "Tema 1148: placar, composição dos blocos e situação na véspera (21/10). Fontes divergem entre 4 a 2 (Agência Brasil, 24/09/2025) e 5 a 2 com Fachin (CNN).",
+    "Tema 977: conferir o texto oficial da tese (ARE 1.042.075) no portal do STF.",
+    "Elo 2: não se localizou precedente do STJ sobre reserva de jurisdição para dados pretéritos de ERB; o feedback registra a divergência.",
+    "Elo 1: conferir o texto do art. 15-A do Decreto 8.771/2016, incluído pelo Decreto 12.975/2026 (publicado em 21/05/2026), sobre a porta lógica.",
+    "Caso Marielle: confirmar que o RMS 60.698/RJ (STJ, 2020) é a cerca geográfica.",
+    "Budapeste: o registro da WIPO mostra só as declarações do Brasil (art. 40, nenhuma declaração; art. 35, Polícia Federal como ponto de contato 24/7). Reservas ao art. 14(3) não confirmadas; o feedback do Elo 2 não depende delas.",
+    "Chatrie: conferir no texto da decisão a autoria do voto condutor."
+  ]
+}

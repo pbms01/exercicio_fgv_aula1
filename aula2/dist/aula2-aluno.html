@@ -1,0 +1,1472 @@
+<title>Cibercrimes, Aula II</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Conceito: fichas de um auto de custódia. Cada tela é uma ficha com
+   etiqueta no topo; a decisão leva o tom de carimbo (índigo de tinta de
+   cartório). Estado semântico (correto, em parte, errado) nunca é o acento. */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --surface-2: #f5f7f9;
+  --ink: #111820;
+  --ink-2: #44505c;
+  --muted: #5f6a76;
+  --line: #d5dce3;
+  --line-strong: #98a4b0;
+  --accent: #3b3db5;
+  --accent-ink: #ffffff;
+  --accent-soft: #e7e8fb;
+  --accent-track: #d4d6f6;
+  --ok: #0b7a3e;
+  --ok-soft: #e0f2e7;
+  --partial: #8a5a00;
+  --partial-soft: #fbf0d2;
+  --bad: #b42318;
+  --bad-soft: #fbe4e1;
+  --font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1116;
+    --surface: #161c23;
+    --surface-2: #1c232c;
+    --ink: #edf1f5;
+    --ink-2: #b6c0ca;
+    --muted: #97a2ae;
+    --line: #2a333d;
+    --line-strong: #4f5b68;
+    --accent: #a3a6ff;
+    --accent-ink: #12133a;
+    --accent-soft: #23255a;
+    --accent-track: #2f3268;
+    --ok: #5ad48d;
+    --ok-soft: #0f2d1d;
+    --partial: #f2bd4a;
+    --partial-soft: #33270b;
+    --bad: #ff8a7e;
+    --bad-soft: #3a1612;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1116;
+  --surface: #161c23;
+  --surface-2: #1c232c;
+  --ink: #edf1f5;
+  --ink-2: #b6c0ca;
+  --muted: #97a2ae;
+  --line: #2a333d;
+  --line-strong: #4f5b68;
+  --accent: #a3a6ff;
+  --accent-ink: #12133a;
+  --accent-soft: #23255a;
+  --accent-track: #2f3268;
+  --ok: #5ad48d;
+  --ok-soft: #0f2d1d;
+  --partial: #f2bd4a;
+  --partial-soft: #33270b;
+  --bad: #ff8a7e;
+  --bad-soft: #3a1612;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mono { font-family: var(--font-mono); }
+
+.btn {
+  font: inherit;
+  font-weight: 650;
+  font-size: 1rem;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-sec {
+  background: transparent;
+  color: var(--accent);
+}
+.btn-sec:hover { background: var(--accent-soft); filter: none; }
+.btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  white-space: nowrap;
+}
+.selo-correta { color: var(--ok); background: var(--ok-soft); }
+.selo-parcial { color: var(--partial); background: var(--partial-soft); }
+.selo-distrator { color: var(--bad); background: var(--bad-soft); }
+.selo-vazia { color: var(--muted); background: var(--surface-2); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chips li {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+
+body {
+  font-size: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 2.5rem;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--surface);
+}
+
+/* --- Topo fixo: etiqueta do exercício e progresso ------------------------ */
+.topo {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 5;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding: 0.6rem max(16px, env(safe-area-inset-right, 0px)) 0.55rem max(16px, env(safe-area-inset-left, 0px));
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.topo-linha {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.topo-marca { font-weight: 800; font-stretch: 80%; font-size: 1rem; letter-spacing: 0.01em; }
+.topo-onde { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-2); text-align: right; }
+.progresso {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 3px;
+  max-width: 1100px;
+  margin: 0.45rem auto 0;
+}
+.progresso span { height: 4px; border-radius: 2px; background: var(--line); }
+.progresso span.feito { background: var(--accent-track); }
+.progresso span.atual { background: var(--accent); }
+
+/* --- Tela ---------------------------------------------------------------- */
+.tela {
+  max-width: 760px;
+  margin: 1.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.tela.larga { max-width: 1100px; }
+.titulo {
+  font-size: clamp(1.7rem, 6vw, 2.5rem);
+  font-weight: 800;
+  font-stretch: 78%;
+  letter-spacing: -0.005em;
+  outline: none;
+}
+.lead { font-size: 1.08rem; color: var(--ink-2); max-width: 62ch; }
+
+.ficha {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.ficha-cab {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed var(--line-strong);
+}
+.lista-caso { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.55rem; }
+.pergunta-aula {
+  font-size: 1.25rem;
+  font-weight: 750;
+  font-stretch: 85%;
+  border-left: 4px solid var(--accent);
+  padding-left: 0.75rem;
+}
+.nota { font-size: 0.85rem; color: var(--muted); }
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 0.5rem;
+}
+.nav .btn { flex: 1 1 140px; }
+
+/* --- Tarefa 1: células e cartões ---------------------------------------- */
+.celulas { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: start; }
+@media (min-width: 960px) { .celulas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.celula {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
+}
+.celula-pergunta { font-size: 1.05rem; font-weight: 700; }
+.cartoes { display: flex; flex-direction: column; gap: 0.5rem; }
+.cartao {
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.8rem;
+  min-height: 44px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: border-color 120ms ease, background-color 120ms ease;
+}
+.cartao:hover { border-color: var(--accent); }
+.cartao[aria-disabled="true"] { cursor: default; }
+.cartao[aria-disabled="true"]:hover { border-color: inherit; }
+.cartao.escolhido.correta { border-color: var(--ok); background: var(--ok-soft); }
+.cartao.escolhido.parcial { border-color: var(--partial); background: var(--partial-soft); }
+.cartao.escolhido.distrator { border-color: var(--bad); background: var(--bad-soft); }
+.cartao.revelada { border-color: var(--ok); border-style: dashed; }
+.cartao.apagado { opacity: 0.62; }
+.retorno { display: flex; flex-direction: column; gap: 0.5rem; }
+.retorno:empty { display: none; }
+.sintese { font-weight: 700; outline: none; }
+details { border-top: 1px solid var(--line); padding-top: 0.45rem; }
+summary { cursor: pointer; font-weight: 650; color: var(--accent); min-height: 32px; display: flex; align-items: center; }
+details > div { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.35rem; }
+.outra { padding-left: 0.6rem; border-left: 2px solid var(--line); display: flex; flex-direction: column; gap: 0.2rem; }
+.outra-texto { color: var(--ink-2); font-size: 0.92rem; }
+
+/* --- Síntese: grade 4×3 -------------------------------------------------- */
+.grade-caixa { overflow-x: auto; }
+.grade { width: 100%; border-collapse: separate; border-spacing: 4px; min-width: 540px; }
+.grade th { font-size: 0.82rem; text-align: left; vertical-align: bottom; padding: 0.3rem; color: var(--ink-2); }
+.grade th small { display: block; font-family: var(--font-mono); font-weight: 500; color: var(--muted); font-size: 0.7rem; }
+.grade tbody th { vertical-align: middle; color: var(--ink); font-size: 0.9rem; }
+.grade td { padding: 0.55rem 0.5rem; border-radius: 8px; font-weight: 700; font-size: 0.88rem; }
+.grade td.correta { background: var(--ok-soft); color: var(--ok); }
+.grade td.parcial { background: var(--partial-soft); color: var(--partial); }
+.grade td.distrator { background: var(--bad-soft); color: var(--bad); }
+.grade td.vazia { background: var(--surface-2); color: var(--muted); }
+.placar { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* --- Tarefa 2 ------------------------------------------------------------ */
+.perna { display: flex; flex-direction: column; gap: 0.4rem; }
+.perna + .perna { border-top: 1px dashed var(--line-strong); padding-top: 0.75rem; }
+.perna-rotulo { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+.precedente { font-size: 0.9rem; color: var(--ink-2); }
+
+.requisitos { display: flex; flex-direction: column; gap: 0.5rem; }
+.requisito {
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.8rem;
+  min-height: 44px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.15rem 0.7rem;
+  align-items: start;
+}
+.requisito .caixa {
+  grid-row: span 2;
+  width: 22px; height: 22px;
+  border: 2px solid var(--line-strong);
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  margin-top: 2px;
+}
+.requisito[aria-pressed="true"] { border-color: var(--ok); background: var(--ok-soft); }
+.requisito[aria-pressed="true"] .caixa { border-color: var(--ok); background: var(--ok); color: var(--surface); }
+.requisito .onde { color: var(--ink-2); font-size: 0.9rem; }
+.conclusao { border: 2px solid var(--accent); background: var(--accent-soft); border-radius: var(--radius); padding: 0.85rem 1rem; font-weight: 600; }
+
+.controle { display: flex; flex-direction: column; gap: 0.3rem; }
+.controle-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.1rem 0.75rem; }
+.controle label { font-weight: 700; }
+.controle output { font-family: var(--font-mono); font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+input[type="range"] { width: 100%; accent-color: var(--accent); min-height: 32px; }
+.medidores { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; }
+@media (min-width: 640px) { .medidores { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.medidor { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.medidor-rotulo { font-size: 0.85rem; font-weight: 700; color: var(--ink-2); }
+.medidor-valor { font-size: 1.9rem; font-weight: 800; font-stretch: 85%; line-height: 1.1; }
+.medidor-trilho { position: relative; height: 12px; border-radius: 6px; background: var(--accent-track); }
+.medidor-barra { position: absolute; inset: 0 auto 0 0; border-radius: 6px; background: var(--accent); transition: width 160ms ease; }
+.medidor-barra.alerta { background: var(--bad); }
+.medidor-barra.fraca { background: var(--partial); }
+.medidor-limite { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.medidor-escala { position: relative; height: 1.1rem; font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+.medidor-escala span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.medidor-escala span:first-child { transform: none; }
+.medidor-escala span:last-child { transform: translateX(-100%); }
+.medidor-estado { font-size: 0.85rem; font-weight: 650; }
+.medidor-estado.alerta { color: var(--bad); }
+.medidor-estado.fraca { color: var(--partial); }
+.medidor-estado.ok { color: var(--ok); }
+.ressalva { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend { font-weight: 700; padding: 0; margin-bottom: 0.4rem; }
+.opcoes { display: flex; flex-direction: column; gap: 0.4rem; }
+.opcao {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.6rem 0.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  cursor: pointer;
+  min-height: 44px;
+}
+.opcao:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opcao input { margin-top: 0.25rem; accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+.degraus { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; }
+.degraus span { font-size: 0.7rem; text-align: center; padding: 0.35rem 0.15rem; border-radius: 6px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+.degraus span.atual { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+.meios { display: flex; flex-direction: column; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.meios li { padding: 0.6rem 0.75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); display: flex; flex-direction: column; gap: 0.1rem; }
+.meios strong { font-size: 0.95rem; }
+.meios span { color: var(--ink-2); font-size: 0.9rem; }
+.devolutiva { border-left: 4px solid var(--accent); padding: 0.2rem 0 0.2rem 0.75rem; color: var(--ink-2); }
+
+.chave { display: flex; gap: 0.7rem; align-items: flex-start; cursor: pointer; padding: 0.6rem 0.75rem; border: 1.5px solid var(--line); border-radius: 8px; background: var(--surface); }
+.chave:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.chave input { width: 20px; height: 20px; margin-top: 0.15rem; accent-color: var(--accent); flex: none; }
+.passos { margin: 0; padding-left: 1.3rem; color: var(--ink-2); font-size: 0.92rem; }
+.resumo-param { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 0.25rem 0.9rem; font-size: 0.95rem; }
+.resumo-param dt { color: var(--ink-2); }
+.resumo-param dd { margin: 0; font-family: var(--font-mono); font-weight: 600; overflow-wrap: anywhere; }
+
+select {
+  font: inherit;
+  min-height: 44px;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.dispositivo {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+.dispositivo-cab { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.dispositivo p { max-width: 70ch; }
+.sinais { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.sinais li { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.6rem 0.75rem; border-radius: 8px; background: var(--partial-soft); border: 1.5px solid var(--partial); }
+.sinais li .ico { font-weight: 800; color: var(--partial); flex: none; }
+.sinais li.limpo { background: var(--ok-soft); border-color: var(--ok); }
+.sinais li.limpo .ico { color: var(--ok); }
+
+/* --- Cartão de decisão: para erguer o celular --------------------------- */
+.cartao-decisao {
+  background: var(--ink);
+  color: var(--surface);
+  border-radius: 14px;
+  padding: clamp(1.2rem, 5vw, 2.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.cartao-decisao .linha { display: flex; flex-direction: column; gap: 0.25rem; }
+.cartao-decisao .perna-nome { font-family: var(--font-mono); font-size: clamp(0.85rem, 3vw, 1.1rem); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; }
+.cartao-decisao .valor { font-size: clamp(1.9rem, 9vw, 3.6rem); font-weight: 800; font-stretch: 75%; line-height: 1.02; overflow-wrap: anywhere; }
+.cartao-decisao .params { display: flex; flex-wrap: wrap; gap: 0.15rem 0.6rem; font-family: var(--font-mono); font-size: clamp(1.05rem, 4.6vw, 1.6rem); font-weight: 600; }
+.cartao-decisao .params span { white-space: nowrap; }
+
+.rodape {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.confirma { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+</style>
+
+<header class="topo">
+  <div class="topo-linha">
+    <span class="topo-marca">Cibercrimes · Aula II</span>
+    <span class="topo-onde" id="onde">Abertura</span>
+  </div>
+  <div class="progresso" id="progresso" aria-hidden="true"></div>
+</header>
+
+<main id="tela" class="tela" aria-live="off"></main>
+
+<footer class="rodape">
+  <span id="versao"></span>
+  <span id="recomecar-caixa"></span>
+</footer>
+
+<script type="application/json" id="conteudo">{"versao":"1.0.0","conferido_em":"17/10/2026","link_aluno":"https://claude.ai/artifact/RPeXoRC9RSNtCFsaHewRc2","caso":{"titulo":"O golpe da falsa central","linhas":["Lúcia Andrade Fictícia, 74 anos, recebeu mensagens e uma ligação de uma falsa central do Banco Fictício. A voz do atendente era sintetizada, e o chip da linha dela foi trocado.","Convencida de que protegia a própria conta, ela mesma fez um Pix de R$ 18.400 para a conta de um terceiro.","A conta tinha sido cedida pelo titular. O dinheiro foi sacado em espécie num terminal da agência Centro, em Vila Quixote, às 13h47.","Enquadramento fixado na Aula I: estelionato eletrônico contra idosa (CP, art. 171, §2º-A, com o aumento do §4º) e cessão de conta (art. 171, §2º, VII)."],"pergunta":"Como o Estado chega ao rastro e prova que ele não mudou?","instrucao":"Em cada elo, escolha três coisas: o requisito processual, a salvaguarda da Convenção de Budapeste e o passo técnico. Toque num cartão para ver o fundamento.","aviso":"Caso fictício. Nenhuma pessoa, banco ou processo real."},"colunas":[{"id":"requisito","rotulo":"Requisito processual","leitura":"regime"},{"id":"budapeste","rotulo":"Salvaguarda de Budapeste","leitura":"Budapeste adjetiva"},{"id":"tecnico","rotulo":"Passo técnico","leitura":"norma técnica"}],"elos":[{"id":"e1","titulo":"Registros do aplicativo da falsa central","contexto":"A falsa central falou com a vítima por um aplicativo de mensagens. O provedor do aplicativo guarda os registros de acesso: IP, data e hora.","celulas":{"requisito":{"pergunta":"O que a polícia precisa para obter esses registros?","cartoes":[{"id":"b","texto":"Requisição direta do delegado ao provedor, sem ordem judicial.","tipo":"distrator","sintese":"Não. Requisição direta só alcança dados cadastrais.","detalhe":"Autoridades administrativas com competência legal podem requisitar dados cadastrais: qualificação pessoal, filiação e endereço. Registro de acesso a aplicação exige ordem judicial.","fundamentos":["MCI, art. 10, §3º","Decreto 8.771/2016, art. 11","MCI, art. 10, §1º"]},{"id":"a","texto":"Pedido cautelar de guarda ao provedor e ordem judicial de fornecimento, com fundados indícios, justificativa e período definido.","tipo":"correta","sintese":"Correto. A guarda pode ser pedida pela polícia ou pelo MP; o fornecimento exige ordem judicial.","detalhe":"A autoridade policial ou o MP podem requerer cautelarmente a guarda dos registros. O fornecimento depende de ordem judicial com fundados indícios do ilícito, justificativa motivada da utilidade e período. A guarda obrigatória é de 6 meses para registros de aplicação e de 1 ano para registros de conexão. Sem pedido cautelar a tempo, o registro some, e a ausência de log não prova que o fato não ocorreu.","fundamentos":["MCI, art. 15, §2º, c/c art. 13, §§3º e 4º","MCI, art. 22, parágrafo único, I a III","MCI, art. 10, §1º"]},{"id":"c","texto":"Autorização de interceptação telemática pela Lei 9.296/1996.","tipo":"distrator","sintese":"Não. A Lei 9.296 rege o fluxo em curso; registro armazenado é dado estático.","detalhe":"Interceptação capta a comunicação enquanto ela acontece. Registros já guardados pelo provedor são dados estáticos, e o acesso a eles segue o Marco Civil da Internet.","fundamentos":["Lei 9.296/1996, art. 1º","MCI, arts. 10 e 22"]}]},"budapeste":{"pergunta":"Qual poder da Convenção cobre a medida?","cartoes":[{"id":"c","texto":"Busca e apreensão de dados armazenados (art. 19).","tipo":"distrator","sintese":"Não. O Estado não entra no sistema do provedor; ordena que ele produza o dado.","detalhe":"O art. 19 serve para quando o próprio Estado busca e apreende dados num sistema. Aqui o dado está com o provedor, e o caminho é a injunção de produção do art. 18.","fundamentos":["Convenção de Budapeste, arts. 18 e 19"]},{"id":"b","texto":"Interceptação de dados de conteúdo (art. 21).","tipo":"distrator","sintese":"Não. O art. 21 trata de conteúdo em tempo real; aqui se quer registro armazenado.","detalhe":"O art. 21 cobre a captação do conteúdo das comunicações enquanto elas ocorrem. Registros de acesso já guardados são outro objeto.","fundamentos":["Convenção de Budapeste, art. 21"]},{"id":"a","texto":"Preservação expedita (arts. 16 e 17) e injunção de produção (art. 18), sob as salvaguardas do art. 15.","tipo":"correta","sintese":"Correto. Preserva-se primeiro, e depois se ordena a entrega.","detalhe":"O art. 16 congela o dado armazenado. O art. 17 acrescenta a revelação parcial dos dados de tráfego, suficiente para identificar o caminho da comunicação e o próximo provedor. O art. 18 ordena ao provedor que entregue o dado. Tudo sob as condições e salvaguardas do art. 15.","fundamentos":["Convenção de Budapeste, arts. 15 a 18","Decreto 11.491/2023"]}]},"tecnico":{"pergunta":"Qual passo técnico garante que o registro sirva como prova?","cartoes":[{"id":"a","texto":"Exigir IP com data, hora, fuso e porta lógica de origem; levar o conjunto ao provedor de conexão; calcular o hash do arquivo no recebimento.","tipo":"correta","sintese":"Correto. Sem porta lógica e instante exato, o IP aponta um grupo, não uma pessoa.","detalhe":"Com IPv4 compartilhado (CGNAT), o mesmo IP atende muitos assinantes ao mesmo tempo; só a porta lógica e o instante exato, com fuso, individualizam o acesso. O STJ reconheceu o dever de fornecer a porta lógica, e o regulamento do Marco Civil passou a prevê-lo. O hash calculado no recebimento fixa o estado do arquivo.","fundamentos":["STJ, REsp 1.784.156/SP","Decreto 8.771/2016, art. 15-A (Decreto 12.975/2026)","ISO/IEC 27037"]},{"id":"b","texto":"O IP basta para individualizar o usuário.","tipo":"distrator","sintese":"Não. IP dinâmico e compartilhado aponta um grupo, não uma pessoa.","detalhe":"Com CGNAT, milhares de assinantes podem sair pelo mesmo IP no mesmo minuto. Sem porta lógica e instante, a identificação recai sobre um grupo.","fundamentos":["STJ, REsp 1.784.156/SP"]},{"id":"c","texto":"Anexar ao inquérito um print da tela do sistema do provedor.","tipo":"distrator","sintese":"Não. Print não tem integridade verificável.","detalhe":"A falta de procedimentos que garantam a integridade dos dados leva à inadmissibilidade da prova digital, e é ônus do Estado demonstrar a integridade da fonte.","fundamentos":["STJ, AgRg no HC 828.054/RN (5ª Turma, 2024)"]}]}}},{"id":"e2","titulo":"Localização da linha do titular da conta cedida","contexto":"A conta que recebeu o Pix pertence a Rafael Teste Fictício. Onde estava o celular dele às 13h47, hora do saque?","celulas":{"requisito":{"pergunta":"O que a polícia precisa para obter a localização pretérita da linha?","cartoes":[{"id":"b","texto":"Requisição direta à operadora pelo art. 13-B do CPP.","tipo":"distrator","sintese":"Não. O art. 13-B vale para crimes relacionados ao tráfico de pessoas, com delito em curso.","detalhe":"O dispositivo depende de autorização judicial e só admite requisição direta se o juiz não se manifestar em 12 horas. Não serve para dados pretéritos num estelionato.","fundamentos":["CPP, art. 13-B, caput e §4º"]},{"id":"c","texto":"Localização é dado não sensível e dispensa ordem judicial.","tipo":"distrator","sintese":"Não. Localização revela rotina e vida privada.","detalhe":"Histórico de localização expõe onde a pessoa mora, trabalha, reza e se trata. É o que está em jogo no Tema 1148 do STF, ainda sem tese, e o que a Suprema Corte dos EUA reconheceu em Chatrie v. United States (2026): obter histórico de localização é busca.","fundamentos":["CF, art. 5º, X","STF, Tema 1148 (em julgamento)"]},{"id":"a","texto":"Ordem judicial fundamentada para os dados de localização daquela linha, com pessoa determinada e período delimitado.","tipo":"correta","sintese":"Correto. Não é interceptação, porque não há fluxo em curso, mas a localização revela vida privada.","detalhe":"Dados de localização pretéritos expõem rotina e intimidade. A via segura é a ordem judicial que individualiza a linha e delimita o período. Há quem sustente a requisição direta de dados pretéritos de estação rádio base; a questão não está pacificada, e a ordem judicial afasta o risco de nulidade.","fundamentos":["CF, art. 5º, X e XII","MCI, art. 22, parágrafo único"]}]},"budapeste":{"pergunta":"Qual poder da Convenção cobre a medida?","cartoes":[{"id":"a","texto":"Injunção de produção dos dados já armazenados (art. 18), com preservação prévia (art. 17). Se a medida fosse prospectiva, coleta em tempo real de dados de tráfego (art. 20).","tipo":"correta","sintese":"Correto. Para o passado, preservar e ordenar a entrega; para o futuro, o poder é outro.","detalhe":"Dados de localização da operadora são dados de tráfego. Para o horário do saque, já passado, preserva-se e ordena-se a entrega. Acompanhar a linha dali em diante seria coleta em tempo real, regida pelo art. 20.","fundamentos":["Convenção de Budapeste, arts. 17, 18 e 20"]},{"id":"b","texto":"Apenas preservação expedita (art. 16).","tipo":"distrator","sintese":"Não. Preservar não é acessar.","detalhe":"A preservação congela o dado em poder da operadora. A entrega à autoridade exige a injunção de produção do art. 18.","fundamentos":["Convenção de Budapeste, arts. 16 e 18"]},{"id":"c","texto":"Interceptação de conteúdo (art. 21).","tipo":"distrator","sintese":"Não. O pedido é de localização, não de conteúdo.","detalhe":"O art. 21 trata do conteúdo das comunicações em tempo real. Onde a linha estava é dado de tráfego.","fundamentos":["Convenção de Budapeste, arts. 1º, d, e 21"]}]},"tecnico":{"pergunta":"Como ler o dado que a operadora entregar?","cartoes":[{"id":"c","texto":"Converter a planilha da operadora para PDF e assinar.","tipo":"distrator","sintese":"Não. A conversão altera o objeto.","detalhe":"Preserva-se o arquivo original entregue pela operadora, com o hash calculado no recebimento. O PDF é outro objeto.","fundamentos":["ISO/IEC 27037","CPP, art. 158-A"]},{"id":"a","texto":"Tratar a estação rádio base como área: registrar setor, azimute, alcance da célula e margem de incerteza; calcular o hash do arquivo entregue.","tipo":"correta","sintese":"Correto. A antena diz onde o aparelho podia estar, não onde estava.","detalhe":"Uma estação rádio base atende uma área; o aparelho pode estar em qualquer ponto do setor. O laudo registra a área e a margem, e não um ponto.","fundamentos":["ISO/IEC 27037","CPP, art. 158-A"]},{"id":"b","texto":"A coordenada da antena é a posição do aparelho.","tipo":"distrator","sintese":"Não. A antena atende uma área inteira.","detalhe":"Tomar a coordenada da antena como posição do aparelho transforma uma área de centenas de metros num ponto falso.","fundamentos":["ISO/IEC 27037"]}]}}},{"id":"e3","titulo":"Extração do celular do titular","contexto":"Com mandado de busca domiciliar, a polícia apreendeu o celular de Rafael em casa. O conteúdo pode explicar o saque.","celulas":{"requisito":{"pergunta":"O que autoriza acessar o conteúdo do aparelho?","cartoes":[{"id":"a","texto":"A apreensão não depende de ordem específica; o acesso ao conteúdo exige consentimento expresso do titular ou decisão judicial prévia; os dados podem ser preservados antes, com justificativa posterior.","tipo":"correta","sintese":"Correto. Apreender não é acessar.","detalhe":"No Tema 977, o STF separou a apreensão do aparelho, que não está sujeita à reserva de jurisdição, do acesso aos dados. Fora do encontro fortuito, o acesso depende de consentimento expresso ou decisão judicial. A autoridade pode adotar medidas para preservar os dados antes da autorização.","fundamentos":["STF, Tema 977 (ARE 1.042.075, julgado em 25/06/2025)"]},{"id":"c","texto":"Como o celular apareceu na busca, vale a regra do encontro fortuito, e a extração completa está liberada.","tipo":"distrator","sintese":"Não. O encontro fortuito tem alcance estreito, e aqui houve apreensão formal.","detalhe":"No encontro fortuito, o acesso sem ordem só serve para esclarecer a autoria ou identificar o proprietário, com justificativa posterior. Não autoriza extração completa.","fundamentos":["STF, Tema 977"]},{"id":"b","texto":"A apreensão lícita autoriza abrir e examinar o aparelho.","tipo":"distrator","sintese":"Não. Apreender não é acessar.","detalhe":"A apreensão física do aparelho e o acesso aos dados são atos distintos, com requisitos distintos.","fundamentos":["STF, Tema 977"]}]},"budapeste":{"pergunta":"Qual poder da Convenção cobre a medida?","cartoes":[{"id":"b","texto":"Injunção de produção (art. 18).","tipo":"distrator","sintese":"Não. A injunção serve para quem detém o dado entregá-lo.","detalhe":"Aqui o Estado já tem o aparelho em mãos. O poder pertinente é a busca e apreensão de dados armazenados.","fundamentos":["Convenção de Budapeste, arts. 18 e 19"]},{"id":"a","texto":"Busca e apreensão de dados armazenados (art. 19), inclusive o dever de manter a integridade dos dados (art. 19.3.c), sob o art. 15.","tipo":"correta","sintese":"Correto. O Estado apreende e copia, e passa a responder pela integridade do dado.","detalhe":"O art. 19 cobre a busca e a apreensão de dados armazenados num sistema ou suporte. O art. 19.3.c impõe manter a integridade dos dados apreendidos. As salvaguardas do art. 15 valem para tudo.","fundamentos":["Convenção de Budapeste, arts. 15 e 19"]},{"id":"c","texto":"Preservação expedita (art. 16).","tipo":"distrator","sintese":"Não. Preservação congela o dado em poder de terceiro.","detalhe":"A medida aqui é apreensão e cópia pelo próprio Estado, não pedido de congelamento a um custodiante.","fundamentos":["Convenção de Budapeste, arts. 16 e 19"]}]},"tecnico":{"pergunta":"Como extrair sem comprometer a prova?","cartoes":[{"id":"b","texto":"O policial navega no aparelho e fotografa as telas relevantes.","tipo":"distrator","sintese":"Não. Altera o estado do aparelho e não gera cópia verificável.","detalhe":"Foi o quadro do AgRg no HC 828.054/RN: telas fotografadas de aparelho desbloqueado, sem extração, hash ou laudo. A prova foi declarada inadmissível. Além disso, esbarra no Tema 977.","fundamentos":["STJ, AgRg no HC 828.054/RN","STF, Tema 977"]},{"id":"c","texto":"Calcular o MD5 da imagem extraída.","tipo":"distrator","sintese":"Não. MD5 não serve onde se exige resistência a colisão.","detalhe":"O MD5 tem colisões conhecidas e não é aceitável onde a resistência a colisão importa. Use SHA-256 ou superior.","fundamentos":["RFC 6151"]},{"id":"a","texto":"Isolar o aparelho da rede (modo avião ou bolsa de Faraday), extrair com ferramenta forense validada, calcular o SHA-256 da imagem no ato, lacrar e registrar.","tipo":"correta","sintese":"Correto. Isolamento, ferramenta validada, hash e lacre.","detalhe":"O isolamento impede alteração ou apagamento remoto. O hash calculado no ato fixa a imagem. O lacre e o registro seguem as etapas de coleta e acondicionamento do CPP.","fundamentos":["CPP, art. 158-B, IV e V","CPP, art. 158-D","ISO/IEC 27037"]}]}}},{"id":"e4","titulo":"Laudo","contexto":"A imagem do celular chega à perícia. O laudo vai dizer o que há nela e como se chegou a isso.","celulas":{"requisito":{"pergunta":"Quais regras processuais regem o laudo?","cartoes":[{"id":"c","texto":"Qualquer lacuna documental na cadeia de custódia anula a prova.","tipo":"distrator","sintese":"Não. O STJ exige demonstração de quebra efetiva, não de falha formal.","detalhe":"Irregularidade na cadeia de custódia não gera nulidade automática; afeta o valor da prova e se examina no caso concreto. O ônus de demonstrar a integridade da fonte continua com o Estado.","fundamentos":["STJ, Corte Especial, Inq 1.658/DF (2025)","STJ, AgRg no HC 828.054/RN"]},{"id":"a","texto":"Perícia por perito oficial sobre o vestígio recebido e guardado na central de custódia, com registro de cada movimentação.","tipo":"correta","sintese":"Correto. Perito oficial e rastro documentado de cada movimentação.","detalhe":"O exame cabe ao perito oficial. O vestígio é recebido, processado e armazenado na central de custódia, e cada movimentação fica registrada até o retorno do material.","fundamentos":["CPP, art. 159","CPP, art. 158-B, VII a IX","CPP, arts. 158-E e 158-F"]},{"id":"b","texto":"O laudo é dispensável se o investigado confessar.","tipo":"distrator","sintese":"Não. A confissão não supre o exame.","detalhe":"Nas infrações que deixam vestígios, o exame de corpo de delito é indispensável e a confissão do acusado não o supre.","fundamentos":["CPP, art. 158"]}]},"budapeste":{"pergunta":"O que a Convenção diz sobre o laudo?","cartoes":[{"id":"b","texto":"O dever de integridade do art. 19.3.c.","tipo":"parcial","sintese":"Em parte. O dever de integridade acompanha o vestígio, mas não disciplina o exame.","detalhe":"O dever de manter a integridade nasce na apreensão e segue com o vestígio até a perícia. Ele não regula como o exame é feito.","fundamentos":["Convenção de Budapeste, art. 19.3.c"]},{"id":"c","texto":"Interceptação (art. 21).","tipo":"distrator","sintese":"Não. Sem relação com o laudo.","detalhe":"O art. 21 trata de captação de conteúdo em tempo real.","fundamentos":["Convenção de Budapeste, art. 21"]},{"id":"a","texto":"As salvaguardas gerais do art. 15: proporcionalidade, supervisão e fundamentação.","tipo":"correta","sintese":"Correto. A Convenção não tem regra própria sobre laudo; valem as salvaguardas gerais.","detalhe":"Os arts. 16 a 21 regulam poderes de obtenção de dados, não a perícia. O que alcança o exame são as condições e salvaguardas do art. 15.","fundamentos":["Convenção de Budapeste, art. 15"]}]},"tecnico":{"pergunta":"Qual passo técnico sustenta o laudo?","cartoes":[{"id":"a","texto":"Recalcular o hash antes do exame e conferir com o da coleta; examinar uma cópia de trabalho; documentar ferramentas, versões e passos de modo reprodutível.","tipo":"correta","sintese":"Correto. Conferência do hash, cópia de trabalho e método reprodutível.","detalhe":"O hash recalculado prova que a imagem é a mesma da coleta. A cópia de trabalho protege o original. A documentação permite que outro perito refaça o caminho.","fundamentos":["ISO/IEC 27041","ISO/IEC 27042"]},{"id":"c","texto":"Examinar o original para ganhar tempo.","tipo":"distrator","sintese":"Não. Risco de alteração irreversível.","detalhe":"A regra é examinar uma cópia de trabalho e manter o original intacto e lacrado.","fundamentos":["ISO/IEC 27037","ISO/IEC 27042"]},{"id":"b","texto":"Hash conferido, logo o conteúdo é verdadeiro.","tipo":"distrator","sintese":"Não. Integridade não é autenticidade.","detalhe":"O hash prova que a cópia não mudou, não que o conteúdo é verdadeiro. O áudio da falsa central achado na extração tem hash perfeito e continua sendo voz sintetizada. Esta é a ponte para a Aula III.","fundamentos":["ISO/IEC 27042"]}]}}}],"impasse":{"titulo":"O impasse","linhas":["A localização mostra Rafael a cerca de 30 km do terminal às 13h47.","A extração revela que ele vendeu o acesso à conta.","Quem sacou continua desconhecido, e as imagens do terminal são de baixa resolução."],"botao":"Ver o pedido do delegado"},"pedido":{"titulo":"O pedido do delegado","abertura":"Representação fictícia. O delegado pede que a Justiça determine aos provedores:","pernas":[{"id":"cerca","rotulo":"Cerca geográfica","texto":"Identificação de todos os dispositivos num raio de 300 m do terminal, das 13h às 15h do dia do saque. O registro do banco marca o saque às 13h47.","precedente":"A cerca geográfica foi admitida pelo STJ no caso Marielle (RMS 60.698/RJ, 2020)."},{"id":"palavra","rotulo":"Palavras-chave","texto":"Identificação de todos os usuários que pesquisaram o nome da vítima ou \"central de atendimento\" com o nome do Banco Fictício, nos 30 dias anteriores ao saque.","precedente":"A busca por palavras-chave está no STF (Tema 1148, RE 1.301.250), sem tese fixada."}],"requisitos":[{"id":"indicios","rotulo":"Fundados indícios da ocorrência do ilícito","onde":"O Pix, o saque registrado e a extração do celular do titular."},{"id":"justificativa","rotulo":"Justificativa motivada da utilidade dos registros","onde":"Identificar quem sacou o dinheiro."},{"id":"periodo","rotulo":"Período ao qual se referem os registros","onde":"Das 13h às 15h do dia do saque; 30 dias anteriores."}],"fundamento_requisitos":"MCI, art. 22, parágrafo único, I a III","conclusao":"Os três requisitos estão presentes. O pedido é formalmente admissível, e a questão passa ao mérito. Forma completa não decide proporcionalidade."},"modelo":{"rho":0.03,"tau":15,"sigma":25,"centro":"13:47","raio":{"min":25,"max":500,"passo":25,"pedido":300},"janela":{"min":10,"max":120,"passo":10,"pedido":120},"limite_terceiros":1000,"limite_captura":0.5,"ressalva":"Estimativa ilustrativa: números fictícios para mostrar a forma da troca, não a grandeza real.","ressalva_captura":"Supondo que o sacador portava aparelho com localização ativa.","explicacao":"Terceiros alcançados crescem com a área do círculo e com a janela. A chance de alcançar o sacador depende só do raio, porque o erro de localização é radial; a janela fica centrada no horário do registro do banco."},"palavras":{"termos":[{"id":"pedido","rotulo":"Os dois termos, como pedido","generico":true},{"id":"central","rotulo":"Só \"central de atendimento\" com o nome do banco","generico":true},{"id":"nome","rotulo":"Só o nome completo da vítima","generico":false}],"periodos":[{"dias":30,"rotulo":"30 dias"},{"dias":7,"rotulo":"7 dias"}],"grandeza":{"pedido":{"7":"milhares","30":"dezenas de milhares"},"central":{"7":"milhares","30":"dezenas de milhares"},"nome":{"7":"unidades a dezenas","30":"dezenas"}},"explicacao":"Não há modelo numérico defensável para palavras-chave. A ordem de grandeza depende da especificidade do termo: \"central de atendimento\" com o nome do banco alcança clientes legítimos às dezenas de milhares; o nome completo da vítima, às dezenas."},"necessidade":{"titulo":"Necessidade","pergunta":"Há meio menos invasivo igualmente idôneo para identificar quem sacou?","meios":[{"rotulo":"Imagens do terminal e da agência","estado":"Já obtidas. Baixa resolução; não identificam o rosto."},{"rotulo":"Dados do cartão usado no saque","estado":"Apontam a conta cedida, não a pessoa que sacou."},{"rotulo":"Oitiva de testemunhas da agência","estado":"Ainda não realizada."},{"rotulo":"Localização direcionada da linha do titular","estado":"Já feita no Elo 2: ele estava a 30 km."}],"opcoes":[{"id":"sim","rotulo":"Satisfeita: não há meio menos invasivo igualmente idôneo"},{"id":"nao","rotulo":"Não satisfeita: ainda há meio menos invasivo a tentar"}],"feedback":"Aqui não há gabarito. A subsidiariedade aparece entre as condicionantes propostas nos votos que admitem a busca reversa no Tema 1148. Repare que a oitiva das testemunhas ainda não foi tentada."},"estrita":{"titulo":"Proporcionalidade estrita","gravidade":{"pergunta":"O crime do caso é hediondo ou equiparado?","opcoes":[{"id":"sim","rotulo":"Sim"},{"id":"nao","rotulo":"Não"}],"resposta":"nao","feedback_certo":"Correto: não é. Estelionato eletrônico e cessão de conta não constam da Lei 8.072/1990.","feedback_errado":"Não é. Estelionato eletrônico e cessão de conta não constam da Lei 8.072/1990.","criterio":"Adoto como critério restringir a busca reversa a crimes hediondos e equiparados.","fonte":"Restrição proposta em votos do Tema 1148, como os de Nunes Marques e Gilmar Mendes."},"delimitacao":{"rotulo":"Delimitação temporal e temática","fonte":"Lida dos parâmetros que você escolheu nas telas anteriores."},"etapas":{"rotulo":"Exigir procedimento em etapas para descartar os inocentes","passos":["Lista anonimizada dos dispositivos.","Estreitamento pela autoridade, ainda sem identificação.","Identificação só dos remanescentes, por nova decisão judicial."],"fonte":"É o procedimento de três etapas do Google examinado em Chatrie v. United States (Suprema Corte dos EUA, 29/06/2026). A Corte decidiu que obter o histórico de localização é busca e devolveu o caso ao tribunal de origem para examinar se o mandado autorizou uma busca razoável."},"placar":"Tema 1148: julgamento suspenso por pedido de vista, sem tese fixada. Placar parcial: 5 votos pela admissão com restrições e 2 pela vedação."},"decisao":{"titulo":"Decisão","opcoes":[{"id":"defiro","rotulo":"Defiro"},{"id":"restricoes","rotulo":"Defiro com restrições"},{"id":"indefiro","rotulo":"Indefiro"}],"fundamentos_indeferimento":{"cerca":[{"id":"inadequacao","rotulo":"Inadequação: baixa chance de alcançar o sacador","texto":"inadequação, dada a baixa chance de alcançar o sacador"},{"id":"desnecessidade","rotulo":"Desnecessidade: há meio menos invasivo a tentar","texto":"desnecessidade, pois há meio menos invasivo ainda não tentado"},{"id":"desproporcao","rotulo":"Desproporcionalidade: terceiros demais para o ganho esperado","texto":"desproporcionalidade em sentido estrito, pelo número de terceiros alcançados"},{"id":"generico","rotulo":"A medida é invasiva à privacidade","texto":"ser a medida invasiva à privacidade"}],"palavra":[{"id":"gravidade","rotulo":"Desproporcionalidade: o crime não é hediondo","texto":"desproporcionalidade, pois o crime não é hediondo nem equiparado"},{"id":"tematica","rotulo":"Desproporcionalidade: o termo alcança milhares de inocentes","texto":"desproporcionalidade, pois o termo alcança milhares de usuários inocentes"},{"id":"desnecessidade","rotulo":"Desnecessidade: há meio menos invasivo a tentar","texto":"desnecessidade, pois há meio menos invasivo ainda não tentado"},{"id":"generico","rotulo":"A medida é invasiva à privacidade","texto":"ser a medida invasiva à privacidade"}]},"sinais":[{"id":"necessidade","texto":"Você negou a necessidade e deferiu uma medida."},{"id":"hediondos","texto":"Você adotou a restrição a crimes hediondos e deferiu a palavra-chave num crime que não é hediondo."},{"id":"adequacao","texto":"A cerca deferida tem chance de captura abaixo de 50%: a adequação é fraca."},{"id":"estrita","texto":"A cerca deferida alcança mais de 1.000 terceiros sem procedimento em etapas."},{"id":"tematica","texto":"Você deferiu um termo genérico: falta delimitação temática."},{"id":"motivacao","texto":"Um indeferimento invoca motivo que serviria a qualquer decisão, sem examinar adequação, necessidade ou proporcionalidade."}],"fundamento_coerencia":"Checagem inspirada no CPP, art. 315, §2º. Não há nota: o Tema 1148 não tem tese fixada.","sem_sinais":"Nenhum sinal de incoerência entre seus fundamentos e sua decisão."},"fecho":{"frases":["O lacre garante a identidade da cópia, não a verdade do conteúdo.","Quando a máquina conclui, o que isso vale como prova é a pergunta da Aula III."],"questao":{"titulo":"Questão-modelo da prova","enunciado":"A vítima de um golpe entrega ao delegado o print de uma conversa de aplicativo. Não houve extração, cálculo de hash nem laudo. Esse print é admissível como prova? Responda com base nos arts. 158-A a 158-F do CPP e na linha do STJ sobre prova digital."}},"gabarito_compacto":[{"elo":"Registros do aplicativo","requisito":"MCI, arts. 13, §§3º e 4º, 15, §2º, e 22","budapeste":"arts. 16, 17 e 18","tecnico":"IP, instante, fuso e porta lógica; hash no recebimento (27037)"},{"elo":"Localização da linha","requisito":"ordem judicial, pessoa e período determinados","budapeste":"art. 18 (art. 20 se prospectiva)","tecnico":"ERB é área; registrar margem; hash"},{"elo":"Extração do celular","requisito":"Tema 977","budapeste":"art. 19, inclusive 19.3.c","tecnico":"isolamento, ferramenta validada, SHA-256, lacre (158-D)"},{"elo":"Laudo","requisito":"CPP, arts. 159, 158-B, VII a IX, 158-E e 158-F","budapeste":"art. 15","tecnico":"rehash, cópia de trabalho, reprodutibilidade (27041, 27042)"}],"placar_1148":{"processo":"STF, Tema 1148, RE 1.301.250 (Google contra ordem do caso Marielle)","situacao":"Julgamento suspenso por pedido de vista do min. Dias Toffoli. Sem tese fixada.","blocos":[{"id":"vedacao","rotulo":"Vedação","votos":["Rosa Weber (relatora, aposentada; voto de 2023)","André Mendonça"]},{"id":"criterios","rotulo":"Admissão com critérios","votos":["Alexandre de Moraes (divergência)","Cristiano Zanin"]},{"id":"excepcional","rotulo":"Admissão excepcional: só hediondos e equiparados","votos":["Gilmar Mendes","Nunes Marques","Edson Fachin (conferir enquadramento)"]}],"pendente":"Aguardam: voto-vista do min. Dias Toffoli e os demais votos.","nota":"Placar parcial de 5 a 2 pela admissão. A Agência Brasil noticiou 4 a 2 em 24/09/2025; a CNN registrou o voto de Fachin com a divergência antes do pedido de vista de Toffoli. Confirmar composição e blocos na véspera."},"chatrie":{"titulo":"Chatrie v. United States","linhas":["Suprema Corte dos EUA, 29/06/2026, por 6 a 3.","Obter histórico de localização por mandado de cerca geográfica é busca para a Quarta Emenda, mesmo com os dados em poder do Google.","A Corte não baniu a técnica nem decidiu se aquele mandado tinha causa provável e particularidade suficientes; devolveu o caso ao Quarto Circuito para examinar se o mandado autorizou uma busca razoável.","O mandado seguia o procedimento de três etapas do Google: lista anonimizada, estreitamento e identificação dos remanescentes."],"nota":"Voto condutor atribuído à Justice Kagan em parte das fontes; conferir no texto da decisão (n. 25-112)."},"variante":{"titulo":"Variante: a morte no saque","pergunta":"E se o sacador, contido por um vigilante no terminal, o matasse para fugir com o dinheiro?","analise":["Não é latrocínio. A Aula I fixou estelionato eletrônico: a vítima entregou o dinheiro, não houve subtração. O roubo impróprio (CP, art. 157, §1º) pressupõe coisa subtraída, e o latrocínio pressupõe roubo.","É homicídio qualificado pela conexão: matar para assegurar a vantagem de outro crime (CP, art. 121, §2º, V).","É crime hediondo (Lei 8.072/1990, art. 1º, I, na redação da Lei 15.159/2025, que passou a abranger todo o homicídio qualificado do art. 121, §2º)."],"consequencia":"Pedido, parâmetros, terceiros e chance de captura ficam iguais. Só a condicionante de gravidade vira. A turma decide de novo."},"simulador":{"fontes":[{"id":"gnss","rotulo":"GNSS","curto":"GNSS","sigma":5},{"id":"mista","rotulo":"Fonte mista","curto":"Mista","sigma":25},{"id":"erb","rotulo":"Estação rádio base","curto":"ERB","sigma":250}],"explicacao":"O erro de localização é radial: a probabilidade de o aparelho cair dentro do raio r é 1 − exp(−r²/2σ²), a distribuição de Rayleigh. Não é a simetria de 50% em torno da média de uma curva gaussiana.","ressalva":"Valores de σ ilustrativos."},"cronometro":{"total_s":1080,"fases":[{"rotulo":"Tarefa 1: a esteira","fim_s":450},{"rotulo":"Tarefa 2: o juiz de plantão","fim_s":780},{"rotulo":"Debriefing","fim_s":1080}]},"pendencias":["Tema 1148: placar, composição dos blocos e situação na véspera (21/10). Fontes divergem entre 4 a 2 (Agência Brasil, 24/09/2025) e 5 a 2 com Fachin (CNN).","Tema 977: conferir o texto oficial da tese (ARE 1.042.075) no portal do STF.","Elo 2: não se localizou precedente do STJ sobre reserva de jurisdição para dados pretéritos de ERB; o feedback registra a divergência.","Elo 1: conferir o texto do art. 15-A do Decreto 8.771/2016, incluído pelo Decreto 12.975/2026 (publicado em 21/05/2026), sobre a porta lógica.","Caso Marielle: confirmar que o RMS 60.698/RJ (STJ, 2020) é a cerca geográfica.","Budapeste: o registro da WIPO mostra só as declarações do Brasil (art. 40, nenhuma declaração; art. 35, Polícia Federal como ponto de contato 24/7). Reservas ao art. 14(3) não confirmadas; o feedback do Elo 2 não depende delas.","Chatrie: conferir no texto da decisão a autoria do voto condutor."]}</script>
+<script>
+// Lógica pura da Aula II, compartilhada pelo exercício do aluno (A) e pelo
+// painel do professor (B). Sem DOM e sem rede: recebe o estado e o conteúdo,
+// devolve números e textos. É injetada nos dois HTML pela montagem e testada
+// em Node (test/logica.test.mjs), por isso se registra num global.
+(function (raiz) {
+  "use strict";
+
+  var NF = new Intl.NumberFormat("pt-BR");
+
+  // --- Modelo ilustrativo dos medidores (plano, seção 5) --------------------
+
+  // Terceiros alcançados pela cerca: densidade × área × (1 + janela/permanência).
+  // O fator (1 + T/τ) conta quem já estava no círculo mais quem entrou durante
+  // a janela, com permanência média τ.
+  function terceiros(raio, janelaMin, modelo) {
+    return modelo.rho * Math.PI * raio * raio * (1 + janelaMin / modelo.tau);
+  }
+
+  // Chance de o aparelho do sacador cair dentro do raio: CDF de Rayleigh.
+  // Erro de localização é radial; 1 − exp(−r²/2σ²), não 50% simétricos.
+  function captura(raio, sigma) {
+    return 1 - Math.exp(-(raio * raio) / (2 * sigma * sigma));
+  }
+
+  function formatarTerceiros(n) {
+    if (n < 1000) return "≈ " + NF.format(Math.round(n / 10) * 10);
+    if (n < 10000) return "≈ " + NF.format(Math.round(n / 100) * 100);
+    return "≈ " + NF.format(Math.round(n / 1000)) + " mil";
+  }
+
+  function formatarPct(p) {
+    if (p >= 0.995) return "> 99%";
+    if (p < 0.005) return "< 1%";
+    return Math.round(p * 100) + "%";
+  }
+
+  // Janela centrada no horário do registro do banco ("13:47").
+  function janelaHorario(centro, janelaMin) {
+    var partes = centro.split(":");
+    var c = Number(partes[0]) * 60 + Number(partes[1]);
+    var meia = janelaMin / 2;
+    function fmt(min) {
+      var h = Math.floor(min / 60);
+      var m = Math.round(min % 60);
+      return h + "h" + (m < 10 ? "0" + m : m);
+    }
+    return { inicio: fmt(c - meia), fim: fmt(c + meia) };
+  }
+
+  function grandezaPalavra(termo, dias, palavras) {
+    var linha = palavras.grandeza[termo];
+    return linha ? linha[String(dias)] : "";
+  }
+
+  function termoGenerico(termo, palavras) {
+    var t = palavras.termos.find(function (x) { return x.id === termo; });
+    return t ? t.generico : true;
+  }
+
+  // --- Decisão (Tarefa 2) ---------------------------------------------------
+
+  // Parâmetros que a decisão efetivamente autoriza. "Defiro" concede o pedido
+  // como veio (300 m, 13h às 15h, os dois termos, 30 dias, sem etapas);
+  // "defiro com restrições" usa o que o aluno escolheu nas telas 7 e 9.
+  function parametrosEfetivos(estado, conteudo) {
+    var m = conteudo.modelo;
+    var dc = estado.decisao.cerca.escolha;
+    var dp = estado.decisao.palavra.escolha;
+    var cerca = { escolha: dc, deferida: dc === "defiro" || dc === "restricoes" };
+    if (dc === "defiro") {
+      cerca.raio = m.raio.pedido;
+      cerca.janela = m.janela.pedido;
+      cerca.etapas = false;
+    } else {
+      cerca.raio = estado.raio;
+      cerca.janela = estado.janela;
+      cerca.etapas = Boolean(estado.etapas);
+    }
+    cerca.terceiros = terceiros(cerca.raio, cerca.janela, m);
+    cerca.captura = captura(cerca.raio, m.sigma);
+
+    var palavra = { escolha: dp, deferida: dp === "defiro" || dp === "restricoes" };
+    if (dp === "defiro") {
+      palavra.termo = "pedido";
+      palavra.dias = 30;
+    } else {
+      palavra.termo = estado.termo;
+      palavra.dias = estado.dias;
+    }
+    palavra.generico = termoGenerico(palavra.termo, conteudo.palavras);
+    palavra.grandeza = grandezaPalavra(palavra.termo, palavra.dias, conteudo.palavras);
+    return { cerca: cerca, palavra: palavra };
+  }
+
+  function decisaoCompleta(estado) {
+    var d = estado.decisao;
+    return Boolean(d.cerca.escolha && d.palavra.escolha);
+  }
+
+  // Seis sinais de incoerência (plano, tela 10), inspirados no CPP,
+  // art. 315, §2º. Cada um olha só a sua condição, para que uma combinação
+  // de teste dispare apenas o seu sinal.
+  function sinaisIncoerencia(estado, conteudo) {
+    if (!decisaoCompleta(estado)) return [];
+    var p = parametrosEfetivos(estado, conteudo);
+    var m = conteudo.modelo;
+    var d = estado.decisao;
+    var sinais = [];
+
+    if (estado.necessidade === "nao" && (p.cerca.deferida || p.palavra.deferida)) {
+      sinais.push("necessidade");
+    }
+    if (estado.adotaHediondos && p.palavra.deferida) {
+      sinais.push("hediondos");
+    }
+    if (p.cerca.deferida && p.cerca.captura < m.limite_captura) {
+      sinais.push("adequacao");
+    }
+    if (p.cerca.deferida && p.cerca.terceiros > m.limite_terceiros && !p.cerca.etapas) {
+      sinais.push("estrita");
+    }
+    if (p.palavra.deferida && p.palavra.generico) {
+      sinais.push("tematica");
+    }
+    var motivoVazio = function (perna) {
+      var f = d[perna].fundamento;
+      return d[perna].escolha === "indefiro" && (!f || f === "generico");
+    };
+    if (motivoVazio("cerca") || motivoVazio("palavra")) {
+      sinais.push("motivacao");
+    }
+    return sinais;
+  }
+
+  function textoFundamento(perna, id, conteudo) {
+    var lista = conteudo.decisao.fundamentos_indeferimento[perna];
+    var f = lista.find(function (x) { return x.id === id; });
+    return f ? f.texto : "motivo não indicado";
+  }
+
+  function rotuloTermo(termo, conteudo) {
+    var t = conteudo.palavras.termos.find(function (x) { return x.id === termo; });
+    return t ? t.rotulo.replace(/^Só /, "").replace(/^Os dois termos, como pedido$/, "os dois termos") : termo;
+  }
+
+  // Dispositivo de quatro ou cinco linhas montado com as escolhas do aluno.
+  function montarDispositivo(estado, conteudo) {
+    if (!decisaoCompleta(estado)) return [];
+    var p = parametrosEfetivos(estado, conteudo);
+    var m = conteudo.modelo;
+    var d = estado.decisao;
+    var linhas = ["Vistos. Decido a representação em duas partes."];
+
+    if (p.cerca.escolha === "indefiro") {
+      linhas.push("Cerca geográfica: INDEFIRO, por " + textoFundamento("cerca", d.cerca.fundamento, conteudo) + ".");
+    } else {
+      var j = janelaHorario(m.centro, p.cerca.janela);
+      var cab = p.cerca.escolha === "defiro" ? "DEFIRO, como requerida" : "DEFIRO COM RESTRIÇÕES";
+      var txt = "Cerca geográfica: " + cab + ": raio de " + p.cerca.raio + " m, das " + j.inicio + " às " + j.fim;
+      txt += p.cerca.etapas
+        ? ", com procedimento em etapas e identificação dos remanescentes só por nova decisão."
+        : ".";
+      linhas.push(txt);
+      linhas.push(
+        "Chance estimada de alcançar o sacador: " + formatarPct(p.cerca.captura) +
+        ". Terceiros alcançados: " + formatarTerceiros(p.cerca.terceiros) + " (estimativa ilustrativa)."
+      );
+    }
+
+    if (p.palavra.escolha === "indefiro") {
+      linhas.push("Palavras-chave: INDEFIRO, por " + textoFundamento("palavra", d.palavra.fundamento, conteudo) + ".");
+    } else {
+      var cabp = p.palavra.escolha === "defiro" ? "DEFIRO, como requerida" : "DEFIRO COM RESTRIÇÕES";
+      linhas.push(
+        "Palavras-chave: " + cabp + ": " + rotuloTermo(p.palavra.termo, conteudo) +
+        ", nos " + p.palavra.dias + " dias anteriores ao saque. Alcance estimado: " + p.palavra.grandeza + " de usuários."
+      );
+    }
+    linhas.push("Intime-se.");
+    return linhas;
+  }
+
+  // Cartão de decisão para erguer em sala.
+  function cartao(estado, conteudo) {
+    if (!decisaoCompleta(estado)) return null;
+    var p = parametrosEfetivos(estado, conteudo);
+    var nome = { defiro: "DEFIRO", restricoes: "DEFIRO COM RESTRIÇÕES", indefiro: "INDEFIRO" };
+    var c = nome[p.cerca.escolha];
+    if (p.cerca.escolha !== "indefiro") {
+      c += " · " + p.cerca.raio + " m · " + p.cerca.janela + " min";
+      if (p.cerca.etapas) c += " · em etapas";
+    }
+    var w = nome[p.palavra.escolha];
+    if (p.palavra.escolha === "restricoes") {
+      w += " · " + (p.palavra.termo === "nome" ? "nome da vítima" : p.palavra.termo === "central" ? "central + banco" : "os dois termos");
+      w += " · " + p.palavra.dias + " dias";
+    }
+    return { cerca: c, palavra: w };
+  }
+
+  // --- Tarefa 1 -------------------------------------------------------------
+
+  // Grade 4×3: para cada elo e coluna, o tipo do cartão escolhido
+  // ("correta", "parcial", "distrator") ou null.
+  function gradeEsteira(respostas, conteudo) {
+    return conteudo.elos.map(function (elo) {
+      return conteudo.colunas.map(function (col) {
+        var escolhido = respostas[elo.id + "." + col.id];
+        if (!escolhido) return null;
+        var cartao = elo.celulas[col.id].cartoes.find(function (c) { return c.id === escolhido; });
+        return cartao ? cartao.tipo : null;
+      });
+    });
+  }
+
+  function placarEsteira(respostas, conteudo) {
+    var grade = gradeEsteira(respostas, conteudo);
+    var t = { correta: 0, parcial: 0, distrator: 0, vazia: 0 };
+    grade.forEach(function (linha) {
+      linha.forEach(function (tipo) { t[tipo || "vazia"] += 1; });
+    });
+    return t;
+  }
+
+  function estadoInicial(conteudo) {
+    return {
+      v: 1,
+      tela: 0,
+      respostas: {},
+      requisitos: {},
+      raio: conteudo.modelo.raio.pedido,
+      janela: conteudo.modelo.janela.pedido,
+      termo: "pedido",
+      dias: 30,
+      necessidade: null,
+      gravidade: null,
+      adotaHediondos: false,
+      etapas: false,
+      decisao: {
+        cerca: { escolha: null, fundamento: null },
+        palavra: { escolha: null, fundamento: null }
+      }
+    };
+  }
+
+  raiz.Aula2Logica = {
+    terceiros: terceiros,
+    captura: captura,
+    formatarTerceiros: formatarTerceiros,
+    formatarPct: formatarPct,
+    janelaHorario: janelaHorario,
+    grandezaPalavra: grandezaPalavra,
+    parametrosEfetivos: parametrosEfetivos,
+    sinaisIncoerencia: sinaisIncoerencia,
+    montarDispositivo: montarDispositivo,
+    cartao: cartao,
+    gradeEsteira: gradeEsteira,
+    placarEsteira: placarEsteira,
+    estadoInicial: estadoInicial
+  };
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  "use strict";
+  var C = JSON.parse(document.getElementById("conteudo").textContent);
+  var L = window.Aula2Logica;
+  var CHAVE = "aula2.exercicio.v1";
+
+  // Telas na ordem do plano (0 a 12).
+  var TELAS = [
+    { id: "abertura", onde: "Abertura" },
+    { id: "elo", elo: 0, onde: "Tarefa 1 · Elo 1 de 4" },
+    { id: "elo", elo: 1, onde: "Tarefa 1 · Elo 2 de 4" },
+    { id: "elo", elo: 2, onde: "Tarefa 1 · Elo 3 de 4" },
+    { id: "elo", elo: 3, onde: "Tarefa 1 · Elo 4 de 4" },
+    { id: "sintese", onde: "Tarefa 1 · Síntese" },
+    { id: "pedido", onde: "Tarefa 2 · O pedido" },
+    { id: "adequacao", onde: "Tarefa 2 · Adequação" },
+    { id: "necessidade", onde: "Tarefa 2 · Necessidade" },
+    { id: "estrita", onde: "Tarefa 2 · Proporcionalidade" },
+    { id: "decisao", onde: "Tarefa 2 · Decisão" },
+    { id: "cartao", onde: "Cartão de decisão" },
+    { id: "fecho", onde: "Fecho" }
+  ];
+
+  // --- Estado: memória, espelhada no navegador -------------------------------
+  // Decisão: localStorage só para sobreviver a um recarregamento acidental no
+  // celular. Nenhum identificador é pedido e nada sai do aparelho.
+  function carregar() {
+    var base = L.estadoInicial(C);
+    try {
+      var s = localStorage.getItem(CHAVE);
+      if (!s) return base;
+      var e = JSON.parse(s);
+      if (!e || e.v !== 1) return base;
+      var out = Object.assign(base, e);
+      out.decisao = {
+        cerca: Object.assign({ escolha: null, fundamento: null }, e.decisao && e.decisao.cerca),
+        palavra: Object.assign({ escolha: null, fundamento: null }, e.decisao && e.decisao.palavra)
+      };
+      out.respostas = e.respostas || {};
+      out.requisitos = e.requisitos || {};
+      out.tela = Math.min(Math.max(0, Number(e.tela) || 0), TELAS.length - 1);
+      return out;
+    } catch (_) {
+      return base;
+    }
+  }
+  function salvar() {
+    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (_) { /* segue só em memória */ }
+  }
+  var estado = carregar();
+
+  // --- Utilitário de DOM -----------------------------------------------------
+  function h(tag, props, filhos) {
+    var n = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (k) {
+        var v = props[k];
+        if (v === null || v === undefined || v === false) return;
+        if (k === "class") n.className = v;
+        else if (k === "text") n.textContent = v;
+        else if (k.indexOf("on") === 0) n.addEventListener(k.slice(2), v);
+        else n.setAttribute(k, v === true ? "" : String(v));
+      });
+    }
+    (filhos || []).forEach(function (f) {
+      if (f === null || f === undefined || f === false) return;
+      n.append(f.nodeType ? f : document.createTextNode(String(f)));
+    });
+    return n;
+  }
+
+  var raizTela = document.getElementById("tela");
+
+  function irPara(i) {
+    estado.tela = Math.min(Math.max(0, i), TELAS.length - 1);
+    salvar();
+    render(true);
+  }
+
+  function nav(opcoes) {
+    opcoes = opcoes || {};
+    var i = estado.tela;
+    return h("div", { class: "nav" }, [
+      i > 0 ? h("button", { type: "button", class: "btn btn-sec", onclick: function () { irPara(i - 1); } }, ["Voltar"]) : null,
+      i < TELAS.length - 1
+        ? h("button", { type: "button", class: "btn", onclick: function () { irPara(i + 1); } }, [opcoes.avancar || "Avançar"])
+        : null
+    ]);
+  }
+
+  function titulo(texto) {
+    return h("h1", { class: "titulo", tabindex: "-1", text: texto });
+  }
+
+  // --- Tela 0: abertura --------------------------------------------------------
+  function telaAbertura() {
+    var caso = C.caso;
+    return [
+      h("p", { class: "eyebrow", text: "Exercício interativo · 18 minutos" }),
+      titulo(caso.titulo),
+      h("section", { class: "ficha", "aria-label": "O caso" }, [
+        h("div", { class: "ficha-cab" }, [
+          h("span", { class: "eyebrow", text: "Caso-fio da Aula I" }),
+          h("span", { class: "eyebrow", text: "Inquérito fictício" })
+        ]),
+        h("ol", { class: "lista-caso" }, caso.linhas.map(function (l) { return h("li", { text: l }); }))
+      ]),
+      h("p", { class: "pergunta-aula", text: caso.pergunta }),
+      h("p", { class: "lead", text: caso.instrucao }),
+      h("p", { class: "nota", text: caso.aviso }),
+      nav({ avancar: "Começar pelo Elo 1" })
+    ];
+  }
+
+  // --- Telas 1 a 4: elos da esteira -------------------------------------------
+  var SELO = {
+    correta: { icone: "✓", texto: "Correta" },
+    parcial: { icone: "◐", texto: "Em parte" },
+    distrator: { icone: "✗", texto: "Não é esta" }
+  };
+
+  function selo(tipo, texto) {
+    var s = SELO[tipo];
+    return h("span", { class: "selo selo-" + tipo }, [h("span", { "aria-hidden": "true", text: s.icone }), texto || s.texto]);
+  }
+
+  function celula(elo, col) {
+    var chave = elo.id + "." + col.id;
+    var cel = elo.celulas[col.id];
+    var escolhido = estado.respostas[chave] || null;
+    var idTitulo = "q-" + elo.id + "-" + col.id;
+    var sec = h("section", { class: "celula", "aria-labelledby": idTitulo, "data-celula": chave });
+    sec.append(h("p", { class: "eyebrow", text: col.rotulo }));
+    sec.append(h("h2", { id: idTitulo, class: "celula-pergunta", text: cel.pergunta }));
+
+    var lista = h("div", { class: "cartoes" });
+    cel.cartoes.forEach(function (c) {
+      var classes = "cartao";
+      var marca = null;
+      if (escolhido) {
+        if (c.id === escolhido) { classes += " escolhido " + c.tipo; marca = selo(c.tipo); }
+        else if (c.tipo === "correta") { classes += " revelada"; marca = selo("correta", "A correta"); }
+        else { classes += " apagado"; }
+      }
+      var b = h("button", {
+        type: "button",
+        class: classes,
+        "data-cartao": c.id,
+        "aria-pressed": c.id === escolhido ? "true" : "false",
+        "aria-disabled": escolhido ? "true" : null,
+        onclick: function () { if (!estado.respostas[chave]) responder(chave, c.id); }
+      }, [marca, h("span", { text: c.texto })]);
+      lista.append(b);
+    });
+    sec.append(lista);
+
+    var ret = h("div", { class: "retorno", "aria-live": "polite" });
+    if (escolhido) {
+      var c = cel.cartoes.find(function (x) { return x.id === escolhido; });
+      ret.append(h("p", { class: "sintese", tabindex: "-1", text: c.sintese }));
+      ret.append(h("details", null, [
+        h("summary", { text: "Fundamento" }),
+        h("div", null, [
+          h("p", { text: c.detalhe }),
+          h("ul", { class: "chips", "aria-label": "Fundamentos" }, c.fundamentos.map(function (f) { return h("li", { text: f }); }))
+        ])
+      ]));
+      ret.append(h("details", null, [
+        h("summary", { text: "Ver as outras opções" }),
+        h("div", null, cel.cartoes.filter(function (x) { return x.id !== escolhido; }).map(function (x) {
+          return h("div", { class: "outra" }, [
+            selo(x.tipo, x.tipo === "correta" ? "Correta" : x.tipo === "parcial" ? "Em parte" : "Distrator"),
+            h("span", { class: "outra-texto", text: x.texto }),
+            h("span", { text: x.sintese + " " + x.detalhe })
+          ]);
+        }))
+      ]));
+    }
+    sec.append(ret);
+    return sec;
+  }
+
+  function responder(chave, id) {
+    estado.respostas[chave] = id;
+    salvar();
+    var partes = chave.split(".");
+    var elo = C.elos.find(function (e) { return e.id === partes[0]; });
+    var col = C.colunas.find(function (c) { return c.id === partes[1]; });
+    var antiga = raizTela.querySelector('[data-celula="' + chave + '"]');
+    var nova = celula(elo, col);
+    antiga.replaceWith(nova);
+    var s = nova.querySelector(".sintese");
+    if (s) s.focus({ preventScroll: false });
+    var cont = document.getElementById("contagem-elo");
+    if (cont) cont.textContent = textoContagem(elo);
+  }
+
+  function textoContagem(elo) {
+    var n = C.colunas.filter(function (col) { return estado.respostas[elo.id + "." + col.id]; }).length;
+    return n + " de 3 respondidas. A primeira escolha conta na grade; depois você pode ler as outras opções.";
+  }
+
+  function telaElo(i) {
+    var elo = C.elos[i];
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 1 · A esteira da cadeia de custódia · Elo " + (i + 1) + " de 4" }),
+      titulo(elo.titulo),
+      h("p", { class: "lead", text: elo.contexto }),
+      h("div", { class: "celulas" }, C.colunas.map(function (col) { return celula(elo, col); })),
+      h("p", { class: "nota", id: "contagem-elo", "aria-live": "polite", text: textoContagem(elo) }),
+      nav({ avancar: i < 3 ? "Próximo elo" : "Ver a síntese" })
+    ];
+  }
+
+  // --- Tela 5: síntese e impasse ----------------------------------------------
+  function telaSintese() {
+    var grade = L.gradeEsteira(estado.respostas, C);
+    var p = L.placarEsteira(estado.respostas, C);
+    var nome = { correta: "✓ Correta", parcial: "◐ Em parte", distrator: "✗ Errada" };
+    var tabela = h("table", { class: "grade" }, [
+      h("caption", { class: "nota", style: "text-align:left;caption-side:bottom;padding-top:0.4rem", text: "Primeira escolha em cada célula." }),
+      h("thead", null, [h("tr", null, [h("th", { scope: "col", text: "Elo" })].concat(C.colunas.map(function (col) {
+        return h("th", { scope: "col" }, [col.rotulo, h("small", { text: col.leitura })]);
+      })))]),
+      h("tbody", null, C.elos.map(function (elo, i) {
+        return h("tr", null, [h("th", { scope: "row", text: elo.titulo })].concat(grade[i].map(function (tipo) {
+          return h("td", { class: tipo || "vazia", text: tipo ? nome[tipo] : "Sem resposta" });
+        })));
+      }))
+    ]);
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 1 · Síntese" }),
+      titulo("A esteira, elo por elo"),
+      h("div", { class: "placar" }, [
+        selo("correta", p.correta + " corretas"),
+        p.parcial ? selo("parcial", p.parcial + " em parte") : null,
+        selo("distrator", p.distrator + " erradas"),
+        p.vazia ? h("span", { class: "selo selo-vazia", text: p.vazia + " sem resposta" }) : null
+      ]),
+      h("div", { class: "grade-caixa" }, [tabela]),
+      h("section", { class: "ficha", "aria-label": C.impasse.titulo }, [
+        h("div", { class: "ficha-cab" }, [h("span", { class: "eyebrow", text: C.impasse.titulo })]),
+        h("ul", { class: "lista-caso" }, C.impasse.linhas.map(function (l) { return h("li", { text: l }); }))
+      ]),
+      nav({ avancar: C.impasse.botao })
+    ];
+  }
+
+  // --- Tela 6: o pedido e o art. 22 ---------------------------------------------
+  function telaPedido() {
+    var pd = C.pedido;
+    var todos = pd.requisitos.every(function (r) { return estado.requisitos[r.id]; });
+    var lista = h("div", { class: "requisitos" }, pd.requisitos.map(function (r) {
+      var marcado = Boolean(estado.requisitos[r.id]);
+      return h("button", {
+        type: "button",
+        class: "requisito",
+        "aria-pressed": marcado ? "true" : "false",
+        onclick: function () {
+          estado.requisitos[r.id] = !estado.requisitos[r.id];
+          salvar();
+          render(false);
+        }
+      }, [
+        h("span", { class: "caixa", "aria-hidden": "true", text: marcado ? "✓" : "" }),
+        h("strong", { text: r.rotulo }),
+        h("span", { class: "onde", text: r.onde })
+      ]);
+    }));
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 2 · O juiz de plantão" }),
+      titulo(pd.titulo),
+      h("p", { class: "lead", text: "Você é o juiz de plantão. Leia a representação e decida cada parte em separado." }),
+      h("section", { class: "ficha", "aria-label": "Representação" }, [
+        h("div", { class: "ficha-cab" }, [
+          h("span", { class: "eyebrow", text: "Representação nº 0071/2026 (fictícia)" }),
+          h("span", { class: "eyebrow", text: "Plantão · Vila Quixote" })
+        ]),
+        h("p", { text: pd.abertura })
+      ].concat(pd.pernas.map(function (p, i) {
+        return h("div", { class: "perna" }, [
+          h("span", { class: "perna-rotulo", text: "(" + "ab"[i] + ") " + p.rotulo }),
+          h("p", { text: p.texto }),
+          h("p", { class: "precedente", text: p.precedente })
+        ]);
+      }))),
+      h("h2", { style: "font-size:1.15rem", text: "Confira os requisitos formais (" + pd.fundamento_requisitos + ")" }),
+      lista,
+      todos ? h("p", { class: "conclusao", role: "status", text: pd.conclusao }) : h("p", { class: "nota", text: "Toque em cada requisito que você encontra na representação." }),
+      nav({ avancar: "Examinar a adequação" })
+    ];
+  }
+
+  // --- Tela 7: adequação com medidores ----------------------------------------
+  var LOG_MIN = 1, LOG_MAX = 5; // escala do medidor de terceiros: 10 a 100.000
+
+  function pctLog(n) {
+    var x = (Math.log10(Math.max(n, 10)) - LOG_MIN) / (LOG_MAX - LOG_MIN);
+    return Math.min(100, Math.max(0, x * 100));
+  }
+
+  function medidorTerceiros() {
+    var lim = C.modelo.limite_terceiros;
+    return h("div", { class: "medidor" }, [
+      h("span", { class: "medidor-rotulo", id: "rot-terceiros", text: "Terceiros alcançados" }),
+      h("span", { class: "medidor-valor", id: "val-terceiros" }),
+      h("div", { class: "medidor-trilho", role: "img", id: "trilho-terceiros", "aria-labelledby": "rot-terceiros" }, [
+        h("div", { class: "medidor-barra", id: "barra-terceiros" }),
+        h("div", { class: "medidor-limite", style: "left:" + pctLog(lim) + "%" })
+      ]),
+      h("div", { class: "medidor-escala", "aria-hidden": "true" }, [
+        h("span", { style: "left:0%", text: "10" }),
+        h("span", { style: "left:25%", text: "100" }),
+        h("span", { style: "left:50%", text: "1 mil" }),
+        h("span", { style: "left:75%", text: "10 mil" }),
+        h("span", { style: "left:100%", text: "100 mil" })
+      ]),
+      h("span", { class: "medidor-estado", id: "estado-terceiros" })
+    ]);
+  }
+
+  function medidorCaptura() {
+    return h("div", { class: "medidor" }, [
+      h("span", { class: "medidor-rotulo", id: "rot-captura", text: "Chance de o aparelho do sacador estar no resultado" }),
+      h("span", { class: "medidor-valor", id: "val-captura" }),
+      h("div", { class: "medidor-trilho", role: "img", id: "trilho-captura", "aria-labelledby": "rot-captura" }, [
+        h("div", { class: "medidor-barra", id: "barra-captura" }),
+        h("div", { class: "medidor-limite", style: "left:" + (C.modelo.limite_captura * 100) + "%" })
+      ]),
+      h("div", { class: "medidor-escala", "aria-hidden": "true" }, [
+        h("span", { style: "left:0%", text: "0%" }),
+        h("span", { style: "left:50%", text: "50%" }),
+        h("span", { style: "left:100%", text: "100%" })
+      ]),
+      h("span", { class: "medidor-estado", id: "estado-captura" }),
+      h("span", { class: "ressalva", text: C.modelo.ressalva_captura })
+    ]);
+  }
+
+  function atualizarMedidores() {
+    var m = C.modelo;
+    var n = L.terceiros(estado.raio, estado.janela, m);
+    var p = L.captura(estado.raio, m.sigma);
+    var j = L.janelaHorario(m.centro, estado.janela);
+    var q = function (id) { return document.getElementById(id); };
+    if (!q("val-terceiros")) return;
+    q("out-raio").textContent = estado.raio + " m";
+    q("out-janela").textContent = estado.janela + " min · " + j.inicio + " às " + j.fim;
+    q("val-terceiros").textContent = L.formatarTerceiros(n);
+    q("val-captura").textContent = L.formatarPct(p);
+    q("barra-terceiros").style.width = pctLog(n) + "%";
+    q("barra-captura").style.width = Math.round(p * 100) + "%";
+    var acimaLimite = n > m.limite_terceiros;
+    q("barra-terceiros").classList.toggle("alerta", acimaLimite);
+    q("estado-terceiros").className = "medidor-estado " + (acimaLimite ? "alerta" : "ok");
+    q("estado-terceiros").textContent = acimaLimite
+      ? "⚠ Acima de 1.000 terceiros: só com procedimento em etapas."
+      : "✓ Até 1.000 terceiros.";
+    var fraca = p < m.limite_captura;
+    q("barra-captura").classList.toggle("fraca", fraca);
+    q("estado-captura").className = "medidor-estado " + (fraca ? "fraca" : "ok");
+    q("estado-captura").textContent = fraca ? "◐ Abaixo de 50%: adequação fraca." : "✓ A medida tende a alcançar o sacador.";
+    q("trilho-terceiros").setAttribute("aria-label", "Terceiros alcançados: " + L.formatarTerceiros(n));
+    q("trilho-captura").setAttribute("aria-label", "Chance de captura: " + L.formatarPct(p));
+  }
+
+  function controle(id, rotulo, cfg, valor, aoMudar) {
+    return h("div", { class: "controle" }, [
+      h("div", { class: "controle-topo" }, [
+        h("label", { for: id, text: rotulo }),
+        h("output", { id: "out-" + id, for: id })
+      ]),
+      h("input", {
+        type: "range",
+        id: id,
+        min: cfg.min,
+        max: cfg.max,
+        step: cfg.passo,
+        value: valor,
+        oninput: function (ev) { aoMudar(Number(ev.target.value)); salvar(); atualizarMedidores(); }
+      })
+    ]);
+  }
+
+  var DEGRAUS = ["unidades a dezenas", "dezenas", "milhares", "dezenas de milhares"];
+
+  function blocoPalavras() {
+    var pw = C.palavras;
+    var grandeza = L.grandezaPalavra(estado.termo, estado.dias, pw);
+    var grupoTermo = h("fieldset", null, [
+      h("legend", { text: "Termo pesquisado" }),
+      h("div", { class: "opcoes" }, pw.termos.map(function (t) {
+        return h("label", { class: "opcao" }, [
+          h("input", { type: "radio", name: "termo", id: "termo-" + t.id, value: t.id, checked: estado.termo === t.id,
+            onchange: function () { estado.termo = t.id; salvar(); render(false, "termo-" + t.id); } }),
+          h("span", { text: t.rotulo })
+        ]);
+      }))
+    ]);
+    var grupoPeriodo = h("fieldset", null, [
+      h("legend", { text: "Período anterior ao saque" }),
+      h("div", { class: "opcoes" }, pw.periodos.map(function (p) {
+        return h("label", { class: "opcao" }, [
+          h("input", { type: "radio", name: "dias", id: "dias-" + p.dias, value: p.dias, checked: estado.dias === p.dias,
+            onchange: function () { estado.dias = p.dias; salvar(); render(false, "dias-" + p.dias); } }),
+          h("span", { text: p.rotulo })
+        ]);
+      }))
+    ]);
+    return h("section", { class: "ficha", "aria-label": "Palavras-chave" }, [
+      h("span", { class: "perna-rotulo", text: "(b) Palavras-chave" }),
+      grupoTermo,
+      grupoPeriodo,
+      h("div", { class: "medidor" }, [
+        h("span", { class: "medidor-rotulo", text: "Usuários alcançados (ordem de grandeza)" }),
+        h("span", { class: "medidor-valor", text: grandeza }),
+        h("div", { class: "degraus", "aria-hidden": "true" }, DEGRAUS.map(function (d) {
+          return h("span", { class: d === grandeza ? "atual" : "", text: d });
+        }))
+      ]),
+      h("p", { class: "ressalva", text: pw.explicacao })
+    ]);
+  }
+
+  function telaAdequacao() {
+    var m = C.modelo;
+    var cerca = h("section", { class: "ficha", "aria-label": "Cerca geográfica" }, [
+      h("span", { class: "perna-rotulo", text: "(a) Cerca geográfica" }),
+      controle("raio", "Raio em torno do terminal", m.raio, estado.raio, function (v) { estado.raio = v; }),
+      controle("janela", "Janela de tempo", m.janela, estado.janela, function (v) { estado.janela = v; }),
+      h("div", { class: "medidores" }, [medidorTerceiros(), medidorCaptura()]),
+      h("p", { class: "ressalva", text: m.ressalva + " " + m.explicacao })
+    ]);
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 2 · Adequação" }),
+      titulo("A medida alcança quem sacou?"),
+      h("p", { class: "lead", text: "Mexa nos controles. O pedido veio com 300 m e duas horas. Observe quem mais a medida alcança." }),
+      cerca,
+      blocoPalavras(),
+      nav({ avancar: "Examinar a necessidade" })
+    ];
+  }
+
+  // --- Tela 8: necessidade ------------------------------------------------------
+  function telaNecessidade() {
+    var nd = C.necessidade;
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 2 · Necessidade" }),
+      titulo(nd.pergunta),
+      h("ul", { class: "meios" }, nd.meios.map(function (m) {
+        return h("li", null, [h("strong", { text: m.rotulo }), h("span", { text: m.estado })]);
+      })),
+      h("fieldset", null, [
+        h("legend", { text: "A necessidade está satisfeita?" }),
+        h("div", { class: "opcoes" }, nd.opcoes.map(function (o) {
+          return h("label", { class: "opcao" }, [
+            h("input", { type: "radio", name: "necessidade", id: "nec-" + o.id, value: o.id, checked: estado.necessidade === o.id,
+              onchange: function () { estado.necessidade = o.id; salvar(); render(false, "nec-" + o.id); } }),
+            h("span", { text: o.rotulo })
+          ]);
+        }))
+      ]),
+      estado.necessidade ? h("p", { class: "devolutiva", role: "status", text: nd.feedback }) : null,
+      nav({ avancar: "Proporcionalidade estrita" })
+    ];
+  }
+
+  // --- Tela 9: proporcionalidade estrita ----------------------------------------
+  function telaEstrita() {
+    var es = C.estrita;
+    var m = C.modelo;
+    var g = es.gravidade;
+    var j = L.janelaHorario(m.centro, estado.janela);
+    var termo = C.palavras.termos.find(function (t) { return t.id === estado.termo; });
+    var gravidade = h("section", { class: "ficha", "aria-label": "Gravidade do crime" }, [
+      h("span", { class: "perna-rotulo", text: "1 · Gravidade" }),
+      h("fieldset", null, [
+        h("legend", { text: g.pergunta }),
+        h("div", { class: "opcoes" }, g.opcoes.map(function (o) {
+          return h("label", { class: "opcao" }, [
+            h("input", { type: "radio", name: "gravidade", id: "grav-" + o.id, value: o.id, checked: estado.gravidade === o.id,
+              onchange: function () { estado.gravidade = o.id; salvar(); render(false, "grav-" + o.id); } }),
+            h("span", { text: o.rotulo })
+          ]);
+        }))
+      ]),
+      estado.gravidade
+        ? h("p", { class: "devolutiva", role: "status", text: estado.gravidade === g.resposta ? g.feedback_certo : g.feedback_errado })
+        : null,
+      h("label", { class: "chave" }, [
+        h("input", { type: "checkbox", id: "adota-hediondos", checked: estado.adotaHediondos,
+          onchange: function (ev) { estado.adotaHediondos = ev.target.checked; salvar(); } }),
+        h("span", null, [h("strong", { text: g.criterio }), h("br"), h("span", { class: "nota", text: g.fonte })])
+      ])
+    ]);
+    var delimitacao = h("section", { class: "ficha", "aria-label": es.delimitacao.rotulo }, [
+      h("span", { class: "perna-rotulo", text: "2 · " + es.delimitacao.rotulo }),
+      h("dl", { class: "resumo-param" }, [
+        h("dt", { text: "Raio" }), h("dd", { text: estado.raio + " m" }),
+        h("dt", { text: "Janela" }), h("dd", { text: estado.janela + " min (" + j.inicio + " às " + j.fim + ")" }),
+        h("dt", { text: "Termo" }), h("dd", { text: termo ? termo.rotulo : "" }),
+        h("dt", { text: "Período" }), h("dd", { text: estado.dias + " dias" })
+      ]),
+      h("p", { class: "nota", text: es.delimitacao.fonte })
+    ]);
+    var etapas = h("section", { class: "ficha", "aria-label": "Descarte dos inocentes" }, [
+      h("span", { class: "perna-rotulo", text: "3 · Descarte dos inocentes" }),
+      h("label", { class: "chave" }, [
+        h("input", { type: "checkbox", id: "etapas", checked: estado.etapas,
+          onchange: function (ev) { estado.etapas = ev.target.checked; salvar(); } }),
+        h("strong", { text: es.etapas.rotulo })
+      ]),
+      h("ol", { class: "passos" }, es.etapas.passos.map(function (p) { return h("li", { text: p }); })),
+      h("p", { class: "nota", text: es.etapas.fonte })
+    ]);
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 2 · Proporcionalidade estrita" }),
+      titulo("Condicionantes em construção"),
+      h("p", { class: "lead", text: es.placar + " Conferido em " + C.conferido_em + "." }),
+      gravidade,
+      delimitacao,
+      etapas,
+      nav({ avancar: "Decidir" })
+    ];
+  }
+
+  // --- Tela 10: decisão e coerência ----------------------------------------------
+  function grupoDecisao(perna, rotulo) {
+    var d = estado.decisao[perna];
+    var fundamentos = C.decisao.fundamentos_indeferimento[perna];
+    var filhos = [
+      h("legend", { text: rotulo }),
+      h("div", { class: "opcoes" }, C.decisao.opcoes.map(function (o) {
+        return h("label", { class: "opcao" }, [
+          h("input", { type: "radio", name: "dec-" + perna, id: "dec-" + perna + "-" + o.id, value: o.id, checked: d.escolha === o.id,
+            onchange: function () { d.escolha = o.id; salvar(); render(false, "dec-" + perna + "-" + o.id); } }),
+          h("span", { text: o.rotulo })
+        ]);
+      }))
+    ];
+    if (d.escolha === "indefiro") {
+      var sel = h("select", { id: "fund-" + perna, onchange: function (ev) { d.fundamento = ev.target.value || null; salvar(); render(false, "fund-" + perna); } },
+        [h("option", { value: "", text: "Escolha o fundamento do indeferimento" })].concat(fundamentos.map(function (f) {
+          return h("option", { value: f.id, selected: d.fundamento === f.id, text: f.rotulo });
+        })));
+      filhos.push(h("label", { for: "fund-" + perna, class: "nota", style: "margin-top:0.5rem;display:block", text: "Fundamento" }));
+      filhos.push(sel);
+    }
+    if (d.escolha === "restricoes") {
+      filhos.push(h("p", { class: "nota", style: "margin-top:0.5rem", text: perna === "cerca"
+        ? "Valem o raio e a janela da tela de adequação e a escolha sobre as etapas."
+        : "Valem o termo e o período da tela de adequação." }));
+    }
+    if (d.escolha === "defiro") {
+      filhos.push(h("p", { class: "nota", style: "margin-top:0.5rem", text: "Defere o pedido como veio, sem as suas restrições." }));
+    }
+    return h("fieldset", { class: "ficha" }, filhos);
+  }
+
+  function telaDecisao() {
+    var linhas = L.montarDispositivo(estado, C);
+    var sinais = L.sinaisIncoerencia(estado, C);
+    var completo = linhas.length > 0;
+    var resultado = [];
+    if (completo) {
+      resultado.push(h("section", { class: "dispositivo", "aria-label": "Dispositivo" }, [
+        h("span", { class: "dispositivo-cab", text: "Decisão de plantão (fictícia)" })
+      ].concat(linhas.map(function (l) { return h("p", { text: l }); }))));
+      resultado.push(h("h2", { style: "font-size:1.1rem", text: "Checagem de coerência" }));
+      resultado.push(h("ul", { class: "sinais", role: "status" }, sinais.length
+        ? sinais.map(function (id) {
+            var s = C.decisao.sinais.find(function (x) { return x.id === id; });
+            return h("li", null, [h("span", { class: "ico", "aria-hidden": "true", text: "⚠" }), h("span", { text: s.texto })]);
+          })
+        : [h("li", { class: "limpo" }, [h("span", { class: "ico", "aria-hidden": "true", text: "✓" }), h("span", { text: C.decisao.sem_sinais })])]));
+      resultado.push(h("p", { class: "nota", text: C.decisao.fundamento_coerencia }));
+    } else {
+      resultado.push(h("p", { class: "nota", text: "Decida as duas partes para ver o dispositivo e a checagem de coerência." }));
+    }
+    return [
+      h("p", { class: "eyebrow", text: "Tarefa 2 · Decisão" }),
+      titulo("Decida cada parte do pedido"),
+      grupoDecisao("cerca", "(a) Cerca geográfica"),
+      grupoDecisao("palavra", "(b) Palavras-chave")
+    ].concat(resultado, [nav({ avancar: "Ver meu cartão" })]);
+  }
+
+  // --- Tela 11: cartão --------------------------------------------------------
+  function telaCartao() {
+    var c = L.cartao(estado, C);
+    // A decisão vai em letras grandes; os parâmetros, numa linha própria em
+    // que cada item não quebra ("50 m" nunca se parte em duas linhas).
+    function linha(nome, texto) {
+      var partes = texto.split(" · ");
+      return h("div", { class: "linha" }, [
+        h("span", { class: "perna-nome", text: nome }),
+        h("span", { class: "valor", text: partes[0] }),
+        partes.length > 1 ? h("span", { class: "params" }, partes.slice(1).map(function (p) { return h("span", { text: p }); })) : null
+      ]);
+    }
+    return [
+      h("p", { class: "eyebrow", text: "Cartão de decisão" }),
+      titulo("Erga o celular"),
+      c
+        ? h("section", { class: "cartao-decisao", "aria-label": "Sua decisão" }, [linha("Cerca", c.cerca), linha("Palavra-chave", c.palavra)])
+        : h("p", { class: "lead", text: "Você ainda não decidiu as duas partes. Volte à tela de decisão." }),
+      nav({ avancar: "Fecho" })
+    ];
+  }
+
+  // --- Tela 12: fecho -----------------------------------------------------------
+  function telaFecho() {
+    var f = C.fecho;
+    return [
+      h("p", { class: "eyebrow", text: "Fecho" }),
+      titulo("Integridade não é verdade"),
+      h("div", { class: "ficha" }, f.frases.map(function (fr) { return h("p", { class: "pergunta-aula", text: fr }); })),
+      h("section", { class: "ficha", "aria-label": f.questao.titulo }, [
+        h("div", { class: "ficha-cab" }, [h("span", { class: "eyebrow", text: f.questao.titulo }), h("span", { class: "eyebrow", text: "Para casa" })]),
+        h("p", { text: f.questao.enunciado })
+      ]),
+      h("p", { class: "nota", text: "Suas respostas ficam só neste aparelho. Você pode voltar a qualquer tela para revisar." }),
+      nav()
+    ];
+  }
+
+  // --- Render -------------------------------------------------------------------
+  var RENDER = {
+    abertura: telaAbertura,
+    elo: function (t) { return telaElo(t.elo); },
+    sintese: telaSintese,
+    pedido: telaPedido,
+    adequacao: telaAdequacao,
+    necessidade: telaNecessidade,
+    estrita: telaEstrita,
+    decisao: telaDecisao,
+    cartao: telaCartao,
+    fecho: telaFecho
+  };
+
+  function desenharProgresso() {
+    var barra = document.getElementById("progresso");
+    barra.innerHTML = "";
+    TELAS.forEach(function (_, i) {
+      barra.append(h("span", { class: i < estado.tela ? "feito" : i === estado.tela ? "atual" : "" }));
+    });
+    document.getElementById("onde").textContent = TELAS[estado.tela].onde;
+  }
+
+  // novaTela: muda de tela (foco no título, rolagem ao topo).
+  // focoId: redesenho na mesma tela, devolvendo o foco ao controle tocado.
+  function render(novaTela, focoId) {
+    var t = TELAS[estado.tela];
+    var rolagem = window.scrollY;
+    raizTela.innerHTML = "";
+    raizTela.className = "tela" + (t.id === "elo" || t.id === "sintese" ? " larga" : "");
+    RENDER[t.id](t).forEach(function (n) { if (n) raizTela.append(n); });
+    desenharProgresso();
+    if (t.id === "adequacao") atualizarMedidores();
+    if (novaTela) {
+      window.scrollTo(0, 0);
+      var tt = raizTela.querySelector(".titulo");
+      if (tt) tt.focus({ preventScroll: true });
+    } else {
+      window.scrollTo(0, rolagem);
+      if (focoId) {
+        var alvo = document.getElementById(focoId);
+        if (alvo) alvo.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  // --- Rodapé: versão e recomeço em duas etapas ---------------------------------
+  // O visualizador não mostra confirm(); a confirmação vive na própria página.
+  function desenharRecomecar(confirmando) {
+    var caixa = document.getElementById("recomecar-caixa");
+    caixa.innerHTML = "";
+    if (!confirmando) {
+      caixa.append(h("button", { type: "button", class: "btn btn-sec", id: "btn-recomecar", onclick: function () { desenharRecomecar(true); } }, ["Recomeçar"]));
+      return;
+    }
+    caixa.append(h("span", { class: "confirma", role: "group", "aria-label": "Confirmar recomeço" }, [
+      h("span", { text: "Apagar suas respostas e voltar ao início?" }),
+      h("button", { type: "button", class: "btn", id: "btn-apagar", onclick: function () {
+        estado = L.estadoInicial(C);
+        salvar();
+        desenharRecomecar(false);
+        render(true);
+      } }, ["Apagar"]),
+      h("button", { type: "button", class: "btn btn-sec", onclick: function () { desenharRecomecar(false); } }, ["Cancelar"])
+    ]));
+    document.getElementById("btn-apagar").focus();
+  }
+
+  document.getElementById("versao").textContent =
+    "Versão " + C.versao + " · conteúdo conferido em " + C.conferido_em + " · caso fictício";
+  desenharRecomecar(false);
+  render(false);
+
+  // Gancho para os testes de aceitação; não altera o comportamento.
+  window.Aula2 = {
+    estado: function () { return JSON.parse(JSON.stringify(estado)); },
+    irPara: irPara,
+    telas: TELAS.length
+  };
+})();
+</script>

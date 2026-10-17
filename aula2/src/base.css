@@ -1,0 +1,159 @@
+/* Conceito: fichas de um auto de custódia. Cada tela é uma ficha com
+   etiqueta no topo; a decisão leva o tom de carimbo (índigo de tinta de
+   cartório). Estado semântico (correto, em parte, errado) nunca é o acento. */
+:root {
+  --bg: #eef1f4;
+  --surface: #ffffff;
+  --surface-2: #f5f7f9;
+  --ink: #111820;
+  --ink-2: #44505c;
+  --muted: #5f6a76;
+  --line: #d5dce3;
+  --line-strong: #98a4b0;
+  --accent: #3b3db5;
+  --accent-ink: #ffffff;
+  --accent-soft: #e7e8fb;
+  --accent-track: #d4d6f6;
+  --ok: #0b7a3e;
+  --ok-soft: #e0f2e7;
+  --partial: #8a5a00;
+  --partial-soft: #fbf0d2;
+  --bad: #b42318;
+  --bad-soft: #fbe4e1;
+  --font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1116;
+    --surface: #161c23;
+    --surface-2: #1c232c;
+    --ink: #edf1f5;
+    --ink-2: #b6c0ca;
+    --muted: #97a2ae;
+    --line: #2a333d;
+    --line-strong: #4f5b68;
+    --accent: #a3a6ff;
+    --accent-ink: #12133a;
+    --accent-soft: #23255a;
+    --accent-track: #2f3268;
+    --ok: #5ad48d;
+    --ok-soft: #0f2d1d;
+    --partial: #f2bd4a;
+    --partial-soft: #33270b;
+    --bad: #ff8a7e;
+    --bad-soft: #3a1612;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1116;
+  --surface: #161c23;
+  --surface-2: #1c232c;
+  --ink: #edf1f5;
+  --ink-2: #b6c0ca;
+  --muted: #97a2ae;
+  --line: #2a333d;
+  --line-strong: #4f5b68;
+  --accent: #a3a6ff;
+  --accent-ink: #12133a;
+  --accent-soft: #23255a;
+  --accent-track: #2f3268;
+  --ok: #5ad48d;
+  --ok-soft: #0f2d1d;
+  --partial: #f2bd4a;
+  --partial-soft: #33270b;
+  --bad: #ff8a7e;
+  --bad-soft: #3a1612;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mono { font-family: var(--font-mono); }
+
+.btn {
+  font: inherit;
+  font-weight: 650;
+  font-size: 1rem;
+  min-height: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn-sec {
+  background: transparent;
+  color: var(--accent);
+}
+.btn-sec:hover { background: var(--accent-soft); filter: none; }
+.btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  white-space: nowrap;
+}
+.selo-correta { color: var(--ok); background: var(--ok-soft); }
+.selo-parcial { color: var(--partial); background: var(--partial-soft); }
+.selo-distrator { color: var(--bad); background: var(--bad-soft); }
+.selo-vazia { color: var(--muted); background: var(--surface-2); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chips li {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
