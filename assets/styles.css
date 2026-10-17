@@ -53,6 +53,9 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--sans);
+  /* Explícito porque o claude.ai envolve a página num esqueleto que fixa
+     o corpo em 14px; sem isto, textos que herdam o tamanho encolhem. */
+  font-size: 1rem;
   line-height: 1.45;
   overflow-x: hidden;
 }

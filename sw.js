@@ -10,7 +10,7 @@
 // Requisições a outras origens (a API do oráculo ou o proxy) não passam por
 // aqui: são POST e não devem ser cacheadas.
 
-const CACHE_VERSION = "aula1-v2.0.0";
+const CACHE_VERSION = "aula1-v2.0.1";
 
 // Mantida em sincronia por test/sw.test.mjs, que falha se um arquivo do app
 // ficar fora desta lista.

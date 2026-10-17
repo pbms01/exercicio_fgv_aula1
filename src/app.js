@@ -26,26 +26,6 @@ const TELAS = {
   fecho: ato3.renderFecho
 };
 
-const CHAVE_MODO = "aula1.modoExplicacao";
-
-function lerPreferencia(chave, padrao) {
-  // localStorage pode lançar em janela privada ou com dados bloqueados; a
-  // preferência é só conveniência, então a falha é silenciosa.
-  try {
-    return localStorage.getItem(chave) ?? padrao;
-  } catch {
-    return padrao;
-  }
-}
-
-function gravarPreferencia(chave, valor) {
-  try {
-    localStorage.setItem(chave, valor);
-  } catch {
-    /* sem armazenamento: segue sem lembrar */
-  }
-}
-
 async function carregarJson(caminho) {
   const res = await fetch(new URL(caminho, import.meta.url));
   if (!res.ok) throw new Error(`Falha ao carregar ${caminho}: ${res.status}`);
@@ -74,9 +54,11 @@ async function iniciar() {
   }
 
   const hoje = hojeIso();
+  // Decisão: todo o estado da sessão vive só na memória da página. Nada vai
+  // para localStorage, cookies ou rede; recarregar ou fechar apaga tudo.
   const sessao = {
     dataFato: hoje,
-    modoExplicacao: lerPreferencia(CHAVE_MODO, "leigo"),
+    modoExplicacao: "leigo",
     visitados: new Set()
   };
 
@@ -112,7 +94,6 @@ async function iniciar() {
     navegar: (id) => navegar(id),
     definirModoExplicacao(m) {
       sessao.modoExplicacao = m;
-      gravarPreferencia(CHAVE_MODO, m);
     },
     reiniciar() {
       sessao.dataFato = hoje;
@@ -232,10 +213,15 @@ async function iniciar() {
   // --- Service worker ------------------------------------------------------
   // Só em contexto seguro (https ou localhost). Com ele, depois de uma visita
   // online o artefato abre inteiro sem rede (invariante 4).
+  // Num quadro protegido (o claude.ai serve a página assim), ler
+  // navigator.serviceWorker pode lançar em vez de rejeitar; o try cobre
+  // os dois casos. Sem SW, o artefato funciona online normalmente.
   if ("serviceWorker" in navigator && window.isSecureContext) {
-    navigator.serviceWorker.register(new URL("../sw.js", import.meta.url), { scope: "./" }).catch(() => {
-      /* sem SW: o artefato funciona online normalmente */
-    });
+    try {
+      navigator.serviceWorker.register(new URL("../sw.js", import.meta.url), { scope: "./" }).catch(() => {});
+    } catch {
+      /* sem SW neste host */
+    }
   }
 }
 
